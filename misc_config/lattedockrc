@@ -1,0 +1,36 @@
+[KPropertiesDialog]
+eDP1 Height 2560x1440=587
+eDP1 Width 2560x1440=556
+
+[LatteSettingsDialog]
+downloadWindowSize=800,550
+windowSize=1120,908
+
+[LatteSettingsDialog][TabLayouts]
+columnWidths=59,,107,134
+sortColumn=3
+sortOrder=0
+
+[Notification Messages]
+really_clear_history=true
+
+[PlasmaThemeExtended]
+outlineWidth=1
+
+[ScreenConnectors]
+10=eDP1:::0,0 2560x1440
+
+[UniversalSettings]
+badges3DStyle=false
+canDisableBorders=true
+currentLayout=Dr460nized
+inAdvancedModeForEditSettings=true
+lastNonAssignedLayout=Dr460nized
+launchers=
+memoryUsage=0
+metaPressAndHoldEnabled=false
+mouseSensitivity=2
+screenTrackerInterval=2500
+showInfoWindow=true
+singleModeLayoutName=Dr460nized
+version=2

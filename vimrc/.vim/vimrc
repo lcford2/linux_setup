@@ -1,0 +1,68 @@
+execute pathogen#infect()
+
+set ttyfast
+set showmode
+set showcmd
+set title
+set number
+set hidden
+set noerrorbells
+set mouse=a
+
+syntax enable
+"filetype plugin indent on
+
+" this is what files look like
+set ffs=unix,dos,mac
+
+" Update find path to search subdirectories
+set path=$PWD/**
+
+" No backups
+set nobackup
+set nowritebackup
+set nowb
+set noswapfile
+
+" Keep a lot of history for undo
+set undolevels=1000
+
+" Files to ignore
+" Python
+set wildignore+=*.pyc,*.pyo,*/__pycache__/*
+" Archives
+set wildignore+=*.zip,*.tar
+
+" Colors
+set background=dark
+"colorscheme anderson
+
+" Tabs
+set expandtab
+set tabstop=4
+set shiftwidth=4
+
+autocmd Filetype bash setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype fish setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype fish compiler fish
+autocmd Filetype fish setlocal textwidth=79
+autocmd Filetype fish setlocal foldmethod=expr
+autocmd Filetype make setlocal noexpandtab
+
+" Plugins
+map <F2> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+let g:airline#extensions#tabline#enabled = 1
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'dag/vim-fish'
+
+filetype plugin indent on
+
+let g:airline_theme='material'
+let g:material_theme_style='darker'
+
+

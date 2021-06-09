@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/lcford2/.conda'
+let g:netrw_dirhist_2='/home/lcford2/.config'
+let g:netrw_dirhist_3='/home/lcford2/CE791/openmp/matadd'
+let g:netrw_dirhist_4='/home/lcford2/.vim/colors/anderson.vim'
+let g:netrw_dirhist_5='/home/lcford2'
+let g:netrw_dirhist_6='/etc/matlab'
