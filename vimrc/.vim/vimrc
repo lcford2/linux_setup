@@ -1,5 +1,4 @@
-execute pathogen#infect()
-
+set nocompatible
 set ttyfast
 set showmode
 set showcmd
@@ -54,15 +53,18 @@ map <F2> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 let g:airline#extensions#tabline#enabled = 1
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'dag/vim-fish'
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
+Bundle 'tpope/vim-commentary'
 
 filetype plugin indent on
 
-let g:airline_theme='material'
-let g:material_theme_style='darker'
+let g:airline_theme='deus'
+"let g:material_theme_style='darker'
 
-
+map <C-_> gcc

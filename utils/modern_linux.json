@@ -1,0 +1,11 @@
+{
+    "ls":"exa",
+    "ping":"gping",
+    "top":["gtop", "bottom", "htop"],
+    "time":"hyperfine",
+    "ps":"procs",
+    "df":"duf",
+    "du":"du-dust",
+    "cat":"bat",
+    "grep":"ripgrep"
+}
