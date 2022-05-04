@@ -1,1 +1,0 @@
-/home/lford/.doom.d
