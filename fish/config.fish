@@ -163,5 +163,3 @@ eval /home/lford/miniconda3/bin/conda "shell.fish" "hook" $argv | source
 # <<< conda initialize <<<
 
 alias vim="nvim"
-set -x SPOTIPY_CLIENT_ID "fdc85137caec414f87dcfdcba0d9453c"
-set -x SPOTIPY_CLIENT_SECRET "d80b4be919e04d9199f50148685db886"
