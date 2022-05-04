@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: beamer-figure
+# key: cfig
+# --
+\hspace*{-1cm}
+\includegraphics[width=1.15\linewidth,height=1.15\textheight,keepaspectratio]{"${1:path-to-figure}"}

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: python-code-block
+# key: pyc
+# --
+#+begin_src python :tangle yes
+$0
+#+end_src

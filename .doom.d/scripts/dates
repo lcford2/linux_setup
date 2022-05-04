@@ -1,0 +1,67 @@
+#!/usr/bin/env -S gawk -f
+
+BEGIN {
+    date = "2022-03-30 Wed 14:00-15:00"
+    intfreq = " +1d"
+    num = substr(intfreq, 3, 1)
+    freq = substr(intfreq, length(intfreq), 1)
+    now = systime()
+    split(substr(date, 1, 10), start_date, "-")
+    if (substr(date, 16, 11))
+    {
+        split(substr(date, 16, 11), time, "-")
+        split(time[1], start_time, ":")
+        return_time = 1
+    }
+    else
+    {
+        split("00:00", start_time, ":")
+        return_time = 0
+    }
+
+    stamp = mktime( \
+        start_date[1] " " \
+        start_date[2] " " \
+        start_date[3] " " \
+        start_time[1] " " \
+        start_time[2] " 00" \
+    )
+    while (stamp < now)
+    {
+        if (freq == "m")
+        {
+            new_month = start_date[2] + num
+            new_year = start_date[1]
+            if (new_month > 12)
+            {
+                new_year += 1
+                new_month -= 12
+            }
+            start_date[1] = new_year
+            start_date[2] = new_month
+            stamp = mktime( \
+                start_date[1] " "   \
+                start_date[2] " "   \
+                start_date[3] " "   \
+                start_time[1] " "   \
+                start_time[2] " 00" \
+            )
+        }
+        else if (freq == "d")
+            stamp += 86400 * num
+        else if (freq == "w")
+            stamp += 86400 * num * 7
+        else if (freq == "y")
+            stamp = mktime( \
+                start_date[1] + num " "   \
+                start_date[2] " "   \
+                start_date[3] " "   \
+                start_time[1] " "   \
+                start_time[2] " 00" \
+            )
+    }
+    if (return_time)
+        print strftime("%Y-%m-%d %a %H:%M", stamp) "-" time[2]
+    else
+        print strftime("%Y-%m-%d %a", stamp)
+}
