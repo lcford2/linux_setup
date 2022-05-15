@@ -4,10 +4,22 @@
 
 # Qtile keybindings
 
-from libqtile.config import Key
+from libqtile.config import Key, KeyChord
 from libqtile.command import lazy
 
+import subprocess
+
+
+@lazy.function
+def logout_session(qtile):
+    out = subprocess.check_output(["loginctl"]).decode()
+    out = out.split("\n")[1].split()[0]
+    logout_cmd = ["loginctl", "kill-session", out]
+    subprocess.call(logout_cmd)
+
+
 mod = "mod4"
+launch_emacs = "emacsclient -c -a 'emacs'"
 
 keys = [Key(key[0], key[1], *key[2:]) for key in [
     # ------------ Window Configs ------------
@@ -17,6 +29,10 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod], "k", lazy.layout.up()),
     ([mod], "h", lazy.layout.left()),
     ([mod], "l", lazy.layout.right()),
+
+    # move to groups right and left
+    ([mod], "Right", lazy.screen.next_group()),
+    ([mod], "Left", lazy.screen.prev_group()),
 
     # Change window sizes (MonadTall)
     ([mod, "shift"], "l", lazy.layout.grow()),
@@ -44,7 +60,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod, "control"], "r", lazy.restart()),
 
     ([mod, "control"], "q", lazy.shutdown()),
-    ([mod], "r", lazy.spawncmd()),
+    # ([mod], "r", lazy.spawncmd()),
 
     # ------------ App Configs ------------
 
@@ -58,18 +74,35 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod], "b", lazy.spawn("firefox")),
 
     # File Explorer
-    ([mod], "f", lazy.spawn("nautilus")),
+    # ([mod], "f", lazy.spawn("nautilus")),
+    ([mod], "f", lazy.spawn("pcmanfm")),
+
+    # filezill
+    ([mod, "shift"], "z", lazy.spawn("filezilla")),
 
     # Terminal
     ([mod], "Return", lazy.spawn("alacritty")),
 
-    # Redshift
-    ([mod], "r", lazy.spawn("redshift -O 2400")),
-    ([mod, "shift"], "r", lazy.spawn("redshift -x")),
+    # Emacs
+    ([mod], "e", lazy.spawn(
+        f"{launch_emacs} --eval '(dashboard-refresh-buffer)'")),
+    ([mod], "t", lazy.spawn(
+        f"{launch_emacs} --eval '(+vterm/here nil)'")),
+
+    # Zoom
+    ([mod], "z", lazy.spawn("zoom")),
 
     # Screenshot
     ([mod], "s", lazy.spawn("spotify")),
-    #([mod, "shift"], "s", lazy.spawn("scrot -s")),
+
+    # Cisco VPN
+    ([mod], "v", lazy.spawn("/opt/cisco/anyconnect/bin/vpnui")),
+
+    # gnome session controls
+    # ([mod, "control"], "l", lazy.spawn("gnome-screensaver-command -l")),
+    # ([mod, "control"], "q", lazy.spawn("gnome-session-quit --logout --no-prompt")),
+    ([mod, "control"], "q", logout_session()),
+    ([mod, "shift", "control"], "q", lazy.spawn("gnome-session-quit --power-off")),
 
     # ------------ Hardware Configs ------------
 
@@ -88,7 +121,34 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
     ([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
 
+    # media controls
+    ([], "XF86AudioPlay", lazy.spawn("playerctl -p spotify play-pause")),
+    ([], "XF86AudioNext", lazy.spawn("playerctl -p spotify next")),
+    ([], "XF86AudioPrev", lazy.spawn("playerctl -p spotify previous")),
+    # ([], "XF86AudioPause", lazy.spawn("playerctl -p spotify pause")),
+
     # ------------ Session Configs -------------
     # Lock Screen
-    ([mod, "mod1"], "l", lazy.spawn("light-locker-command -l")),
+    # ([mod, "mod1"], "l", lazy.spawn("light-locker-command -l")),
 ]]
+
+key_chords = [
+    KeyChord([], "space", [
+        Key([], "w", [
+            Key([], "j", lazy.layout.down())
+    ])]),
+    KeyChord([], "space", [
+        Key([], "w", [
+            Key([], "k", lazy.layout.up())
+    ])]),
+    KeyChord([], "space", [
+        Key([], "w", [
+            Key([], "h", lazy.layout.left())
+    ])]),
+    KeyChord([], "space", [
+        Key([], "w", [
+            Key([], "l", lazy.layout.right())
+    ])]),
+]
+
+# keys.extend(key_chords)

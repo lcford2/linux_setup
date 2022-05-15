@@ -110,9 +110,10 @@ class Volume(base._TextBox):
         self.draw()
 
     def update(self):
-        vol = self.get_volume()
-        if vol != self.volume:
+        vol, muted = self.get_volume()
+        if vol != self.volume or muted != self.muted:
             self.volume = vol
+            self.muted = muted
             # Update the underlying canvas size before actually attempting
             # to figure out how big it is and draw it.
             self._update_drawer()
@@ -131,6 +132,9 @@ class Volume(base._TextBox):
             else:  # self.volume >= 80:
                 img_name = 'audio-volume-high'
 
+            if self.muted:
+                img_name = 'audio-volume-muted'
+
             self.drawer.ctx.set_source(self.surfaces[img_name])
             self.drawer.ctx.paint()
         elif self.emoji:
@@ -142,16 +146,18 @@ class Volume(base._TextBox):
             #     self.text = u'\U0001f509'
             # elif self.volume >= 80:
             #     self.text = u'\U0001f50a'
-            if self.volume <= 0:
-                self.text = "婢 0%"
+
+            if self.volume <= 0 or self.muted:
+                icon = "婢"
             elif self.volume <= 30:
-                self.text = f"奄 {self.volume:.0f}%"
+                icon = f"奄"
             elif self.volume <= 80:
-                self.text = f"奔 {self.volume:.0f}%"
+                icon = f"奔"
             elif self.volume <= 100:
-                self.text = f"墳 {self.volume:.0f}%"
+                icon = f"墳"
             else:
-                self.text = f"墳 {self.volume:.0f}%"
+                icon = f"墳"
+            self.text = f"{icon} {self.volume:.0f}%"
         else:
             if self.volume == -1:
                 self.text = 'M '
@@ -182,20 +188,26 @@ class Volume(base._TextBox):
             if self.get_volume_command:
                 get_volume_cmd = self.get_volume_command
 
-            get_volume_cmd = ["pamixer", "--get-volume-human"]
+            # get_volume_cmd = ["pamixer", "--get-volume-human"]
+            get_volume_cmd = ["amixer"]
             output = subprocess.run(get_volume_cmd, capture_output=True)
-            mixer_out = output.stdout.decode().strip()
+            mixer_out = output.stdout.decode()
             mixer_err = output.stderr.decode()
             retcode = output.returncode
 
+            patt = re.compile(r"Playback .* \[(\d+)%\] \[(off|on)\]")
+            amixer_out = re.search(patt, mixer_out)
+            volume = amixer_out.group(1)
+            muted = amixer_out.group(2)
+            muted = muted == "off"
+            
         except subprocess.CalledProcessError as e:
             return -1
 
-        if mixer_out == "muted":
-            return -1
+        return int(volume), muted
 
-        else:
-            return int(mixer_out[:-1])
+    def strike_text(self,text):
+        return "".join([u"\u0336{}".format(c) for c in text])
 
     def draw(self):
         if self.theme_path:
