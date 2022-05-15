@@ -70,15 +70,25 @@ def workspaces(fontsize=19):
 def make_widgets(sfs=None, pfs=None):
     sfs_args = {"fontsize":sfs} if sfs else {}
     pfs_args = {"fontsize":pfs} if pfs else {}
+    
+    try:
+        with open("/home/lford/.config/qtile/settings/owm_key.txt", "r") as f:
+            key = f.readlines()[0].strip("\n\r")
+    except FileNotFoundError as e:
+        key = ""
+
+    with open("/home/lford/.config/qtile/settings/key.out", "w") as f:
+        f.write(key)
+
     widgets = [
         *workspaces(**sfs_args),
 
         separator(),
 
         powerline('color4', 'dark', **pfs_args),
-
+        
         OpenWeatherMap(
-           api_key="0b0aae7b2ec162c2279f0edf23d0a2b3",
+           api_key=key,
            latitude=35.779591,
            longitude=-78.638176,
            background=colors["color4"],
