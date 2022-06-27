@@ -66,9 +66,11 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
 
     # Menu
     ([mod], "m", lazy.spawn("rofi -show drun")),
+    ([mod], "s", lazy.spawn("rofi -show ssh")),
+    ([mod], "p", lazy.spawn("rofi -show p -modi p:rofi-power-menu")),
 
     # Window Nav
-    ([mod, "shift"], "m", lazy.spawn("rofi -show")),
+    ([mod, "shift"], "m", lazy.spawn("rofi -show window")),
 
     # Browser
     ([mod], "b", lazy.spawn("firefox")),
@@ -88,6 +90,9 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
         f"{launch_emacs} --eval '(dashboard-refresh-buffer)'")),
     ([mod], "t", lazy.spawn(
         f"{launch_emacs} --eval '(+vterm/here nil)'")),
+
+    # vscode
+    ([mod], "c", lazy.spawn("code")),
 
     # Zoom
     ([mod], "z", lazy.spawn("zoom")),
