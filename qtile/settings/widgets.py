@@ -3,8 +3,29 @@ from .volume import Volume
 from .theme import colors
 from .owm import OpenWeatherMap
 from .net_ssid import NetSSID
+from libqtile.log_utils import logger
+import subprocess
 
 # Get the icons at https://www.nerdfonts.com/cheat-sheet (you need a Nerd Font)
+font_scale = 1
+xrandr = "xrandr | grep -w 'connected' | cut -d ' ' -f 2 | wc -l"
+
+command = subprocess.run(
+        xrandr,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+)
+
+if command.returncode != 0:
+    error = command.stderr.decode("UTF-8")
+    logger.error(f"Failed counting monitors in widgets.py using {xrandr}:\n{error}")
+    connected_monitors = 1
+else:
+    connected_monitors = int(command.stdout.decode("UTF-8"))
+
+if connected_monitors == 1:
+    font_scale = 2
 
 def base(fg='text', bg='dark'): 
     return {
@@ -20,7 +41,7 @@ def separator():
 def icon(fg='text', bg='dark', fontsize=16, text="?"):
     return widget.TextBox(
         **base(fg, bg),
-        fontsize=fontsize,
+        fontsize=int(fontsize*font_scale),
         text=text,
         padding=3
     )
@@ -28,13 +49,16 @@ def icon(fg='text', bg='dark', fontsize=16, text="?"):
 
 def powerline(fg="light", bg="dark", fontsize=36):
     fontsize=26
+    padding = 10
+    if font_scale == 2:
+        padding = 24
     return widget.TextBox(
         **base(fg, bg),
         # text="", # Icon: nf-oct-triangle_left
         text=u"\ue0be",
-        fontsize=fontsize,
+        fontsize=int(fontsize*font_scale),
         # padding=-5 if fontsize==36 else -9
-        padding=10
+        padding=padding
     )
 
 
@@ -68,8 +92,13 @@ def workspaces(fontsize=19):
     ]
 
 def make_widgets(sfs=None, pfs=None):
-    sfs_args = {"fontsize":sfs} if sfs else {}
-    pfs_args = {"fontsize":pfs} if pfs else {}
+    sfs_args = {"fontsize":int(sfs*font_scale)} if sfs else {}
+    pfs_args = {"fontsize":int(pfs*font_scale)} if pfs else {}
+    if font_scale == 2:
+        cal_args = {"fontsize":int(sfs*font_scale/1.5)} if sfs else {}
+    else:
+        cal_args = {"fontsize":int(sfs)} if sfs else {}
+
     
     try:
         with open("/home/lford/.config/qtile/settings/owm_key.txt", "r") as f:
@@ -129,9 +158,9 @@ def make_widgets(sfs=None, pfs=None):
 
         powerline('color1', 'color2', **pfs_args),
 
-        icon(bg="color1", **sfs_args, text=' '), # Icon: nf-mdi-calendar_clock
+        icon(bg="color1", **cal_args, text=' '), # Icon: nf-mdi-calendar_clock
 
-        widget.Clock(**base(bg='color1'), format='%m/%d/%Y - %I:%M %p', **sfs_args),
+        widget.Clock(**base(bg='color1'), format='%m/%d/%y - %I:%M%p', **sfs_args),
 
         powerline('color4', 'color1', **pfs_args),
         
@@ -157,6 +186,7 @@ def make_widgets(sfs=None, pfs=None):
 
     ]
     return widgets
+
 
 sfs = 16
 pfs = 36
