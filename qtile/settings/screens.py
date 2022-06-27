@@ -41,7 +41,6 @@ if connected_monitors > 1:
             # copy.deepcopy(primary_widgets))))
         screens.append(Screen(top=status_bar(my_widgets[i])))
 else:
-    screens = [Screen(top=status_bar(my_widgets[0]))]
-
+    screens = [Screen(top=status_bar(my_widgets[0], height=48))]
 
 
