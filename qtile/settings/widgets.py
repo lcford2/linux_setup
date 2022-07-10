@@ -3,6 +3,7 @@ from .volume import Volume
 from .theme import colors
 from .owm import OpenWeatherMap
 from .net_ssid import NetSSID
+from .my_battery import Battery
 from libqtile.log_utils import logger
 import subprocess
 
@@ -164,9 +165,13 @@ def make_widgets(sfs=None, pfs=None):
 
         powerline('color4', 'color1', **pfs_args),
         
-        widget.Battery(**base(bg='color4', fg='dark'), 
+        # widget.Battery(**base(bg='color4', fg='dark'), 
+        Battery(**base(bg='color4', fg='dark'), 
                        # format='{char} {percent:2.0%} {hour:d}:{min:02d} {watt:.2f} W',
                        format='{char} {percent:2.0%}',
+                       charge_char="",
+                       discharge_char=["", "", "", "", ""],
+                       full_char="",
                        **sfs_args
         ),
         
