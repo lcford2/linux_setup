@@ -77,7 +77,8 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
 
     # File Explorer
     # ([mod], "f", lazy.spawn("nautilus")),
-    ([mod], "f", lazy.spawn("pcmanfm")),
+    # ([mod], "f", lazy.spawn("pcmanfm")),
+    ([mod], "f", lazy.spawn("alacritty -e ranger")),
 
     # filezill
     ([mod, "shift"], "z", lazy.spawn("filezilla")),
