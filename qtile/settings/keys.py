@@ -97,8 +97,12 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     # Zoom
     ([mod], "z", lazy.spawn("zoom")),
 
+    # scratchpad
+    # ([mod, "shift"], "s", lazy.group["scratchpad"].dropdown_toggle('term')),
+    (["mod1"], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
+
     # Screenshot
-    ([mod], "s", lazy.spawn("spotify")),
+    # ([mod], "s", lazy.spawn("spotify")),
 
     # Cisco VPN
     ([mod], "v", lazy.spawn("/opt/cisco/anyconnect/bin/vpnui")),

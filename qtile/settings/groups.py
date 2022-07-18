@@ -4,7 +4,7 @@
 
 # Qtile workspaces
 
-from libqtile.config import Key, Group
+from libqtile.config import Key, Group, ScratchPad, DropDown
 from libqtile.command import lazy
 # from libqtile.command.client import InteractiveCommandCliecnt
 from .keys import mod, keys
@@ -56,4 +56,11 @@ for i, group in enumerate(groups):
         # Send window to workspace N
         Key([mod, "shift"], kp_key, lazy.window.togroup(group.name))
     ])
+
+# scratch pad
+groups.append(
+    ScratchPad("scratchpad", [
+        DropDown("term", "alacritty -e vim /tmp/scratchpad")
+    ])
+)
 
