@@ -51,10 +51,6 @@ autocmd Filetype fish setlocal foldmethod=expr
 autocmd Filetype make setlocal noexpandtab
 
 " Plugins
-map <F2> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-let g:airline#extensions#tabline#enabled = 1
-
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -80,6 +76,7 @@ Plugin 'nvim-treesitter/nvim-treesitter'
 Plugin 'kyazdani42/nvim-tree.lua'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'tanvirtin/vgit.nvim'
+Plugin 'preservim/tagbar'
 " Plugin 'tpope/vim-fugutive'
 " Status line at bottom
 Plugin 'nvim-lualine/lualine.nvim'
@@ -123,10 +120,6 @@ let g:ale_enabled = 0
 set completeopt=menu,menuone,noselect
 source ~/.vim/cmp_setup.vim
 
-"" configure commentary
-nmap <C-_> gcc
-vmap <C-_> gcc
-
 "" configure vgit
 lua << EOF
 require('vgit').setup()
@@ -134,3 +127,9 @@ vim.o.updatetime = 300
 vim.o.incsearch = false
 vim.wo.signcolumn = 'yes'
 EOF
+
+"" configure nvim-tree
+source ~/.vim/nvim-tree.vim 
+
+"" Load Keybindings
+source ~/.vim/keybindings.vim
