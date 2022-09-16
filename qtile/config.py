@@ -7,6 +7,7 @@
 
 
 from libqtile import hook
+from libqtile.command import lazy
 
 from settings.keys import mod, keys
 from settings.groups import groups
@@ -17,13 +18,30 @@ from settings.mouse import mouse
 from settings.path import qtile_path
 
 from os import path
+import os
 import subprocess
 
 
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call([path.join(qtile_path, 'autostart.sh')])
+    lazy.restart()
 
+
+
+@hook.subscribe.startup
+def dbus_register():
+    dt_id = os.environ.get("DESKTOP_AUTOSTART_ID")
+    if not dt_id:
+        return
+    subprocess.Popen(["dbus-send",
+                      "--session",
+                      "--print-reply",
+                      "--dest=org.gnome.SessionManager",
+                      "/org/gnome/SessionManager",
+                      "org.gnome.SessionManager.RegisterClient",
+                      "string:qtile",
+                      "string:" + dt_id])
 
 main = None
 dgroups_key_binder = None

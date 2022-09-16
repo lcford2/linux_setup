@@ -7,6 +7,8 @@ set number
 set hidden
 set noerrorbells
 set mouse=a
+set nohlsearch
+set nofoldenable
 
 syntax enable
 "filetype plugin indent on
@@ -58,13 +60,77 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'dag/vim-fish'
-Bundle 'vim-airline/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
+" Bundle 'vim-airline/vim-airline'
+" Bundle 'vim-airline/vim-airline-themes'
+" Dev tools
 Bundle 'tpope/vim-commentary'
+Bundle 'neovim/nvim-lspconfig'
+Bundle 'hrsh7th/cmp-nvim-lsp'
+Bundle 'hrsh7th/cmp-buffer'
+Bundle 'hrsh7th/cmp-path'
+Bundle 'hrsh7th/cmp-cmdline'
+Bundle 'hrsh7th/nvim-cmp'
+Bundle 'hrsh7th/cmp-vsnip'
+Bundle 'hrsh7th/vim-vsnip'
+Bundle 'dense-analysis/ale'
+" editor tools
+Bundle 'nvim-lua/plenary.nvim'
+Bundle 'nvim-telescope/telescope.nvim'
+Bundle 'nvim-treesitter/nvim-treesitter'
+Bundle 'kyazdani42/nvim-tree.lua'
+Bundle 'editorconfig/editorconfig-vim'
+Bundle 'tanvirtin/vgit.nvim'
+" Status line at bottom
+Bundle 'nvim-lualine/lualine.nvim'
+" Tab Bar for File
+Bundle 'romgrk/barbar.nvim'
+Bundle 'kyazdani42/nvim-web-devicons'
+
 
 filetype plugin indent on
 
-let g:airline_theme='deus'
-"let g:material_theme_style='darker'
 
-map <C-_> gcc
+" Find files using Telescope command-line sugar
+:let mapleader = " "
+noremap <leader>ff <cmd>Telescope find_files<cr>
+noremap <leader>fg <cmd>Telescope live_grep<cr>
+noremap <leader>fb <cmd>Telescope buffers<cr>
+noremap <leader>fh <cmd>Telescope help_tags<cr>
+
+"" configure barbar
+let bufferline = get(g:, "bufferline", {})
+let bufferline.auto_hide = v:false
+let bufferline.clickable = v:true
+
+"" configure lualine
+source ~/.vim/evil_lualine.vim
+
+"" configure lsp
+lua << END
+require'lspconfig'.pyright.setup{}
+END
+
+"" configure Ale
+let g:ale_linters = {
+\   'python': ['pylint'],
+\}
+let g:ale_fixers = {
+\   'python': ['black'],
+\}
+let g:ale_enabled = 0
+
+"" configure cmp
+set completeopt=menu,menuone,noselect
+source ~/.vim/cmp_setup.vim
+
+"" configure commentary
+nmap <C-_> gcc
+vmap <C-_> gcc
+
+"" configure vgit
+lua << EOF
+require('vgit').setup()
+vim.o.updatetime = 300
+vim.o.incsearch = false
+vim.wo.signcolumn = 'yes'
+EOF

@@ -1,0 +1,6 @@
+**/__pycache__/**/*
+vimrc/.vim/bundle/**/*
+
+# backup file
+**/*.bkp
+**/*.old

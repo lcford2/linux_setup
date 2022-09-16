@@ -1,0 +1,25 @@
+Host workstation
+    HostName 
+    User 
+    # this is set to prevent showing errors related to forwarded ports for jupyter notebooks
+    LogLevel FATAL
+    LocalForward 9090 localhost:9090
+    LocalForward 8888 localhost:8888
+    ForwardX11 yes
+
+Host cluster
+    HostName
+    User 
+    # this is set to prevent showing errors related to forwarded ports for jupyter notebooks
+    LogLevel FATAL
+    LocalForward 8888 localhost:8888
+# RAID management ports
+    LocalForward 8881   localhost:81 
+    LocalForward 8882   localhost:82 
+    LocalForward 8883   localhost:83 
+    ForwardX11 yes
+
+Host frontera
+    HostName frontera.tacc.utexas.edu
+    User 
+    ForwardX11 yes
