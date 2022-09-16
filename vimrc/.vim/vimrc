@@ -69,6 +69,7 @@ Plugin 'hrsh7th/nvim-cmp'
 Plugin 'hrsh7th/cmp-vsnip'
 Plugin 'hrsh7th/vim-vsnip'
 Plugin 'dense-analysis/ale'
+Plugin 'davidhalter/jedi-vim'
 " editor tools
 Plugin 'nvim-lua/plenary.nvim'
 Plugin 'nvim-telescope/telescope.nvim'
@@ -104,7 +105,7 @@ source ~/.vim/evil_lualine.vim
 
 "" configure lsp
 lua << END
-require'lspconfig'.pyright.setup{}
+require'lspconfig'.jedi_language_server.setup{}
 END
 
 "" configure Ale

@@ -10,3 +10,7 @@ map <C-t> :TagbarToggle<CR>
 "" ALE
 map <C-a> :ALEToggle<CR>
 
+"" BarBar
+map <A-h> :BufferPrevious<CR>
+map <A-l> :BufferNext<CR>
+
