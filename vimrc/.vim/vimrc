@@ -105,7 +105,12 @@ source ~/.vim/evil_lualine.vim
 
 "" configure lsp
 lua << END
-require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.jedi_language_server.setup{} --python
+require'lspconfig'.ccls.setup{} --c/c++
+require'lspconfig'.fortls.setup{} --fortran
+require'lspconfig'.rls.setup{} --rust
+require'lspconfig'.bashls.setup{} --rust
+require'lspconfig'.marksman.setup{} --markdown
 END
 
 "" configure Ale
