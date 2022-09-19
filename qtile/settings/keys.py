@@ -7,6 +7,7 @@
 from libqtile.config import Key, KeyChord
 from libqtile.command import lazy
 
+import os
 import subprocess
 
 
@@ -20,6 +21,8 @@ def logout_session(qtile):
 
 mod = "mod4"
 launch_emacs = "emacsclient -c -a 'emacs'"
+term = "kitty"
+home = os.path.expanduser("~")
 
 keys = [Key(key[0], key[1], *key[2:]) for key in [
     # ------------ Window Configs ------------
@@ -78,19 +81,19 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     # File Explorer
     # ([mod], "f", lazy.spawn("nautilus")),
     # ([mod], "f", lazy.spawn("pcmanfm")),
-    ([mod], "f", lazy.spawn("alacritty -e ranger")),
+    ([mod], "f", lazy.spawn(f"{term} ranger")),
 
     # filezill
     ([mod, "shift"], "z", lazy.spawn("filezilla")),
 
     # Terminal
-    ([mod], "Return", lazy.spawn("alacritty")),
+    ([mod], "Return", lazy.spawn(f"{term} --session={home}/.config/kitty/editor.startup")),
 
     # Emacs
     ([mod], "e", lazy.spawn(
         f"{launch_emacs} --eval '(dashboard-refresh-buffer)'")),
-    ([mod], "t", lazy.spawn(
-        f"{launch_emacs} --eval '(+vterm/here nil)'")),
+    # ([mod], "t", lazy.spawn(
+    #     f"{launch_emacs} --eval '(+vterm/here nil)'")),
 
     # vscode
     ([mod], "c", lazy.spawn("code")),
@@ -103,7 +106,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     (["mod1"], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
 
     # Screenshot
-    ([mod], "s", lazy.spawn("spotify")),
+    ([mod, "shift"], "s", lazy.spawn("spotify")),
 
     # Cisco VPN
     ([mod], "v", lazy.spawn("/opt/cisco/anyconnect/bin/vpnui")),
