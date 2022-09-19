@@ -1,0 +1,23 @@
+{
+    "golf_practice_app": {
+        "name": "golf_practice_app",
+        "path": "/home/lford/projects/golf_practice_app",
+        "current_file": "src/main.py",
+        "env_command": "source /home/lford/projects/golf_practice_app/.venv/bin/activate.fish",
+        "is_git": true
+    },
+    "predict-release": {
+        "name": "predict-release",
+        "path": "/home/lford/projects/predict-release",
+        "current_file": "python_scripts/multibasin_paper_figures.py",
+        "env_command": "conda activate /home/lford/miniconda3/envs/sry-env",
+        "is_git": true
+    },
+    "kitty": {
+        "name": "kitty",
+        "path": "/home/lford/linux_setup/kitty",
+        "current_file": "projects.py",
+        "env_command": "",
+        "is_git": false
+    }
+}
