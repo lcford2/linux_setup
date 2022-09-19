@@ -4,3 +4,7 @@ vimrc/.vim/bundle/**/*
 # backup file
 **/*.bkp
 **/*.old
+
+# kitty json files
+kitty/*.json
+kitty/**/*.json
