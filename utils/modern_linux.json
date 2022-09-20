@@ -7,5 +7,10 @@
     "df":"duf",
     "du":"du-dust",
     "cat":"bat",
-    "grep":"ripgrep"
+    "grep":"ripgrep",
+    "diff": "delta (git-delta)",
+    "fuzzy finder": "fzf",
+    "grex": "grex",
+    "bandwhich": "bandwhich"
 }
+
