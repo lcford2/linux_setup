@@ -36,7 +36,7 @@ set wildignore+=*.zip,*.tar
 
 " Colors
 set background=dark
-"colorscheme anderson
+colorscheme anderson
 
 " Tabs
 set expandtab
@@ -70,6 +70,7 @@ Plugin 'hrsh7th/cmp-vsnip'
 Plugin 'hrsh7th/vim-vsnip'
 Plugin 'dense-analysis/ale'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'ahmedkhalf/project.nvim'
 " editor tools
 Plugin 'nvim-lua/plenary.nvim'
 Plugin 'nvim-telescope/telescope.nvim'
@@ -89,11 +90,9 @@ call vundle#end()
 filetype plugin indent on
 
 " Find files using Telescope command-line sugar
-:let mapleader = " "
-noremap <leader>ff <cmd>Telescope find_files<cr>
-noremap <leader>fg <cmd>Telescope live_grep<cr>
-noremap <leader>fb <cmd>Telescope buffers<cr>
-noremap <leader>fh <cmd>Telescope help_tags<cr>
+lua << EOF
+require('telescope').load_extension('projects')
+EOF
 
 "" configure barbar
 let bufferline = get(g:, "bufferline", {})
@@ -136,6 +135,9 @@ EOF
 
 "" configure nvim-tree
 source ~/.vim/nvim-tree.vim 
+
+"" configure project.nvim
+source ~/.vim/project_config.vim
 
 "" Load Keybindings
 source ~/.vim/keybindings.vim
