@@ -8,3 +8,7 @@ vimrc/.vim/bundle/**/*
 # kitty json files
 kitty/*.json
 kitty/**/*.json
+
+# key files
+qtile/settings/key.out
+qtile/settings/owm_key.txt
