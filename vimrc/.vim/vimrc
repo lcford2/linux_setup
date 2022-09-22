@@ -36,7 +36,7 @@ set wildignore+=*.zip,*.tar
 
 " Colors
 set background=dark
-colorscheme anderson
+colorscheme monokai
 
 " Tabs
 set expandtab
@@ -103,14 +103,15 @@ let bufferline.clickable = v:true
 source ~/.vim/evil_lualine.vim
 
 "" configure lsp
-lua << END
-require'lspconfig'.jedi_language_server.setup{} --python
-require'lspconfig'.ccls.setup{} --c/c++
-require'lspconfig'.fortls.setup{} --fortran
-require'lspconfig'.rls.setup{} --rust
-require'lspconfig'.bashls.setup{} --rust
-require'lspconfig'.marksman.setup{} --markdown
-END
+" lua << END
+" -- require'lspconfig'.jedi_language_server.setup{} --python
+" require'lspconfig'.pyright.setup{} --python
+" require'lspconfig'.ccls.setup{} --c/c++
+" require'lspconfig'.fortls.setup{} --fortran
+" require'lspconfig'.rls.setup{} --rust
+" require'lspconfig'.bashls.setup{} --rust
+" require'lspconfig'.marksman.setup{} --markdown
+" END
 
 "" configure Ale
 let g:ale_linters = {
@@ -138,6 +139,9 @@ source ~/.vim/nvim-tree.vim
 
 "" configure project.nvim
 source ~/.vim/project_config.vim
+
+"" configure treesitter
+source ~/.vim/treesitter_config.vim
 
 "" Load Keybindings
 source ~/.vim/keybindings.vim
