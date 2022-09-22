@@ -3,7 +3,6 @@ import re
 import sys
 import json
 import argparse
-import time
 from contextlib import suppress
 from typing import (
     TYPE_CHECKING,
@@ -36,6 +35,7 @@ else:
 
 PROJ_FILE = os.path.expanduser("~/.config/kitty/projects.json")
 STATE_FILE = os.path.expanduser("~/.config/kitty/project_state.json")
+
 
 def get_history_items() -> List[str]:
     return list(
@@ -430,15 +430,20 @@ def create_project_dict(add_path: str, current_file="", conda=None, venv=None) -
 def open_project(project: dict, target_window_id: int, boss: Boss):
     w = boss.window_id_map.get(target_window_id)
     cwd = project["path"]
-    top_window = boss.call_remote_control(w, ("launch", "--type=tab", f"--cwd={cwd}"))
-    bottom_window = boss.call_remote_control(w, ("launch", "--type=window", f"--cwd={cwd}", "--keep-focus"))
+    boss.call_remote_control(w, ("launch", "--type=tab", f"--cwd={cwd}"))
+    boss.call_remote_control(w, ("launch", "--type=window", f"--cwd={cwd}", "--keep-focus"))
     if project["env_command"]:
         boss.call_remote_control(w, ("send-text", "--match=num:0", f"{project['env_command']}\n"))
         boss.call_remote_control(w, ("send-text", "--match=num:1", f"{project['env_command']}\n"))
     if project["current_file"]:
         file = project["current_file"]
-        command = f"vim {file}\n"
-        boss.call_remote_control(w, ("send-text", f"--match=recent:0", command))
+        if os.path.split(file)[0] != "":
+            file_dir = os.path.dirname(file)
+            file = os.path.basename(file)
+            command = f"cd {file_dir}\n vim {file}\n"
+        else:
+            command = f"vim {file}\n"
+        boss.call_remote_control(w, ("send-text", "--match=recent:0", command))
     boss.call_remote_control(w, ("set-tab-title", "--match=recent:0", project["name"]))
 
 
