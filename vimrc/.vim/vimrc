@@ -103,6 +103,10 @@ let bufferline.clickable = v:true
 "" configure lualine
 source ~/.vim/evil_lualine.vim
 
+"" configure jedi-vim
+let g:jedi#show_call_signatures = "2"
+let g:jedi#use_splits_not_buffers = "bottom"
+
 "" configure lsp
 " lua << END
 " -- require'lspconfig'.jedi_language_server.setup{} --python
