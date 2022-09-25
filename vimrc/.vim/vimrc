@@ -79,6 +79,7 @@ Plugin 'kyazdani42/nvim-tree.lua'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'tanvirtin/vgit.nvim'
 Plugin 'preservim/tagbar'
+Plugin 'TimUntersberger/neogit'
 " Plugin 'tpope/vim-fugutive'
 " Status line at bottom
 Plugin 'nvim-lualine/lualine.nvim'
@@ -133,6 +134,13 @@ vim.o.updatetime = 300
 vim.o.incsearch = false
 vim.wo.signcolumn = 'yes'
 EOF
+
+"" configure neogit
+lua << EOF
+local neogit = require('neogit')
+neogit.setup {}
+EOF
+
 
 "" configure nvim-tree
 source ~/.vim/nvim-tree.vim 

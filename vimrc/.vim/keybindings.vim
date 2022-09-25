@@ -30,8 +30,12 @@ noremap <leader>mp <cmd>Telescope man_pages<cr>
 noremap <leader>kb <cmd>Telescope keymaps<cr>
 
 "" BarBar
-map <A-h> :BufferPrevious<CR>
-map <A-l> :BufferNext<CR>
+noremap <leader>th <cmd>BufferPrevious<CR>
+noremap <leader>tl <cmd>BufferNext<CR>
+
+"" git
+noremap <leader>go <cmd>Neogit<cr>
+noremap <leader>gc <cmd>Neogit commit<cr>
 
 "" Window commands
 " move cursor
