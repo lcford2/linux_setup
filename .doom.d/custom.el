@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(conda-anaconda-home "/home/lford/miniconda3")
  '(package-selected-packages
-   '(color-identifiers-mode rainbow-identifiers tree-sitter-langs tree-sitter writeroom-mode pdf-tools org-tree-slide epresent dashboard))
+   '(ggtags color-identifiers-mode rainbow-identifiers tree-sitter-langs tree-sitter writeroom-mode pdf-tools org-tree-slide epresent dashboard))
  '(safe-local-variable-values
    '((conda-project-env-path . "coregs")
      (conda-project-env-path . "sry-env")
