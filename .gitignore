@@ -1,5 +1,8 @@
 **/__pycache__/**/*
+
+# vim stuff
 vimrc/.vim/bundle/**/*
+vimrc/.vim/.netrwhist
 
 # backup file
 **/*.bkp
@@ -12,3 +15,6 @@ kitty/**/*.json
 # key files
 qtile/settings/key.out
 qtile/settings/owm_key.txt
+
+# log files
+**/*.log
