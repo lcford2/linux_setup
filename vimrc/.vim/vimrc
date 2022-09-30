@@ -84,7 +84,7 @@ Plugin 'TimUntersberger/neogit'
 " Status line at bottom
 Plugin 'nvim-lualine/lualine.nvim'
 " Tab Bar for File
-Plugin 'romgrk/barbar.nvim'
+" Plugin 'romgrk/barbar.nvim'
 Plugin 'kyazdani42/nvim-web-devicons'
 
 call vundle#end()
@@ -96,9 +96,9 @@ require('telescope').load_extension('projects')
 EOF
 
 "" configure barbar
-let bufferline = get(g:, "bufferline", {})
-let bufferline.auto_hide = v:false
-let bufferline.clickable = v:true
+" let bufferline = get(g:, "bufferline", {})
+" let bufferline.auto_hide = v:false
+" let bufferline.clickable = v:true
 
 "" configure lualine
 source ~/.vim/evil_lualine.vim
