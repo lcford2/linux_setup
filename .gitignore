@@ -18,3 +18,6 @@ qtile/settings/owm_key.txt
 
 # log files
 **/*.log
+
+# rofi config changes often, so only track the base
+rofi/config.rasi
