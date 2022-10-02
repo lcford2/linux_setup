@@ -103,7 +103,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
 
     # scratchpad
     # ([mod, "shift"], "s", lazy.group["scratchpad"].dropdown_toggle('term')),
-    (["mod1"], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
+    # (["mod1"], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
 
     # Screenshot
     ([mod, "shift"], "s", lazy.spawn("spotify")),
