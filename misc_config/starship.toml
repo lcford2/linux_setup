@@ -1,11 +1,7 @@
-command_timeout = 5000
-add_newline = true
-
 ## FIRST LINE/ROW: Info & Status
 # First param ─┌
 [username]
 format = " [╭─$user]($style)@"
-# format = "[ $user]($style)@"
 style_user = "bold red"
 style_root = "bold red"
 show_always = true
@@ -38,7 +34,7 @@ deleted = "x"
 [cmd_duration]
 min_time = 1
 format = "took [$duration]($style)"
-disabled = false
+disabled = true
 
 
 ## SECOND LINE/ROW: Prompt
@@ -47,22 +43,22 @@ disabled = false
 full_symbol = " "
 charging_symbol = " "
 discharging_symbol = " "
-# disabled = false
+disabled = true
 
 [[battery.display]]  # "bold red" style when capacity is between 0% and 10%
 threshold = 15
 style = "bold red"
-# disabled = true
+disabled = true
 
 [[battery.display]]  # "bold yellow" style when capacity is between 10% and 30%
 threshold = 50
 style = "bold yellow"
-# disabled = true
+disabled = true
 
 [[battery.display]]  # "bold green" style when capacity is between 10% and 30%
 threshold = 80
 style = "bold green"
-# disabled = true
+disabled = true
 
 # Prompt: optional param 1
 [time]
@@ -74,7 +70,6 @@ disabled = true
 # Prompt: param 2 └─
 [character]
 success_symbol = " [╰─λ](bold red)"
-# success_symbol = "[ λ](bold red)"
 error_symbol = " [×](bold red)"
 
 # SYMBOLS
