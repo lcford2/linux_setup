@@ -35,7 +35,7 @@ cbatticon -u 5 &
 volumeicon &
 
 # start emacs daemon
-emacs --daemon
+# emacs --daemon
 
 # start playerctl
 playerctld daemon
