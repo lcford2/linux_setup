@@ -1,0 +1,22 @@
+
+[[language]]
+name = "python"
+scope = "source.python"
+injection-regex = "python"
+file-types = ["py"]
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
+language-server = { command = "pylsp" }
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'"' = '"'
+"'" = "'"
+
+# [language.debugger]
+# name = "pdb"
+# transport = "stdio"
+# command = "python"
+# args = ["-m", "pdb"]

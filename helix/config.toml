@@ -1,0 +1,13 @@
+theme = "monokai"
+
+[editor]
+line-number = "absolute"
+auto-pairs = true
+
+[editor.statusline]
+left = ["mode", "spinner"]
+center = ["file-name"]
+right = ["diagnostics", "selections", "position", "position-percentage"]
+
+[editor.file-picker]
+hidden = false
