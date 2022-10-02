@@ -21,3 +21,6 @@ qtile/settings/owm_key.txt
 
 # rofi config changes often, so only track the base
 rofi/config.rasi
+
+# don't track the computer specific fish config
+fish/config.fish
