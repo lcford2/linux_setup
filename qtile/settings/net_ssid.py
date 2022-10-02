@@ -17,16 +17,17 @@ NO_I_ICON = "睊 "
 
 log_file = "/home/lford/net_ssid.log"
 
+
 def log_message(string, file=log_file):
-    dt = datetime.now().strftime(
-        "[%Y-%m-%d %H:%M:%S]"
-    )
+    dt = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
     with open("/home/lford/net_ssid.log", "a") as f:
         f.write(f"{dt} {string}\n")
+
 
 # Handle the change of widget base class in the Qtile project
 BaseClass = base.ThreadPoolText
 NewWidgetBase = True
+
 
 class NetSSID(BaseClass):
     """OpenWeatherMap widget for QTile"""
@@ -49,7 +50,7 @@ class NetSSID(BaseClass):
         try:
             result = subprocess.check_output(["iwgetid", "-r"])
             ssid = result.decode().strip()
-            log_message(f"WIFI SSID: {ssid}")
+            # log_message(f"WIFI SSID: {ssid}")
             return ssid
         except subprocess.CalledProcessError:
             return False
@@ -63,7 +64,7 @@ class NetSSID(BaseClass):
             m = re.search(pattern, i)
             if m:
                 match = m
-                log_message(f"WIRED NMCLI: {match.groups(0)[0]}")
+                # log_message(f"WIRED NMCLI: {match.groups(0)[0]}")
                 break
         # get group (is returned as a tuple)
         try:
@@ -75,16 +76,15 @@ class NetSSID(BaseClass):
         try:
             with open(f"/sys/class/net/{interface}/operstate", "r") as f:
                 state = f.read().strip("\n")
-            log_message(f"WIRED STATUS: {state}")
+            # log_message(f"WIRED STATUS: {state}")
         except FileNotFoundError as e:
-            log_message(f"WIRED STATUS: {e}")
+            # log_message(f"WIRED STATUS: {e}")
             return False
 
         if state == "up":
             return interface
         else:
             return False
-
 
     def poll(self):
         wifi_result = self.check_wifi()
