@@ -98,7 +98,7 @@ def make_widgets(sfs=None, pfs=None):
         cal_args = {"fontsize": int(sfs)} if sfs else {}
 
     try:
-        keyfile = os.path.expanduser("~/.config/qtile/settings/owm_key.txt")
+        keyfile = os.path.expanduser("~/.privatekeys/owmkey.txt")
         with open(keyfile, "r") as f:
             key = f.readlines()[0].strip("\n\r")
     except FileNotFoundError:
