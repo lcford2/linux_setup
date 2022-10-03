@@ -1,7 +1,7 @@
 theme = "monokai"
 
 [editor]
-line-number = "absolute"
+line-number = "relative"
 auto-pairs = true
 
 [editor.statusline]
