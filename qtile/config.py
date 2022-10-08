@@ -8,13 +8,20 @@
 
 from libqtile import hook
 from libqtile.command import lazy
+from libqtile.log_utils import logger
 
 from settings.keys import mod, keys
+logger.debug("KEYS IMPORTED")
 from settings.groups import groups
+logger.debug("GROUPS IMPORTED")
 from settings.layouts import layouts, floating_layout
+logger.debug("LAYOUTS IMPORTED")
 from settings.widgets import widget_defaults, extension_defaults
+logger.debug("WIDGETS IMPORTED")
 from settings.screens import screens
+logger.debug("SCREENS IMPORTED")
 from settings.mouse import mouse
+logger.debug("MOUSE IMPORTED")
 from settings.path import qtile_path
 
 from os import path

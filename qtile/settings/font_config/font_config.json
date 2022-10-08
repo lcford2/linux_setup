@@ -1,0 +1,26 @@
+{
+    "3840x2160": {
+        "qtile": {
+            "large_text": 36,
+            "small_text": 28,
+            "large_icon": 46,
+            "small_icon": 20,
+            "powerline_padding": 25
+        },
+        "rofi": {
+            "fontsize": 32
+        }
+    },
+    "1920x1080": {
+        "qtile": {
+            "large_text": 18,
+            "small_text": 14,
+            "large_icon": 23,
+            "small_icon": 10,
+            "powerline_padding": 0
+        },
+        "rofi": {
+            "fontsize": 16
+        }
+    }
+}

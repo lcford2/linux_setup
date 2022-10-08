@@ -4,30 +4,20 @@ from .theme import colors
 from .owm import OpenWeatherMap
 from .net_ssid import NetSSID
 from .my_battery import Battery
+from .font_config.xlib_utils import get_highest_available_res
 from libqtile.log_utils import logger
 import os
-import subprocess
+import json
 
 # Get the icons at https://www.nerdfonts.com/cheat-sheet (you need a Nerd Font)
-font_scale = 1
-xrandr = "xrandr | grep -w 'connected' | cut -d ' ' -f 2 | wc -l"
 
-command = subprocess.run(
-    xrandr,
-    shell=True,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-)
 
-if command.returncode != 0:
-    error = command.stderr.decode("UTF-8")
-    logger.error(f"Failed counting monitors in widgets.py using {xrandr}:\n{error}")
-    connected_monitors = 1
-else:
-    connected_monitors = int(command.stdout.decode("UTF-8"))
-
-if connected_monitors == 1:
-    font_scale = 2
+def load_font_config():
+    high_res = get_highest_available_res()
+    config_file = os.path.expanduser("~/.config/qtile/settings/font_config/font_config.json")
+    with open(config_file, "r") as f:
+        config = json.load(f)
+    return config.get(high_res, config["1920x1080"])["qtile"]
 
 
 def base(fg="text", bg="dark"):
@@ -39,21 +29,15 @@ def separator():
 
 
 def icon(fg="text", bg="dark", fontsize=16, text="?"):
-    return widget.TextBox(
-        **base(fg, bg), fontsize=int(fontsize * font_scale), text=text, padding=3
-    )
+    return widget.TextBox(**base(fg, bg), fontsize=(fontsize), text=text, padding=3)
 
 
-def powerline(fg="light", bg="dark", fontsize=36):
-    fontsize = 26
-    padding = 10
-    if font_scale == 2:
-        padding = 24
+def powerline(fg="light", bg="dark", fontsize=36, padding=0):
     return widget.TextBox(
         **base(fg, bg),
         # text="", # Icon: nf-oct-triangle_left
         text="\ue0be",
-        fontsize=int(fontsize * font_scale),
+        fontsize=int(fontsize),
         # padding=-5 if fontsize==36 else -9
         padding=padding,
     )
@@ -89,14 +73,7 @@ def workspaces(fontsize=19):
     ]
 
 
-def make_widgets(sfs=None, pfs=None):
-    sfs_args = {"fontsize": int(sfs * font_scale)} if sfs else {}
-    pfs_args = {"fontsize": int(pfs * font_scale)} if pfs else {}
-    if font_scale == 2:
-        cal_args = {"fontsize": int(sfs * font_scale / 1.5)} if sfs else {}
-    else:
-        cal_args = {"fontsize": int(sfs)} if sfs else {}
-
+def make_widgets(font_config):
     try:
         keyfile = os.path.expanduser("~/.privatekeys/owmkey.txt")
         with open(keyfile, "r") as f:
@@ -104,70 +81,149 @@ def make_widgets(sfs=None, pfs=None):
     except FileNotFoundError:
         key = ""
 
-    widgets = [
-        *workspaces(**sfs_args),
-        separator(),
-        powerline("color4", "dark", **pfs_args),
+    widgets = []
+
+    widgets.extend(workspaces(fontsize=font_config["small_text"]))
+    logger.debug("WORKSPACES LOADED")
+    widgets.append(separator())
+    widgets.append(
+        powerline(
+            "color4",
+            "dark",
+            fontsize=font_config["large_icon"],
+            padding=font_config["powerline_padding"],
+        )
+    )
+    logger.debug("POWERLINE CREATED")
+    widgets.append(
         OpenWeatherMap(
             api_key=key,
             latitude=35.779591,
             longitude=-78.638176,
             background=colors["color4"],
             foreground=colors["text"],
-            **sfs_args
+            fontsize=font_config["small_text"]
             # icon_font="Material Design Icons"
-        ),
-        # icon(bg="color4", text=' ', **sfs_args), # Icon: nf-fa-download
-        # widget.CheckUpdates(
-        #     background=colors['color4'],
-        #     colour_have_updates=colors['text'],
-        #     colour_no_updates=colors['text'],
-        #     no_update_string='0',
-        #     display_format='{updates}',
-        #     update_interval=1800,
-        #     custom_command='checkupdates',
-        #     **sfs_args
-        # ),
-        powerline("color3", "color4", **pfs_args),
-        # icon(bg="color3", text=' ', **sfs_args),  # Icon: nf-fa-feed
-        # widget.Net(**base(bg='color3'), **sfs_args),
-        NetSSID(background=colors["color3"], foreground=colors["text"], **sfs_args),
-        powerline("color2", "color3", **pfs_args),
-        widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
-        widget.CurrentLayout(**base(bg="color2"), padding=0, **sfs_args),
-        powerline("color1", "color2", **pfs_args),
-        icon(bg="color1", **cal_args, text=" "),  # Icon: nf-mdi-calendar_clock
-        widget.Clock(**base(bg="color1"), format="%m/%d/%y - %I:%M%p", **sfs_args),
-        powerline("color4", "color1", **pfs_args),
-        # widget.Battery(**base(bg='color4', fg='dark'),
+        )
+    )
+    logger.debug("OWM LOADED")
+    # icon(bg="color4", text=' ', fontsize=font_config["small_text"]), # Icon: nf-fa-download
+    # widget.CheckUpdates(
+    #     background=colors['color4'],
+    #     colour_have_updates=colors['text'],
+    #     colour_no_updates=colors['text'],
+    #     no_update_string='0',
+    #     display_format='{updates}',
+    #     update_interval=1800,
+    #     custom_command='checkupdates',
+    #     fontsize=font_config["small_text"]
+    # ),
+    widgets.append(
+        powerline(
+            "color3",
+            "color4",
+            fontsize=font_config["large_icon"],
+            padding=font_config["powerline_padding"],
+        )
+    )
+
+    # icon(bg="color3", text=' ', fontsize=font_config["small_text"]),  # Icon: nf-fa-feed
+    # widget.Net(**base(bg='color3'), fontsize=font_config["small_text"]),
+    widgets.append(
+        NetSSID(
+            background=colors["color3"],
+            foreground=colors["text"],
+            fontsize=font_config["small_text"],
+        )
+    )
+    logger.debug("NetSSID LOADED")
+    widgets.append(
+        powerline(
+            "color2",
+            "color3",
+            fontsize=font_config["large_icon"],
+            padding=font_config["powerline_padding"],
+        )
+    )
+    widgets.append(widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65))
+    widgets.append(
+        widget.CurrentLayout(
+            **base(bg="color2"), padding=0, fontsize=font_config["small_text"]
+        )
+    )
+    logger.debug("Current Layout LOADED")
+    widgets.append(
+        powerline(
+            "color1",
+            "color2",
+            fontsize=font_config["large_icon"],
+            padding=font_config["powerline_padding"],
+        )
+    )
+    widgets.append(
+        icon(bg="color1", fontsize=font_config["small_text"], text=" ")
+    )  # Icon: nf-mdi-calendar_clock
+    widgets.append(
+        widget.Clock(
+            **base(bg="color1"),
+            format="%m/%d/%y - %I:%M%p",
+            fontsize=font_config["small_text"],
+        )
+    )
+    logger.debug("CALENDAR LOADED")
+    widgets.append(
+        powerline(
+            "color4",
+            "color1",
+            fontsize=font_config["large_icon"],
+            padding=font_config["powerline_padding"],
+        )
+    )
+    widgets.append(
         Battery(
             **base(bg="color4", fg="dark"),
-            # format='{char} {percent:2.0%} {hour:d}:{min:02d} {watt:.2f} W',
             format="{char} {percent:2.0%}",
             charge_char="",
             discharge_char=["", "", "", "", ""],
             full_char="",
-            **sfs_args,
-        ),
-        powerline("color3", "color4", **pfs_args),
+            fontsize=font_config["small_text"],
+        )
+    )
+    logger.debug("BATTERY LOADED")
+    widgets.append(
+        powerline(
+            "color3",
+            "color4",
+            fontsize=font_config["large_icon"],
+            padding=font_config["powerline_padding"],
+        )
+    )
+    widgets.append(
         Volume(
             **base(bg="color3"),
             cardid=0,
             channel="Master",
             padding=10,
             emoji=True,
-            **sfs_args,
-        ),
-        # powerline('color2', 'color3', **pfs_args),
-        # widget.Notify(**base(bg='color2'), **sfs_args),
-    ]
+            fontsize=font_config["small_text"],
+        )
+    )
+    logger.debug("VOLUME LOADED")
+
     return widgets
 
 
 sfs = 16
 pfs = 36
 
-my_widgets = [make_widgets(sfs, pfs), make_widgets(), make_widgets()]
+font_config = load_font_config()
+logger.debug(get_highest_available_res())
+
+my_widgets = [
+    make_widgets(font_config),
+    make_widgets(font_config),
+    make_widgets(font_config),
+]
 
 widget_defaults = {
     "font": "DejaVu Sans Mono Nerd Font Bold",
