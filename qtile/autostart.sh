@@ -23,11 +23,13 @@ else
 fi
 
 # nitrogen for wallpaper
-nitrogen --restore &
+# nitrogen --restore &
+feh --bg-fill /home/lford/linux_setup/backgrounds/windows_space/6770172-amazing-night-sky-wallpaper.jpg
+
 # picom for compositing apps
 picom &
 # light-locker to lock screen when away
-# light-locker &
+light-locker &
 
 # systray battery icon
 cbatticon -u 5 &
