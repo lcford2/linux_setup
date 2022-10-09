@@ -42,7 +42,7 @@ from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 from libqtile import bar, configurable, images
 from libqtile.images import Img
 from libqtile.log_utils import logger
-from libqtile.utils import ColorsType, send_notification
+from libqtile.utils import send_notification
 from libqtile.widget import base
 
 
@@ -305,8 +305,8 @@ class _LinuxBattery(_Battery, configurable.Configurable):
 class Battery(base.ThreadPoolText):
     """A text-based battery monitoring widget currently supporting FreeBSD"""
 
-    background: Optional[ColorsType]
-    low_background: Optional[ColorsType]
+#    background: Optional[ColorsType]
+#    low_background: Optional[ColorsType]
 
     defaults = [
         ("charge_char", "^", "Character to indicate the battery is charging"),
