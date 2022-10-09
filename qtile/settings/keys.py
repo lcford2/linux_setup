@@ -110,6 +110,9 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
 
     # Cisco VPN
     ([mod], "v", lazy.spawn("/opt/cisco/anyconnect/bin/vpnui")),
+    
+    # light locker 
+    ([mod], "l", lazy.spawn("light-locker-command -l")),
 
     # gnome session controls
     # ([mod, "control"], "l", lazy.spawn("gnome-screensaver-command -l")),
