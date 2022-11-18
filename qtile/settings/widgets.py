@@ -83,7 +83,7 @@ def make_widgets(font_config):
 
     widgets = []
 
-    widgets.extend(workspaces(fontsize=font_config["small_text"]))
+    widgets.extend(workspaces(fontsize=font_config["large_text"]))
     logger.debug("WORKSPACES LOADED")
     widgets.append(separator())
     widgets.append(

@@ -7,7 +7,7 @@ if [ $ndisplays -eq 2 ]; then
            --output DP-1 --pos 1920x0 --panning 1920x1080+1920+0 \
            # --output DP-2-1 --pos 1920x0 --panning 1920x1080+1920+0 \
            # --output DP-2-2 --pos 1920x0 --panning 1920x1080+1920+0
-    sed -i 's/font: "DejaVuSansMono Nerd Font [0-9][0-9]"/font: "DejaVuSansMono Nerd Font 26"/' $HOME/.config/rofi/config.rasi
+    sed -i 's/font: "DejaVuSansMono Nerd Font [0-9][0-9]"/font: "DejaVuSansMono Nerd Font 16"/' $HOME/.config/rofi/config.rasi
     sed -i 's/Xft\.dpi:.*/Xft.dpi: 96/' $HOME/.Xresources
 elif [ $ndisplays -eq 3 ]; then
     xrandr --output DP-2-3 --mode 1920x1080 \
@@ -24,7 +24,7 @@ fi
 
 # nitrogen for wallpaper
 # nitrogen --restore &
-feh --bg-fill /home/lford/linux_setup/backgrounds/windows_space/6770172-amazing-night-sky-wallpaper.jpg
+feh --bg-fill /home/lford/linux_setup/backgrounds/windows_space/6770172-amazing-night-sky-wallpaper.jpg &
 
 # picom for compositing apps
 picom &
@@ -37,9 +37,11 @@ cbatticon -u 5 &
 volumeicon &
 
 # start emacs daemon
-# emacs --daemon
+emacs --daemon &
 
 # start playerctl
-playerctld daemon
+playerctld daemon &
 
 /usr/bin/setxkbmap -option "ctrl:nocaps"
+
+# redshift -l 35.7796:-78.6382 -t 6500K:3000K

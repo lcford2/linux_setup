@@ -12,7 +12,7 @@ import subprocess
 
 
 @lazy.function
-def logout_session(qtile):
+def logout_session():
     out = subprocess.check_output(["loginctl"]).decode()
     out = out.split("\n")[1].split()[0]
     logout_cmd = ["loginctl", "kill-session", out]
@@ -110,8 +110,8 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
 
     # Cisco VPN
     ([mod], "v", lazy.spawn("/opt/cisco/anyconnect/bin/vpnui")),
-    
-    # light locker 
+
+    # light locker
     ([mod], "l", lazy.spawn("light-locker-command -l")),
 
     # gnome session controls

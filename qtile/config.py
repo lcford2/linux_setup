@@ -35,7 +35,6 @@ def autostart():
     lazy.restart()
 
 
-
 @hook.subscribe.startup
 def dbus_register():
     dt_id = os.environ.get("DESKTOP_AUTOSTART_ID")

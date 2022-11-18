@@ -14,6 +14,9 @@ __version__ = "0.1"
 WIFI_ICON = " "
 ETH_ICON = " "
 NO_I_ICON = "睊 "
+VPN_ON_ICON = " "
+# VPN_OFF_ICON = " "
+VPN_OFF_ICON = " "
 
 log_file = "/home/lford/net_ssid.log"
 
@@ -85,18 +88,31 @@ class NetSSID(BaseClass):
             return interface
         else:
             return False
+            
+    def check_vpn_connected(self):
+        cmd = ["piactl", "get", "connectionstate"]
+        try:
+            result = subprocess.check_output(cmd)
+            res_text = result.decode().strip("\n")
+        except Exception as e:
+            log_message(f"Error getting VPN status: {e}")
+            return False
+        return res_text == "Connected"
 
     def poll(self):
         wifi_result = self.check_wifi()
         wired_result = self.check_wired()
+        vpn_connected = self.check_vpn_connected()
         max_len = 10
+        
+        VPN_ICON = VPN_ON_ICON if vpn_connected else VPN_OFF_ICON
         if wifi_result:
             if len(wifi_result) > max_len:
                 wifi_result = f"{wifi_result[:max_len]}..."
-            return f"{WIFI_ICON} {wifi_result}"
+            return f"{WIFI_ICON} {VPN_ICON}{wifi_result}"
         elif wired_result:
             if len(wired_result) > max_len:
                 wired_result = f"{wired_result[:10]}..."
-            return f"{ETH_ICON} {wired_result}"
+            return f"{ETH_ICON} {VPN_ICON}{wired_result}"
         else:
             return f"{NO_I_ICON} Error"

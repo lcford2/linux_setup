@@ -197,8 +197,12 @@ class Volume(base._TextBox):
 
             patt = re.compile(r"Playback .* \[(\d+)%\] \[(off|on)\]")
             amixer_out = re.search(patt, mixer_out)
-            volume = amixer_out.group(1)
-            muted = amixer_out.group(2)
+            try:
+                volume = amixer_out.group(1)
+                muted = amixer_out.group(2)
+            except AttributeError:
+                volume = -1
+                muted = "off"
             muted = muted == "off"
             
         except subprocess.CalledProcessError as e:
