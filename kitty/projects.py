@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import json
+import glob
 import argparse
 from contextlib import suppress
 from typing import (
@@ -24,7 +25,7 @@ from kitty.boss import Boss
 
 from kittens.tui.handler import Handler, result_handler
 from kittens.tui.loop import Loop, MouseEvent, debug
-from kittens.tui.operations import MouseTracking, alternate_screen, styled
+from kittens.tui.operations import MouseTracking, styled
 
 if TYPE_CHECKING:
     import readline
@@ -405,7 +406,8 @@ def create_project_dict(add_path: str, current_file="", conda=None, venv=None) -
     if not venv:
         venv = os.environ.get("VIRTUAL_ENV", None)
     shell = os.path.basename(os.environ["SHELL"])
-    
+    log(f"in create_project_dict: conda={conda}, venv={venv}") 
+
     if conda:
         env_command = f"conda activate {conda}"
     elif venv:
@@ -414,9 +416,24 @@ def create_project_dict(add_path: str, current_file="", conda=None, venv=None) -
         else:
             activate_file = f"{venv}/bin/activate"
         env_command = f"source {activate_file}"
+        add_path = os.path.commonpath([
+            add_path,
+            venv,
+        ])
     else:
         env_command = ""
-
+    
+    if current_file and not os.path.isabs(current_file):
+        if not os.path.exists(os.path.join(add_path, current_file)):
+            potential_paths = glob.glob(
+                f"{add_path}/**/{current_file}",
+                recursive=True
+            )
+            if len(potential_paths) == 0:
+                current_file = ""
+            else:
+                current_file = potential_paths[0]
+    
     project = {
         "name": project_name,
         "path": add_path,
@@ -453,6 +470,9 @@ def get_current_state_as_project(target_window_id: int, boss: Boss):
     state = boss.call_remote_control(w, ("ls",))
     state = json.loads(state)
 
+    with open("/home/lford/.config/kitty/state.json", "w") as f:
+        json.dump(state, f, indent=2)
+
     window = state[0]
     tabs = window["tabs"]
     focused_tab = 0
@@ -465,6 +485,8 @@ def get_current_state_as_project(target_window_id: int, boss: Boss):
                 focused_tab = i
 
     tab = tabs[focused_tab]
+    with open("/home/lford/.config/kitty/tab.json", "w") as f:
+        json.dump(tab, f, indent=2)
     current_file = ""
     cwd = "~"
     conda = None
@@ -473,13 +495,18 @@ def get_current_state_as_project(target_window_id: int, boss: Boss):
     # from this window, get the current file and the working directory
     # from the environment vairbal
     for window in tab["windows"]:
-        for proc in window["foreground_processes"]:
-            cmd = proc["cmdline"]
-            cwd = proc["cwd"]
-            if "nvim" in cmd:
-                current_file = cmd[-1]
-                conda = window["env"].get("CONDA_PREFIX", None)
-                venv = window["env"].get("VIRTUAL_ENV", None)
+        if not current_file:
+            for proc in window["foreground_processes"]:
+                cmd = proc["cmdline"]
+                cwd = proc["cwd"]
+                if "nvim" in cmd:
+                    current_file = cmd[-1]
+                    break
+        if not conda or not venv:
+            conda = window["env"].get("CONDA_PREFIX", None)
+            venv = window["env"].get("VIRTUAL_ENV", None)
+
+    log(f"in get_current_state_as_project: conda={conda}, venv={venv}") 
     project = create_project_dict(cwd, current_file, conda=conda, venv=venv) 
     return project
 
@@ -508,7 +535,6 @@ def main(args: List[str]) -> Union[dict, str]:
     # causes a crash of the python interpreter, probably because of some global
     # lock
     global readline
-    msg = "Ask the user for input"
 
     cli_opts = parse_args(args[1:])
 
@@ -562,6 +588,15 @@ def main(args: List[str]) -> Union[dict, str]:
     #         else:
     #             response = input(prompt)
     # return {'items': items, 'response': response}
+
+
+def log(msg, level="INFO", file="~/.config/kitty/projects.log"):
+    from datetime import datetime
+    file = os.path.expanduser(file)
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    logmsg = f"[projects - {level} - {now}]: {msg}\n"
+    with open(file, "a") as f:
+        f.write(logmsg)
 
 
 @result_handler()
