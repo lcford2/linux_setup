@@ -20,8 +20,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 16 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16))
+ (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 32 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 32))
 #+end_src
 
 ** Doom theming
@@ -29,8 +29,8 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;;(setq doom-theme 'doom-one)
-(setq doom-theme 'doom-monokai-classic)
+(setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-monokai-classic)
 #+end_src
 
 ** Line numbers
@@ -175,14 +175,14 @@
 ** Directory to search
 #+begin_src emacs-lisp
 ;; add personal package directory
-(add-load-path! "lisp")
+;; (add-load-path! "lisp")
 ;; (add-load-path! "/usr/share/emacs/site-lisp/mu4e")
-(setq byte-compile-warnings '(cl-functions))
+;; (setq byte-compile-warnings '(cl-functions))
 #+end_src
 ** Kivy language support
 #+begin_src emacs-lisp
-(require 'kivy-mode)
-(add-to-list 'auto-mode-alist '("\\.kv" . kivy-mode))
+;; (require 'kivy-mode)
+;; (add-to-list 'auto-mode-alist '("\\.kv" . kivy-mode))
 #+end_src
 
 * Key bindings
@@ -225,38 +225,79 @@
 #+begin_src emacs-lisp
 
 ;; configure python development help
-(use-package elpy
-  :init
-  (elpy-enable))
+;;(use-package elpy
+;;  :init
+;;  (elpy-enable))
 
 (use-package pyvenv
   :config
   (pyvenv-mode 1))
 
-(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+;;(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+;;(when (require 'flycheck nil t)
+;;  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-(require 'conda)
+;;(require 'conda)
 
-(custom-set-variables
- '(conda-anaconda-home "/home/lford/miniconda3"))
+;;(custom-set-variables
+;; '(conda-anaconda-home "/home/lford/miniconda3"))
 
-(setq conda-env-home-directory "/home/lford/miniconda3")
-(setq-default mode-line-format (cons mode-line-format '(:exec conda-env-current-name)))
+;;(setq conda-env-home-directory "/home/lford/miniconda3")
+;;(setq-default mode-line-format (cons mode-line-format '(:exec conda-env-current-name)))
 
 
-(defun my/python-mode-hook ()
-  (ignore-errors
-      (conda-env-activate-for-buffer)))
+;;(defun my/python-mode-hook ()
+;;  (ignore-errors
+;;      (conda-env-activate-for-buffer)))
 
-(add-hook 'python-mode-hook 'my/python-mode-hook)
+;;(add-hook 'python-mode-hook 'my/python-mode-hook)
 
 ;; (require 'lsp-python-ms)
 (setq lsp-python-ms-auto-install-server t)
 (add-hook 'python-mode-hook #'lsp)
+
+(require 'pyenv-mode)
+
+(defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 #+end_src
+** Vertico
+#+begin_src emacs-lisp
+(use-package vertico
+  :init
+  (vertico-mode)
+  )
+
+;; director extension
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; tidy shadowed file Names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+#+end_src
+
+** Consult
+*** Use consult complete with vertico
+#+begin_src emacs-lisp
+(setq completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   #'consult-completion-in-region
+                 #'completion--in-region)
+               args)))
+#+end_src
+
 
 * Dashboard setup
 ** Startup
@@ -301,47 +342,4 @@
 *** Sorting
 #+begin_src emacs-lisp
 (setq dashboard-agenda-sort-strategy '(time-up))
-#+end_src
-* Mail
-** mu4e
-#+begin_src
-;; I actually do not like using this
-;; email
-;; (setq +mu4e-backend 'offlineimap)
-;; (setq mail-user-agent 'mu4e-user-agent)
-
-;; (setq mu4e-drafts-folder "/school/Drafts")
-;; (setq mu4e-sent-folder "/school/Sent Mail")
-;; (setq mu4e-trash-folder "/school/Trash")
-
-;; (setq mu4e-sent-message-behavior 'delete)
-
-;; setup some handy shortcuts
-;; you can quickly switch to your Inbox -- press ``ji''
-;; then, when you want archive some messages, move them to
-;; the 'All Mail' folder by pressing ``ma''.
-
-;; (setq mu4e-maildir-shortcuts
-;;     '( (:maildir "/school/INBOX"      :key ?i)
-;;        (:maildir "/school/Sent Mail"  :key ?s)
-;;        (:maildir "/school/Trash"      :key ?t)
-;;        (:maildir "/school/All Mail"   :key ?a)))
-
-;; ;; allow for updating mail using 'U' in the main view:
-;; (setq mu4e-get-mail-command "offlineimap")
-
-;; ;; something about ourselves
-;; (setq
-;;    user-mail-address "lcford2@ncsu.edu"
-;;    user-full-name  "Lucas Ford")
-;;    ;; mu4e-compose-signature
-;;    ;;  (concat
-;;    ;;    "Foo X. Bar\n"
-;;    ;;    "http://www.example.com\n"))
-
-;; (setq +mu4e-gmail-accounts '(("lcford2@ncsu.edu" . "/school")))
-
-;; (setq mu4e-index-cleanup nil
-;;       mu4e-index-lazy-check t)
-
 #+end_src

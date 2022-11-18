@@ -13,14 +13,14 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 16 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16))
+ (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 32 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 32))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;;(setq doom-theme 'doom-one)
-(setq doom-theme 'doom-monokai-classic)
+(setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-monokai-classic)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -112,12 +112,12 @@
  (add-hook 'presentation-mode-off-hook (lambda () (beacon-mode 1))))
 
 ;; add personal package directory
-(add-load-path! "lisp")
+;; (add-load-path! "lisp")
 ;; (add-load-path! "/usr/share/emacs/site-lisp/mu4e")
-(setq byte-compile-warnings '(cl-functions))
+;; (setq byte-compile-warnings '(cl-functions))
 
-(require 'kivy-mode)
-(add-to-list 'auto-mode-alist '("\\.kv" . kivy-mode))
+;; (require 'kivy-mode)
+;; (add-to-list 'auto-mode-alist '("\\.kv" . kivy-mode))
 
 (global-set-key (kbd "C-/") 'comment-line)
 
@@ -139,37 +139,71 @@
       '("~/.doom.d/snippets"))
 
 ;; configure python development help
-(use-package elpy
-  :init
-  (elpy-enable))
+;;(use-package elpy
+;;  :init
+;;  (elpy-enable))
 
 (use-package pyvenv
   :config
   (pyvenv-mode 1))
 
-(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+;;(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+;;(when (require 'flycheck nil t)
+;;  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-(require 'conda)
+;;(require 'conda)
 
-(custom-set-variables
- '(conda-anaconda-home "/home/lford/miniconda3"))
+;;(custom-set-variables
+;; '(conda-anaconda-home "/home/lford/miniconda3"))
 
-(setq conda-env-home-directory "/home/lford/miniconda3")
-(setq-default mode-line-format (cons mode-line-format '(:exec conda-env-current-name)))
+;;(setq conda-env-home-directory "/home/lford/miniconda3")
+;;(setq-default mode-line-format (cons mode-line-format '(:exec conda-env-current-name)))
 
 
-(defun my/python-mode-hook ()
-  (ignore-errors
-      (conda-env-activate-for-buffer)))
+;;(defun my/python-mode-hook ()
+;;  (ignore-errors
+;;      (conda-env-activate-for-buffer)))
 
-(add-hook 'python-mode-hook 'my/python-mode-hook)
+;;(add-hook 'python-mode-hook 'my/python-mode-hook)
 
 ;; (require 'lsp-python-ms)
 (setq lsp-python-ms-auto-install-server t)
 (add-hook 'python-mode-hook #'lsp)
+
+(require 'pyenv-mode)
+
+(defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+
+(use-package vertico
+  :init
+  (vertico-mode)
+  )
+
+;; director extension
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; tidy shadowed file Names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(setq completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   #'consult-completion-in-region
+                 #'completion--in-region)
+               args)))
 
 (use-package dashboard
   :load-path "/home/lford/cloned_repos/emacs-dashboard"
