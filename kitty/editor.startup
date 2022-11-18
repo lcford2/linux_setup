@@ -2,6 +2,6 @@ layout fat:bias=75
 
 cd ~
 
-launch fish
-launch fish
+launch zsh
+launch zsh
 
