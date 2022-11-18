@@ -1,0 +1,11 @@
+# * * * * *   <command>
+# | | | | |
+# | | | | +-> day of the week (0-6) (Sunday=0)
+# | | | +---> month (1-12)
+# | | +-----> day of the month (1-31)
+# | +-------> hour (0-23)
+# +---------> min (0-59)
+
+*/10 * * * * /home/lford/.doom.d/scripts/get_calendars.sh &> /dev/null # sync org with gcal
+
+* */6 * * * /home/lford/AppImages/auto_link_mendeley.sh &>> /home/lford/AppImages/link_script.log
