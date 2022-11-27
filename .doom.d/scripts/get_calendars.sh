@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "$(date): Calendars Retrieved" >> /home/lford/.doom.d/scripts/get_calendars.log
+echo "$(date): Calendars Retrieved" >> /home/lucas/.doom.d/scripts/get_calendars.log
 
-GETGCAL=/home/lford/.doom.d/scripts/get_gcal.sh
+GETGCAL=/home/lucas/.doom.d/scripts/get_gcal.sh
 
 FILENAME="work"
 URL="https://calendar.google.com/calendar/ical/lcford2%40ncsu.edu/private-d5e99ba8a2495ea7be4d026224c84579/basic.ics"

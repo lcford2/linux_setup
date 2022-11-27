@@ -155,9 +155,9 @@
 ;;(require 'conda)
 
 ;;(custom-set-variables
-;; '(conda-anaconda-home "/home/lford/miniconda3"))
+;; '(conda-anaconda-home "/home/lucas/miniconda3"))
 
-;;(setq conda-env-home-directory "/home/lford/miniconda3")
+;;(setq conda-env-home-directory "/home/lucas/miniconda3")
 ;;(setq-default mode-line-format (cons mode-line-format '(:exec conda-env-current-name)))
 
 
@@ -181,6 +181,11 @@
       (pyenv-mode-unset))))
 
 (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+
+(setq sphinx-doc-include-types t)
+(add-hook 'python-mode-hook (lambda ()
+                                (require 'sphinx-doc)
+                                (sphinx-doc-mode t)))
 
 (use-package vertico
   :init
@@ -206,11 +211,11 @@
                args)))
 
 (use-package dashboard
-  :load-path "/home/lford/cloned_repos/emacs-dashboard"
+  :load-path "/home/lucas/source/emacs-dashboard"
   :config
   (dashboard-setup-startup-hook))
 
-(setq dashboard-startup-banner "/home/lford/.doom.d/200px-EmacsIcon.png")
+(setq dashboard-startup-banner "/home/lucas/.doom.d/200px-EmacsIcon.png")
 (setq dashboard-center-content t)
 (setq dashboard-set-heading-icons t)
 (setq dashboard-set-file-icons t)

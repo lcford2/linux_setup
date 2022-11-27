@@ -1,7 +1,7 @@
 #!/bin/bash
 WGET=/usr/bin/wget
-ICS2ORG="/home/lford/.doom.d/scripts/ical2org"
-ORGDIR="/home/lford/Documents/org/agenda/gcal"
+ICS2ORG="/home/lucas/.doom.d/scripts/ical2org"
+ORGDIR="/home/lucas/Documents/org/agenda/gcal"
 
 FILENAME=$1
 URL=$2

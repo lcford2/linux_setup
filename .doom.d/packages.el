@@ -79,3 +79,4 @@
 (package! yasnippet-snippets)
 (package! org-auto-tangle)
 (package! org-gcal)
+(package! sphinx-doc)
