@@ -1,7 +1,7 @@
 lua << EOF
 local sidebar = require("sidebar-nvim")
 local opts = {
-    open = true,
+    open = false,
     side = "right",
     initial_width = 35,
     hide_statusline = false,
