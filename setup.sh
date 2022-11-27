@@ -6,7 +6,7 @@ EMACS_VERSION="28.2"
 #### ----------- system update ------------ ####
 # update system and install curl
 # download and install various programs
-sudo apt install -y curl cmake build-essentials
+sudo apt install -y curl cmake build-essential
 
 #### ------- program configurations ------- ####
 # create computer specific config files
