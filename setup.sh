@@ -81,7 +81,7 @@ popd
 
 #### ---------------- nvim ---------------- ####
 pushd $HOME/Downloads
-curl -O "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb"
+wget "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb"
 sudo apt install -y ./nvim-linux64.deb
 popd
 
@@ -112,9 +112,9 @@ sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" $HOME/.local
 
 #### --------------- fonts ---------------- ####
 pushd $HOME/Downloads
-curl -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/DejaVuSansMono.zip"
-curl -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/UbuntuMono.zip"
-curl -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Ubuntu.zip"
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/DejaVuSansMono.zip"
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/UbuntuMono.zip"
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Ubuntu.zip"
 unzip DejaVuSansMono.zip
 unzip UbuntuMono.zip
 unzip Ubuntu.zip
