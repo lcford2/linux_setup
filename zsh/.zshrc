@@ -1,3 +1,10 @@
+# History
+
+export HISTSIZE=1000000
+export SAVEHIST=$HISTSIZE
+export HISTFILE=~/.zshhistory
+setopt EXTENDED_HISTORY
+
 
 # completion
 autoload -U compinit
@@ -12,9 +19,9 @@ bindkey -e
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
-if [ -d ~/.local/bin ]; then
-    if [[ ! :$PATH: == *:"$~/.local/bin":* ]] ; then
-        export PATH=~/.local/bin:$PATH
+if [ -d $HOME/.local/bin ]; then
+    if [[ ! :$PATH: == *:"$HOME/.local/bin":* ]] ; then
+        export PATH=$HOME/.local/bin:$PATH
     fi
 fi
 
@@ -30,7 +37,12 @@ alias l.="exa -a | egrep '^\.'"                                           # show
 alias lg="exa -al --color=always --group-directories-first --icons --git" # git status
 
 # use bat instead of cat 
-alias cat="bat --style header --style rules --style snip --style changes"
+alias cat="bat --style='header,rule,changes,numbers'"
+alias grep="rg"
+alias find="fd"
+alias df="duf"
+alias du="dust"
+alias fzfp="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 
 
 if [[ $TERM == "xterm-kitty" ]]; then
@@ -48,8 +60,21 @@ if [ -f $HOME/.autojump/share/autojump/autojump.zsh ]; then
     source $HOME/.autojump/share/autojump/autojump.zsh
 fi
 
+export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"
 
 export EDITOR=/usr/local/bin/nvim
 
-source $HOME/cloned_repos/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+eval "$(mcfly init zsh)"
+
+source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
