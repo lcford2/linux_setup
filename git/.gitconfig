@@ -1,0 +1,29 @@
+[user]
+	name = Lucas Ford
+	email = lcford2@ncsu.edu
+
+[color]
+	status = auto
+	branch = auto
+	interactive = auto
+	diff = auto
+
+[init]
+	defaultBranch = main
+
+[core]
+	pager = delta
+	excludesFile = ~/.gitignore
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	light = false
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default
