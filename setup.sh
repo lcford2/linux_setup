@@ -56,34 +56,42 @@ ln -sf $HOME/linux_setup/git/.gitignore $HOME/.gitignore
 
 
 #### --------------- rustup --------------- ####
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+if ! command -v rustup &> /dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
 
 #### --------------- pyenv ---------------- ####
-git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
-pushd $HOME/.pyenv
-src/configure && make -C src
-popd
+if ! [[ -d $HOME/.pyenv ]]; then
+    git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
+    pushd $HOME/.pyenv
+    src/configure && make -C src
+    popd
+fi
 
 #### --------------- emacs ---------------- ####
 # build deps
 sudo apt build-dep -y emacs
 sudo apt install -y libgccjit0 libgccjit-10-dev libjansson4 libjansson-dev gnutls-bin
 # get emacs
-pushd $HOME/source
-curl -O "https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.xz"
-tar xf emacs-$EMACS_VERSION.tar.xz
-# build emacs
-cd emacs-$EMACS_VERSION
-./configure
-make -j 4
-sudo make install
-popd
+if ! command -v emacs &> /dev/null; then
+    pushd $HOME/source
+    curl -O "https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.xz"
+    tar xf emacs-$EMACS_VERSION.tar.xz
+    # build emacs
+    cd emacs-$EMACS_VERSION
+    ./configure
+    make -j 4
+    sudo make install
+    popd
+fi
 
 #### ---------------- nvim ---------------- ####
-pushd $HOME/Downloads
-wget "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb"
-sudo apt install -y ./nvim-linux64.deb
-popd
+if ! command -v nvim &> /dev/null; then
+    pushd $HOME/Downloads
+    wget "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb"
+    sudo apt install -y ./nvim-linux64.deb
+    popd
+fi
 
 #### ---------- modern utilities ---------- ####
 CARGO=$HOME/.cargo/bin/cargo
@@ -98,17 +106,19 @@ $CARGO install procs
 $CARGO install --locked starship
 
 #### --------------- kitty ---------------- ####
-curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-# Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
-# your system-wide PATH)
-ln -sf $HOME/.local/kitty.app/bin/kitty $HOME/.local/bin/
-# Place the kitty.desktop file somewhere it can be found by the OS
-cp $HOME/.local/kitty.app/share/applications/kitty.desktop $HOME/.local/share/applications/
-# If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
-cp $HOME/.local/kitty.app/share/applications/kitty-open.desktop $HOME/.local/share/applications/
-# Update the paths to the kitty and its icon in the kitty.desktop file(s)
-sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" $HOME/.local/share/applications/kitty*.desktop
-sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" $HOME/.local/share/applications/kitty*.desktop
+if ! command -v kitty &> /dev/null; then
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+    # Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
+    # your system-wide PATH)
+    ln -sf $HOME/.local/kitty.app/bin/kitty $HOME/.local/bin/
+    # Place the kitty.desktop file somewhere it can be found by the OS
+    cp $HOME/.local/kitty.app/share/applications/kitty.desktop $HOME/.local/share/applications/
+    # If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
+    cp $HOME/.local/kitty.app/share/applications/kitty-open.desktop $HOME/.local/share/applications/
+    # Update the paths to the kitty and its icon in the kitty.desktop file(s)
+    sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" $HOME/.local/share/applications/kitty*.desktop
+    sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" $HOME/.local/share/applications/kitty*.desktop
+fi
 
 #### --------------- fonts ---------------- ####
 pushd $HOME/Downloads
@@ -122,3 +132,7 @@ unzip Ubuntu.zip
 mv *.ttf $HOME/.fonts
 sudo fc-cache -f -v
 
+#### -------------- vundle ---------------- ####
+if ! [ $(ls -A $HOME/.vim/bundle/Vundle.vim) ]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+fi
