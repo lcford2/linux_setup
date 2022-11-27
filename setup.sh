@@ -133,6 +133,6 @@ mv *.ttf $HOME/.fonts
 sudo fc-cache -f -v
 
 #### -------------- vundle ---------------- ####
-if ! [ $(ls -A $HOME/.vim/bundle/Vundle.vim) ]; then
+if ! [ -z "(ls -A $HOME/.vim/bundle/Vundle.vim)" ]; then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fi
