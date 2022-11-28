@@ -5,7 +5,6 @@ export SAVEHIST=$HISTSIZE
 export HISTFILE=~/.zshhistory
 setopt EXTENDED_HISTORY
 
-
 # completion
 autoload -U compinit
 compinit
@@ -22,6 +21,12 @@ bindkey '^[[F' end-of-line
 if [ -d $HOME/.local/bin ]; then
     if [[ ! :$PATH: == *:"$HOME/.local/bin":* ]] ; then
         export PATH=$HOME/.local/bin:$PATH
+    fi
+fi
+
+if [ -d $HOME/.cargo/bin ]; then
+    if [[ ! :$PATH: == *:"$HOME/.cargo/bin":* ]]; then
+        export PATH=$HOME/.cargo/bin:$PATH
     fi
 fi
 
