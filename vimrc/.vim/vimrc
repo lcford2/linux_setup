@@ -67,7 +67,7 @@ Plugin 'joshdick/onedark.vim'
 " Dev tools
 Plugin 'tpope/vim-commentary'
 Plugin 'neovim/nvim-lspconfig'
-Plugin 'neoclide/coc.nvim', {'pinned': 1}
+" Plugin 'neoclide/coc.nvim', {'pinned': 1}
 " Plugin 'hrsh7th/cmp-nvim-lsp'
 " Plugin 'hrsh7th/cmp-buffer'
 " Plugin 'hrsh7th/cmp-path'
@@ -129,7 +129,7 @@ EOF
 " let bufferline.clickable = v:true
 
 "" configure coc
-source ~/.vim/coc_config.vim
+" source ~/.vim/coc_config.vim
 
 "" configure side bar
 source ~/.vim/sidebar_config.vim
