@@ -1,7 +1,17 @@
 #!/bin/bash
 
 EMACS_VERSION="28.2"
+GREEN="\e[0;32m"
+RED="\e[0;31m"
+NC="\e[0m"
 
+function print_header() {
+    name=$1
+    echo "${GREEN} ###########################################"
+    echo "${GREEN} ${name}"
+    echo "${GREEN} ###########################################"
+    echo "${NC}"
+}
 
 #### ----------- system update ------------ ####
 # update system and install curl
