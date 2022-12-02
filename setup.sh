@@ -29,6 +29,20 @@ function popd () {
     command popd "$@" > /dev/null
 }
 
+function safe_link () {
+    target=$1
+    link_name=$2
+    
+    if [ -e $link_name ]; then
+        if [ -L $link_name ]; then
+            echo "Cannot create link from $target to $link_name. $link_name is already a link"
+        else
+            echo "Cannot create link from $target to $link_name. $link_name exists but is not a link"
+        fi
+    else
+        ln -sfv $target $link_name
+    fi
+}
 
 #### ----------- system update ------------ ####
 # update system and install curl
@@ -67,24 +81,24 @@ fi
 
 #### ------ link config directories ------- ####
 print_header "Link Configuration Directores"
-ln -sfv $HOME/linux_setup/alacritty $HOME/.config/alacritty
-ln -sfv $HOME/linux_setup/helix     $HOME/.config/helix
-ln -sfv $HOME/linux_setup/kitty     $HOME/.config/kitty
-ln -sfv $HOME/linux_setup/qtile     $HOME/.config/qtile
-ln -sfv $HOME/linux_setup/rofi      $HOME/.config/rofi
-ln -sfv $HOME/linux_setup/htop      $HOME/.config/htop
-ln -sfv $HOME/linux_setup/nvim      $HOME/.config/nvim
+safe_link $HOME/linux_setup/alacritty $HOME/.config/alacritty
+safe_link $HOME/linux_setup/helix     $HOME/.config/helix
+safe_link $HOME/linux_setup/kitty     $HOME/.config/kitty
+safe_link $HOME/linux_setup/qtile     $HOME/.config/qtile
+safe_link $HOME/linux_setup/rofi      $HOME/.config/rofi
+safe_link $HOME/linux_setup/htop      $HOME/.config/htop
+safe_link $HOME/linux_setup/nvim      $HOME/.config/nvim
 
 # link vim and doom directories (in $HOME)
-ln -sfv $HOME/linux_setup/.doom.d    $HOME/.doom.d
-ln -sfv $HOME/linux_setup/vimrc/.vim $HOME/.vim
+safe_link $HOME/linux_setup/.doom.d    $HOME/.doom.d
+safe_link $HOME/linux_setup/vimrc/.vim $HOME/.vim
 
 # link starship.toml file
-ln -sfv $HOME/linux_setup/misc_config/starship.toml $HOME/.config/starship.toml
+safe_link $HOME/linux_setup/misc_config/starship.toml $HOME/.config/starship.toml
 
 # link git setup
-ln -sfv $HOME/linux_setup/git/.gitconfig $HOME/.gitconfig
-ln -sfv $HOME/linux_setup/git/.gitignore $HOME/.gitignore
+safe_link $HOME/linux_setup/git/.gitconfig $HOME/.gitconfig
+safe_link $HOME/linux_setup/git/.gitignore $HOME/.gitignore
 
 
 #### --------------- rustup --------------- ####
