@@ -49,7 +49,7 @@ function safe_link () {
 # download and install various programs
 print_header "System Update"
 sudo apt update && sudo apt upgrade
-sudo apt install -y curl cmake build-essential
+sudo apt install -y curl cmake build-essential gcp pbzip2 tk htop libssl-dev libsqlite3-dev openssl
 
 #### ------- program configurations ------- ####
 print_header "Create Computer Specific Program Configurations"
@@ -71,8 +71,8 @@ if ! [[ -d $HOME/projects ]]; then
     mkdir -v $HOME/projects
 fi
 
-if ! [[ -d $HOME/.local ]]; then
-    mkdir -v $HOME/.local
+if ! [[ -d $HOME/.local/bin ]]; then
+    mkdir -vp $HOME/.local/bin
 fi
 
 if ! [[ -d $HOME/.fonts ]]; then
@@ -238,5 +238,15 @@ if ! [[ -d $HOME/.pyenv ]]; then
     git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
     pushd $HOME/.pyenv
     src/configure && make -C src
+    popd
+fi
+
+#### --------------- conda ---------------- ####
+print_header "Install Miniconda"
+if ! command -v conda &> /dev/null; then
+    cd $HOME/Downloads
+    wget -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
+    sh ./Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
+    $HOME/miniconda3/condabin/conda init
     popd
 fi
