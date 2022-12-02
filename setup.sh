@@ -1,6 +1,8 @@
 #!/bin/bash
 
 EMACS_VERSION="28.2"
+ZSH_VERSION="5.9"
+
 GREEN="\e[0;32m"
 RED="\e[0;31m"
 NC="\e[0m"
@@ -146,3 +148,22 @@ sudo fc-cache -f -v
 if ! [ -z "(ls -A $HOME/.vim/bundle/Vundle.vim)" ]; then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fi
+
+#### ---------------- zsh ----------------- ####
+if ! command -v zsh &> /dev/null; then
+    pushd $HOME/source
+    wget "https://gigenet.dl.sourceforge.net/project/zsh/zsh/$ZSH_VERSION/zsh-$ZSH_VERSION.tar.xz"
+    tar xf zsh-$ZSH_VERSION.tar.xz
+    cd zsh-$ZSH_VERSION.tar.xz
+    ./configure && make && sudo make install
+    popd
+fi
+
+# zsh autosuggestions
+pushd ~/source
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/zsh-users/zsh-autosuggestions.git
+popd
+
+# history file
+touch ~/.zshhistory
