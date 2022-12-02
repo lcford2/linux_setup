@@ -167,3 +167,6 @@ popd
 
 # history file
 touch ~/.zshhistory
+
+# add zsh to shells
+echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
