@@ -80,3 +80,4 @@
 (package! org-auto-tangle)
 (package! org-gcal)
 (package! sphinx-doc)
+(package! dashboard)
