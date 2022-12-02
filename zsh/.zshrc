@@ -9,7 +9,7 @@ setopt EXTENDED_HISTORY
 # completion
 autoload -U compinit
 compinit
-zstyle ':completion:*' completer _extensions _complete _approximate
+zstyle ':completion:*' completer _extensions _complete
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XGD_CACHE_HOME/zsh/.zcompcache"
 zstyle ':completion:*' menu select
@@ -18,11 +18,18 @@ zstyle ':completion:*' menu select
 bindkey -e
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
 
 if [ -d $HOME/.local/bin ]; then
     if [[ ! :$PATH: == *:"$HOME/.local/bin":* ]] ; then
         export PATH=$HOME/.local/bin:$PATH
     fi
+fi
+
+if [ -d $HOME/.cargo ]; then
+    source $HOME/.cargo/env
 fi
 
 eval "$(starship init zsh)"
