@@ -137,7 +137,7 @@ fi
 print_header "Install NeoVim"
 if ! command -v nvim &> /dev/null; then
     pushd $HOME/Downloads
-    wget -O "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb"
+    wget "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb" -O "nvim-linux64.deb"
     sudo apt install -y ./nvim-linux64.deb
     popd
 fi
@@ -181,9 +181,9 @@ fi
 #### --------------- fonts ---------------- ####
 print_header "Install NerdFonts"
 pushd $HOME/Downloads
-wget -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip"
-wget -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip"
-wget -O "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip"
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
 unzip -u DejaVuSansMono.zip
 unzip -u UbuntuMono.zip
 unzip -u Ubuntu.zip
@@ -196,9 +196,9 @@ sudo fc-cache -f -v
 print_header "Install and Configure ZSH"
 if ! command -v zsh &> /dev/null; then
     pushd $HOME/source
-    wget -O "https://gigenet.dl.sourceforge.net/project/zsh/zsh/$ZSH_VERSION/zsh-$ZSH_VERSION.tar.xz"
+    wget "https://gigenet.dl.sourceforge.net/project/zsh/zsh/$ZSH_VERSION/zsh-$ZSH_VERSION.tar.xz" -O "zsh-$ZSH_VERSION.tar.xz"
     tar xf zsh-$ZSH_VERSION.tar.xz
-    cd zsh-$ZSH_VERSION.tar.xz
+    cd zsh-$ZSH_VERSION
     ./configure && make && sudo make install
     popd
 fi
@@ -245,8 +245,9 @@ fi
 print_header "Install Miniconda"
 if ! command -v conda &> /dev/null; then
     cd $HOME/Downloads
-    wget -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
-    sh ./Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
+    MINICONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
+    wget "https://repo.anaconda.com/miniconda/$MINICONDA_FILE" -O $MINICONDA_FILE
+    sh $MINICONDA_FILE -b -p $HOME/miniconda3
     $HOME/miniconda3/condabin/conda init
     popd
 fi
