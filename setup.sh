@@ -100,6 +100,9 @@ safe_link $HOME/linux_setup/misc_config/starship.toml $HOME/.config/starship.tom
 safe_link $HOME/linux_setup/git/.gitconfig $HOME/.gitconfig
 safe_link $HOME/linux_setup/git/.gitignore $HOME/.gitignore
 
+# link zshrc
+safe_link $HOME/linux_setup/zsh/.zshrc $HOME/.zshrc
+
 
 #### --------------- rustup --------------- ####
 print_header "Install Rustup"
@@ -144,7 +147,7 @@ fi
 
 #### -------------- vundle ---------------- ####
 print_header "Install Vundle for NeoVim"
-if ! [ "$(ls -A1 $HOME/.vim/bundle/Vundle.vim | wc -l)" -eq 0 ]; then
+if [ "$(ls -A1 $HOME/.vim/bundle/Vundle.vim | wc -l)" -eq 0 ]; then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fi
 
