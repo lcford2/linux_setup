@@ -49,7 +49,7 @@ function safe_link () {
 # download and install various programs
 print_header "System Update"
 sudo apt update && sudo apt upgrade
-sudo apt install -y curl cmake build-essential gcp pbzip2 tk htop libssl-dev libsqlite3-dev openssl cifs-utils smbclient
+sudo apt install -y curl cmake build-essential gcp pbzip2 tk htop libssl-dev libsqlite3-dev openssl cifs-utils smbclient libreadline8 libreadline-dev tk tk-dev
 
 #### ------- program configurations ------- ####
 print_header "Create Computer Specific Program Configurations"
