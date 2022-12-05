@@ -103,6 +103,11 @@ safe_link $HOME/linux_setup/git/.gitignore $HOME/.gitignore
 # link zshrc
 safe_link $HOME/linux_setup/zsh/.zshrc $HOME/.zshrc
 
+# link script to .local/bin
+for file in $(/bin/ls $HOME/linux_setup/scripts/); do
+    ln -sf $HOME/linux_setup/scripts/$file $HOME/.local/bin/$file
+done
+
 
 #### --------------- rustup --------------- ####
 print_header "Install Rustup"
