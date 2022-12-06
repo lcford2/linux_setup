@@ -131,8 +131,33 @@ unzip Ubuntu.zip
 
 mv *.ttf $HOME/.fonts
 sudo fc-cache -f -v
+popd
 
 #### -------------- vundle ---------------- ####
 if ! [ -z "(ls -A $HOME/.vim/bundle/Vundle.vim)" ]; then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+fi
+
+#### --------------- zsh ------------------ ####
+if ! command -v zsh &> /dev/null; then
+    pushd $HOME/source
+    wget https://versaweb.dl.sourceforge.net/project/zsh/zsh/$ZSH_VERSION/zsh-$ZSH_VERSION.tar.xz
+    tar xf zsh-$ZSH_VERSION.tar.xz
+    cd zsh-$ZSH_VERSION
+    ./configure
+    make -j 4
+    make check && sudo make install
+
+    cd ..
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+    popd
+fi
+
+#### ------------- doom emacs ------------- ####
+if [ ! -f $HOME/.emacs.d/bin/doom ]; then
+    if [ -d $HOME/.emacs.d ]; then
+        mv $HOME/.emacs.d $HOME/.emacs.d/bkp
+    fi
+    git clone --depth 1 https://github.com/doomemacs/doomemacs $HOME/.emacs.d
+    $HOME/.emacs.d/bin/doom install
 fi
