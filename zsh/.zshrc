@@ -6,7 +6,6 @@ export HISTFILE=~/.zshhistory
 setopt EXTENDED_HISTORY
 
 # completion
-<<<<<<< HEAD
 zstyle ':completion:*' completer _complete _ignored
 autoload -U compinit
 compinit
