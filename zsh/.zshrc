@@ -6,17 +6,28 @@ export HISTFILE=~/.zshhistory
 setopt EXTENDED_HISTORY
 
 # completion
-autoload -U compinit
-compinit
-zstyle ':completion:*' completer _extensions _complete _approximate
+# zstyle ':completion:*' completer _extensions _complete _approximate
+zstyle ':completion:*' completer _complete _ignored
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XGD_CACHE_HOME/zsh/.zcompcache"
 zstyle ':completion:*' menu select
 
+autoload -U +X compinit
+compinit
+
+autoload -U +X bashcompinit && bashcompinit
+eval "$(register-python-argcomplete3 ros2)"
+eval "$(register-python-argcomplete3 colcon)"
+
+source ~/source/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # key style
-bindkey -e
+# bindkey -e
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
+bindkey '^[[1;5C' emacs-forward-word
+bindkey '^[[1;5D' emacs-backward-word
+bindkey  "^[[3~"  delete-char
 
 if [ -d $HOME/.local/bin ]; then
     if [[ ! :$PATH: == *:"$HOME/.local/bin":* ]] ; then
@@ -24,11 +35,7 @@ if [ -d $HOME/.local/bin ]; then
     fi
 fi
 
-if [ -d $HOME/.cargo/bin ]; then
-    if [[ ! :$PATH: == *:"$HOME/.cargo/bin":* ]]; then
-        export PATH=$HOME/.cargo/bin:$PATH
-    fi
-fi
+. "$HOME/.cargo/env"
 
 eval "$(starship init zsh)"
 
@@ -55,7 +62,7 @@ if [[ $TERM == "xterm-kitty" ]]; then
 fi
 
 # nvim
-alias vim="nvim"
+alias vim="lvim"
 
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv
@@ -68,18 +75,39 @@ fi
 export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"
 
-export EDITOR=/usr/local/bin/nvim
+export EDITOR="$(which nvim)"
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
 eval "$(mcfly init zsh)"
-
-source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+export FAST_DOWNWARD_PATH="/home/lucas/dev/wall_panels/downward"
+export ROS_DOMAIN_ID=14
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+function config-bb-direnv () {
+    pushd $HOME/dev/wall_panels
+    direnv deny .
+    source bb_ws/install/setup.zsh
+    direnv dump > .envrc.cache
+    direnv allow .
+    popd
+}
+
+function botbuild () {
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_CXX_FLAGS=-w --symlink-install && \
+      config-bb-direnv
+}
+
+# Isaac Sim Python
+alias omni-python="$HOME/.local/share/ov/pkg/isaac_sim-2022.1.1/python.sh"
+
+source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
