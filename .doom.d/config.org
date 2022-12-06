@@ -20,8 +20,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 32 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 32))
+ (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 16 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16))
 #+end_src
 
 ** Doom theming
@@ -144,6 +144,11 @@
 ;;                             ("as6njklct2jcku4fs3meqeli9c@group.calendar.google.com" . "~/Documents/org/agenda/finances.org")
 ;;                             ("lcford185@gmail.com" . "~/Documents/org/agenda/gcal/personal.org")
 ;;                             ("foreverford2020@gmail.com" . "~/Documents/org/agenda/gcal/joint.org")))
+#+end_src
+
+* VTerm
+#+begin_src emacs-lisp
+(setq vterm-shell "/usr/local/bin/zsh")
 #+end_src
 
 * Whiteroom
@@ -337,7 +342,7 @@
 #+end_src
 *** Show all agenda items, not just those with deadlines or schedules
 #+begin_src emacs-lisp
-;; (setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-todo)
+(setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-todo)
 #+end_src
 *** Only show agenda entries with a TODO tag
 #+begin_src emacs-lisp
@@ -347,4 +352,16 @@
 *** Sorting
 #+begin_src emacs-lisp
 (setq dashboard-agenda-sort-strategy '(time-up))
+#+end_src
+* Org-Jira
+#+begin_src emacs-lisp
+(setq jiralib-url "https://botbuilt.atlassian.net")
+(add-to-list 'org-agenda-files "~/.org-jira")
+#+end_src
+* GPG
+#+begin_src emacs-lisp
+(setq epg-gpg-program "gpg2")
+(setq auth-source-debug t)
+(setq auth-sources
+      '((:source "~/.secrets/.authinfo.gpg")))
 #+end_src

@@ -13,8 +13,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 32 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 32))
+ (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 16 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -93,6 +93,8 @@
 ;;                             ("as6njklct2jcku4fs3meqeli9c@group.calendar.google.com" . "~/Documents/org/agenda/finances.org")
 ;;                             ("lcford185@gmail.com" . "~/Documents/org/agenda/gcal/personal.org")
 ;;                             ("foreverford2020@gmail.com" . "~/Documents/org/agenda/gcal/joint.org")))
+
+(setq vterm-shell "/usr/local/bin/zsh")
 
 (use-package writeroom-mode
   :config
@@ -226,9 +228,17 @@
 
 ;; (setq dashboard-week-agenda t)
 
-;; (setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-todo)
+(setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-todo)
 
 ;; (setq dashboard-match-agenda-entry
 ;;       "TODO=\"TODO\"")
 
 (setq dashboard-agenda-sort-strategy '(time-up))
+
+(setq jiralib-url "https://botbuilt.atlassian.net")
+(add-to-list 'org-agenda-files "~/.org-jira")
+
+(setq epg-gpg-program "gpg2")
+(setq auth-source-debug t)
+(setq auth-sources
+      '((:source "~/.secrets/.authinfo.gpg")))
