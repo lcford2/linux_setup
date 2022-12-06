@@ -213,7 +213,7 @@
                args)))
 
 (use-package dashboard
-  :load-path "/home/lucas/source/emacs-dashboard"
+  ;;:load-path "/home/lucas/source/emacs-dashboard"
   :config
   (dashboard-setup-startup-hook))
 

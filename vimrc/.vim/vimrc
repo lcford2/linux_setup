@@ -65,7 +65,7 @@ Plugin 'dag/vim-fish'
 " Color schemes
 Plugin 'joshdick/onedark.vim'
 " Dev tools
-Plugin 'tpope/vim-commentary'
+"Plugin 'tpope/vim-commentary'
 Plugin 'neovim/nvim-lspconfig'
 " Plugin 'neoclide/coc.nvim', {'pinned': 1}
 " Plugin 'hrsh7th/cmp-nvim-lsp'

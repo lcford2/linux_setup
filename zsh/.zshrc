@@ -6,8 +6,10 @@ export HISTFILE=~/.zshhistory
 setopt EXTENDED_HISTORY
 
 # completion
-# zstyle ':completion:*' completer _extensions _complete _approximate
+<<<<<<< HEAD
 zstyle ':completion:*' completer _complete _ignored
+autoload -U compinit
+compinit
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XGD_CACHE_HOME/zsh/.zcompcache"
 zstyle ':completion:*' menu select
@@ -27,7 +29,7 @@ bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 bindkey '^[[1;5C' emacs-forward-word
 bindkey '^[[1;5D' emacs-backward-word
-bindkey  "^[[3~"  delete-char
+bindkey "^[[3~" delete-char
 
 if [ -d $HOME/.local/bin ]; then
     if [[ ! :$PATH: == *:"$HOME/.local/bin":* ]] ; then
@@ -109,5 +111,20 @@ function botbuild () {
 
 # Isaac Sim Python
 alias omni-python="$HOME/.local/share/ov/pkg/isaac_sim-2022.1.1/python.sh"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/lucas/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/lucas/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/lucas/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/lucas/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
 source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
