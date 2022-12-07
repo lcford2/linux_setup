@@ -57,8 +57,8 @@ if [[ $TERM == "xterm-kitty" ]]; then
     alias ssh="kitty +kitten ssh"
 fi
 
-# nvim
-alias vim="nvim"
+# alias vim
+alias vim="lvim"
 
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv
