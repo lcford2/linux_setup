@@ -4,6 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(conda-anaconda-home "/home/lucas/miniconda3")
+ '(explicit-shell-file-name "/usr/local/bin/zsh")
  '(package-selected-packages
    '(ggtags color-identifiers-mode rainbow-identifiers tree-sitter-langs tree-sitter writeroom-mode pdf-tools org-tree-slide epresent dashboard))
  '(safe-local-variable-values

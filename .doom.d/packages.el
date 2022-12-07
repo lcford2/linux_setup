@@ -64,7 +64,7 @@
 (package! irony)
 (package! python-mode)
 (package! pylint)
-(package! conda)
+; (package! conda)
 (package! elpy)
 (package! lsp-pyright)
 (package! blacken)
@@ -81,3 +81,4 @@
 (package! org-gcal)
 (package! sphinx-doc)
 (package! dashboard)
+(package! org-jira)
