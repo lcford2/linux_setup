@@ -153,7 +153,11 @@
         ;;php               ; perl's insecure younger brother
         ;;plantuml          ; diagrams for confusing people more
         ;;purescript        ; javascript, but functional
+<<<<<<< Updated upstream
         (python +lsp +pyright +pyenv)            ; beautiful is better than ugly
+=======
+        python +conda +lsp +pyright +pyenv           ; beautiful is better than ugly
+>>>>>>> Stashed changes
         ;;qt                ; the 'cutest' gui framework ever
         ;;racket            ; a DSL for DSLs
         ;;raku              ; the artist formerly known as perl6

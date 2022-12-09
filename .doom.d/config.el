@@ -141,14 +141,21 @@
       '("~/.doom.d/snippets"))
 
 ;; configure python development help
+<<<<<<< Updated upstream
 ;;(use-package elpy
 ;;  :init
 ;;  (elpy-enable))
+=======
+;; (use-package elpy
+;;   :init
+;;   (elpy-enable))
+>>>>>>> Stashed changes
 
-(use-package pyvenv
-  :config
-  (pyvenv-mode 1))
+;; (use-package pyvenv
+;;   :config
+;;   (pyvenv-mode 1))
 
+<<<<<<< Updated upstream
 ;;(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 ;;(when (require 'flycheck nil t)
 ;;  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
@@ -168,10 +175,31 @@
 ;;      (conda-env-activate-for-buffer)))
 
 ;;(add-hook 'python-mode-hook 'my/python-mode-hook)
+=======
+;; (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+;; (when (require 'flycheck nil t)
+;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-;; (require 'lsp-python-ms)
-(setq lsp-python-ms-auto-install-server t)
-(add-hook 'python-mode-hook #'lsp)
+;; (require 'conda)
+
+;; (custom-set-variables
+;;  '(conda-anaconda-home "/home/lford/miniconda3"))
+
+;; (setq conda-env-home-directory "/home/lford/miniconda3")
+;; (setq-default mode-line-format (cons mode-line-format '(:exec conda-env-current-name)))
+
+
+;; (defun my/python-mode-hook ()
+;;   (ignore-errors
+;;       (conda-env-activate-for-buffer)))
+
+;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+>>>>>>> Stashed changes
+
+;; ;; (require 'lsp-python-ms)
+;; (setq lsp-python-ms-auto-install-server t)
+;; (add-hook 'python-mode-hook #'lsp)
 
 (require 'pyenv-mode)
 
@@ -213,11 +241,18 @@
                args)))
 
 (use-package dashboard
+<<<<<<< Updated upstream
   ;;:load-path "/home/lucas/source/emacs-dashboard"
   :config
   (dashboard-setup-startup-hook))
 
 (setq dashboard-startup-banner "/home/lucas/.doom.d/200px-EmacsIcon.png")
+=======
+  :config
+  (dashboard-setup-startup-hook))
+
+(setq dashboard-startup-banner "~/.doom.d/200px-EmacsIcon.png")
+>>>>>>> Stashed changes
 (setq dashboard-center-content t)
 (setq dashboard-set-heading-icons t)
 (setq dashboard-set-file-icons t)
