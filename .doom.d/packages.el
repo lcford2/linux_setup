@@ -70,6 +70,8 @@
 (package! blacken)
 (package! flycheck-mypy)
 (package! pyenv-mode)
+(package! pyvenv)
+(package! dashboard)
 (package! page-break-lines)
 (package! beacon)
 (package! pdf-tools)
