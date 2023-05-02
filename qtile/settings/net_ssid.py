@@ -18,12 +18,12 @@ VPN_ON_ICON = " "
 # VPN_OFF_ICON = " "
 VPN_OFF_ICON = " "
 
-log_file = "/home/lford/net_ssid.log"
+log_file = "/home/lucas/net_ssid.log"
 
 
 def log_message(string, file=log_file):
     dt = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
-    with open("/home/lford/net_ssid.log", "a") as f:
+    with open(file, "a") as f:
         f.write(f"{dt} {string}\n")
 
 
@@ -109,10 +109,10 @@ class NetSSID(BaseClass):
         if wifi_result:
             if len(wifi_result) > max_len:
                 wifi_result = f"{wifi_result[:max_len]}..."
-            return f"{WIFI_ICON} {VPN_ICON}{wifi_result}"
+            return f" {WIFI_ICON} {VPN_ICON}{wifi_result}"
         elif wired_result:
             if len(wired_result) > max_len:
                 wired_result = f"{wired_result[:10]}..."
-            return f"{ETH_ICON} {VPN_ICON}{wired_result}"
+            return f" {ETH_ICON} {VPN_ICON}{wired_result}"
         else:
-            return f"{NO_I_ICON} Error"
+            return f" {NO_I_ICON} Error"

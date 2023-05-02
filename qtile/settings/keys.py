@@ -69,6 +69,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
 
     # Menu
     ([mod], "m", lazy.spawn("rofi -show drun")),
+    # ([mod], "m", lazy.spawn("ulauncher-toggle")),
     ([mod], "s", lazy.spawn("rofi -show ssh")),
     ([mod], "p", lazy.spawn("rofi -show p -modi p:rofi-power-menu")),
 
@@ -76,18 +77,20 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod, "shift"], "m", lazy.spawn("rofi -show window")),
 
     # Browser
-    ([mod], "b", lazy.spawn("firefox")),
+    # ([mod], "b", lazy.spawn("firefox")),
+    ([mod], "b", lazy.spawn("google-chrome")),
 
     # File Explorer
-    # ([mod], "f", lazy.spawn("nautilus")),
+    ([mod], "f", lazy.spawn("nautilus")),
     # ([mod], "f", lazy.spawn("pcmanfm")),
-    ([mod], "f", lazy.spawn(f"{term} ranger")),
+    # ([mod], "f", lazy.spawn(f"{term} ranger")),
 
     # filezill
     ([mod, "shift"], "z", lazy.spawn("filezilla")),
 
     # Terminal
     ([mod], "Return", lazy.spawn(f"{term} --session={home}/.config/kitty/editor.startup")),
+    ([mod, "shift"], "Return", lazy.spawn(f"{term} --session={home}/.config/kitty/bb.startup")),
 
     # Emacs
     ([mod], "e", lazy.spawn(
@@ -96,7 +99,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     #     f"{launch_emacs} --eval '(+vterm/here nil)'")),
 
     # vscode
-    ([mod], "c", lazy.spawn("code")),
+    ([mod], "c", lazy.spawn("bbws_vs_code")),
 
     # Zoom
     ([mod], "z", lazy.spawn("zoom")),
@@ -119,6 +122,9 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     # ([mod, "control"], "q", lazy.spawn("gnome-session-quit --logout --no-prompt")),
     ([mod, "control"], "q", logout_session()),
     ([mod, "shift", "control"], "q", lazy.spawn("gnome-session-quit --power-off")),
+
+    # Launch Isaac
+    ([mod], "i", lazy.spawn("/home/lucas/.local/bin/bb_launch_isaac.sh")),
 
     # ------------ Hardware Configs ------------
 

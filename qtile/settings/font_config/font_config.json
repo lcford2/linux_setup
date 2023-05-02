@@ -15,9 +15,9 @@
         "qtile": {
             "large_text": 16,
             "small_text": 14,
-            "large_icon": 23,
-            "small_icon": 10,
-            "powerline_padding": 12
+            "large_icon": 36,
+            "small_icon": 48,
+            "powerline_padding": -5
         },
         "rofi": {
             "fontsize": 16

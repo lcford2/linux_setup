@@ -82,3 +82,4 @@
 (package! sphinx-doc)
 (package! dashboard)
 (package! org-jira)
+(package! flymake-ruff)

@@ -189,14 +189,17 @@ class Volume(base._TextBox):
                 get_volume_cmd = self.get_volume_command
 
             # get_volume_cmd = ["pamixer", "--get-volume-human"]
-            get_volume_cmd = ["amixer"]
+            # get_volume_cmd = ["amixer"]
             output = subprocess.run(get_volume_cmd, capture_output=True)
             mixer_out = output.stdout.decode()
-            mixer_err = output.stderr.decode()
-            retcode = output.returncode
+            # mixer_err = output.stderr.decode()
+            # retcode = output.returncode
+            logger.warning(get_volume_cmd)
+            logger.warning(mixer_out)
 
-            patt = re.compile(r"Playback .* \[(\d+)%\] \[(off|on)\]")
+            patt = re.compile(r"Playback .* \[(\d+)%\] \[.*\] \[(off|on)\]")
             amixer_out = re.search(patt, mixer_out)
+            logger.warning(amixer_out)
             try:
                 volume = amixer_out.group(1)
                 muted = amixer_out.group(2)

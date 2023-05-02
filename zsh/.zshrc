@@ -73,6 +73,10 @@ if [ -f $HOME/.autojump/share/autojump/autojump.zsh ]; then
     source $HOME/.autojump/share/autojump/autojump.zsh
 fi
 
+if [ -f /usr/share/autojump/autojump.sh ]; then
+    source /usr/share/autojump/autojump.sh
+fi
+
 export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"
 
@@ -91,13 +95,13 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export FAST_DOWNWARD_PATH="/home/lucas/dev/wall_panels/downward"
-export ROS_DOMAIN_ID=14
-export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 function config-bb-direnv () {
+    direnv deny $HOME/dev/wall_panels
     pushd $HOME/dev/wall_panels
-    direnv deny .
     source bb_ws/install/setup.zsh
+    export ROS_DOMAIN_ID=14
+    export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     direnv dump > .envrc.cache
     direnv allow .
     popd
@@ -108,8 +112,10 @@ function botbuild () {
       config-bb-direnv
 }
 
+alias cdw="cd $HOME/dev/wall_panels/bb_ws"
+
 # Isaac Sim Python
-alias omni-python="$HOME/.local/share/ov/pkg/isaac_sim-2022.1.1/python.sh"
+alias omni-python="$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0/python.sh"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -125,5 +131,10 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# docker stuff
+export PATH=/usr/bin:$PATH
+# Some applications may require the following environment variable too:
+export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

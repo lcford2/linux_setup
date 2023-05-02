@@ -4,7 +4,7 @@ from .theme import colors
 from .owm import OpenWeatherMap
 from .net_ssid import NetSSID
 from .my_battery import Battery
-from .font_config.xlib_utils import get_highest_available_res
+# from .font_config.xlib_utils import get_highest_available_res
 from libqtile.log_utils import logger
 import os
 import json
@@ -13,7 +13,8 @@ import json
 
 
 def load_font_config():
-    high_res = get_highest_available_res()
+    #    high_res = get_highest_available_res()
+    high_res = "1920x1080"
     config_file = os.path.expanduser("~/.config/qtile/settings/font_config/font_config.json")
     with open(config_file, "r") as f:
         config = json.load(f)
@@ -29,14 +30,14 @@ def separator():
 
 
 def icon(fg="text", bg="dark", fontsize=16, text="?"):
-    return widget.TextBox(**base(fg, bg), fontsize=(fontsize), text=text, padding=3)
+    return widget.TextBox(**base(fg, bg), fontsize=(fontsize), text=f" {text}", padding=3)
 
 
 def powerline(fg="light", bg="dark", fontsize=36, padding=0):
     return widget.TextBox(
         **base(fg, bg),
         # text="", # Icon: nf-oct-triangle_left
-        text="\ue0be",
+        # text="\ue0be",
         fontsize=int(fontsize),
         # padding=-5 if fontsize==36 else -9
         padding=padding,
@@ -90,7 +91,7 @@ def make_widgets(font_config):
         powerline(
             "color4",
             "dark",
-            fontsize=font_config["large_icon"],
+            fontsize=font_config["small_icon"],
             padding=font_config["powerline_padding"],
         )
     )
@@ -122,7 +123,7 @@ def make_widgets(font_config):
         powerline(
             "color3",
             "color4",
-            fontsize=font_config["large_icon"],
+            fontsize=font_config["small_icon"],
             padding=font_config["powerline_padding"],
         )
     )
@@ -141,7 +142,7 @@ def make_widgets(font_config):
         powerline(
             "color2",
             "color3",
-            fontsize=font_config["large_icon"],
+            fontsize=font_config["small_icon"],
             padding=font_config["powerline_padding"],
         )
     )
@@ -156,7 +157,7 @@ def make_widgets(font_config):
         powerline(
             "color1",
             "color2",
-            fontsize=font_config["large_icon"],
+            fontsize=font_config["small_icon"],
             padding=font_config["powerline_padding"],
         )
     )
@@ -175,36 +176,37 @@ def make_widgets(font_config):
         powerline(
             "color4",
             "color1",
-            fontsize=font_config["large_icon"],
+            fontsize=font_config["small_icon"],
             padding=font_config["powerline_padding"],
         )
     )
-    widgets.append(
-        Battery(
-            **base(bg="color4", fg="dark"),
-            format="{char} {percent:2.0%}",
-            charge_char="",
-            discharge_char=["", "", "", "", ""],
-            full_char="",
-            fontsize=font_config["small_text"],
-        )
-    )
-    logger.debug("BATTERY LOADED")
-    widgets.append(
-        powerline(
-            "color3",
-            "color4",
-            fontsize=font_config["large_icon"],
-            padding=font_config["powerline_padding"],
-        )
-    )
+    # widgets.append(
+    #     Battery(
+    #         **base(bg="color4", fg="dark"),
+    #         format="{char} {percent:2.0%}",
+    #         charge_char="",
+    #         discharge_char=["", "", "", "", ""],
+    #         full_char="",
+    #         fontsize=font_config["small_text"],
+    #     )
+    # )
+    # logger.debug("BATTERY LOADED")
+    # widgets.append(
+    #     powerline(
+    #         "color3",
+    #         "color4",
+    #         fontsize=font_config["small_icon"],
+    #         padding=font_config["powerline_padding"],
+    #     )
+    # )
     widgets.append(
         Volume(
-            **base(bg="color3"),
-            cardid=0,
+            **base(bg="color4"),
+            cardid=1,
             channel="Master",
             padding=10,
             emoji=True,
+            device=None,
             fontsize=font_config["small_text"],
         )
     )
@@ -217,7 +219,6 @@ sfs = 16
 pfs = 36
 
 font_config = load_font_config()
-logger.debug(get_highest_available_res())
 
 my_widgets = [
     make_widgets(font_config),

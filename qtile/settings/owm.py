@@ -127,7 +127,7 @@ class OpenWeatherMap(BaseClass):
     defaults = [
         ("api_key", "", "API Key for OpenWeatherMap data"),
         ("icon_font", None, "Font to use for weather icons"),
-        ("format", "{icon} {temp:.1f}{temp_units}", "Format string",),
+        ("format", " {icon} {temp:.1f}{temp_units}", "Format string",),
         ("update_interval", 3600, "Update interval in seconds between look ups"),
         ("latitude", 51.4934, "Latitude to look up weather data for"),
         ("longitude", 0.0098, "Longitude to look up weather data for"),

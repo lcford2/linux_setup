@@ -1,6 +1,6 @@
 [user]
 	name = Lucas Ford
-	email = lcford2@ncsu.edu
+	email = lucas@botbuilt.com
 
 [color]
 	status = auto
@@ -29,3 +29,8 @@
 	colorMoved = default
 [pull]
 	rebase = false
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

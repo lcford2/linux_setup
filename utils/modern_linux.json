@@ -11,6 +11,7 @@
     "diff": "delta (git-delta)",
     "fuzzy finder": "fzf",
     "grex": "grex",
-    "bandwhich": "bandwhich"
+    "bandwhich": "bandwhich",
+    "tokei": "code statistics"
 }
 

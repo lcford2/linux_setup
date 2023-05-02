@@ -25,11 +25,11 @@ import re
 # nf-mdi-layers, 
 # nf-fa-spotify, 
 
-names = ["browser", "python", "terminal", "vpn",
-         "slack", "music", "scratch", "files"]
+names = ["Browser", "Python", "Terminal", "VPN",
+         "Slack", "Music", "Scratch", "Files"]
 
 spawns = ["", "", "", "",
-          "slack", "", "", ""]
+          "", "", "", ""]
 
 display_names = ["   ", "   ", "   ", " 嬨  ",
                  "   ", "   ", "   ", "   "]
