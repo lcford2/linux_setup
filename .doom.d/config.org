@@ -40,6 +40,11 @@
 (setq display-line-numbers-type t)
 #+end_src
 
+** Column markers
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 79)))
+#+end_src
+
 ** Font size for different resolutions
 #+begin_src emacs-lisp
 ;; update the font size depending on the screen resolution

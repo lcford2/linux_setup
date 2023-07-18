@@ -7,6 +7,7 @@ file-types = ["py"]
 comment-token = "#"
 indent = { tab-width = 4, unit = "    " }
 language-server = { command = "pylsp" }
+formatter = { command = "black", args = ["--quiet", "-", "--line-length", "88"]}
 
 [language.auto-pairs]
 '(' = ')'

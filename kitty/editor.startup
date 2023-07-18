@@ -2,6 +2,6 @@ layout fat:bias=75
 
 cd ~
 
-launch bash
-launch bash
+launch zsh
+launch zsh
 

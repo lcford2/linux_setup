@@ -44,6 +44,22 @@ function safe_link () {
     fi
 }
 
+function parse_args () {
+    export UPDATE=0
+    while test $# -gt 0
+    do
+        case "$1" in
+        -U|--update)
+            echo "Updating packages if existing"
+            export UPDATE=1
+            ;;
+        esac
+        shift
+    done
+}
+
+parse_args "$@"
+
 #### ----------- system update ------------ ####
 # update system and install curl
 # download and install various programs
@@ -97,6 +113,7 @@ safe_link $HOME/linux_setup/vimrc/.vim $HOME/.vim
 safe_link $HOME/linux_setup/misc_config/starship.toml $HOME/.config/starship.toml
 
 # link git setup
+>>>>>>> b47e570bb3d7f73ff70d9ef1ff1ae0bbbbe1cad6
 safe_link $HOME/linux_setup/git/.gitconfig $HOME/.gitconfig
 safe_link $HOME/linux_setup/git/.gitignore $HOME/.gitignore
 
@@ -111,9 +128,9 @@ done
 
 #### --------------- rustup --------------- ####
 print_header "Install Rustup"
-if ! command -v rustup &> /dev/null; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-fi
+# if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# fi
 
 
 #### --------------- emacs ---------------- ####
@@ -122,13 +139,13 @@ print_header "Build Emacs $EMACS_VERSION"
 sudo apt build-dep -y emacs
 sudo apt install -y libgccjit0 libgccjit-10-dev libjansson4 libjansson-dev gnutls-bin
 # get emacs
-if ! command -v emacs &> /dev/null; then
+if ! command -v emacs &> /dev/null || [ "$UPDATE" -eq 1 ]; then
     pushd $HOME/source
     curl -O "https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.xz"
     tar xf emacs-$EMACS_VERSION.tar.xz
     # build emacs
     cd emacs-$EMACS_VERSION
-    ./configure
+    ./configure --with-x-toolkit=lucid
     make -j 4
     sudo make install
     popd
@@ -143,7 +160,7 @@ fi
 
 #### ---------------- nvim ---------------- ####
 print_header "Install NeoVim"
-if ! command -v nvim &> /dev/null; then
+if ! command -v nvim &> /dev/null || [ "$UPDATE" -eq 1 ]; then
     pushd $HOME/Downloads
     wget "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb" -O "nvim-linux64.deb"
     sudo apt install -y ./nvim-linux64.deb
@@ -160,19 +177,24 @@ fi
 print_header "Install Modern Linux Utilities"
 CARGO=$HOME/.cargo/bin/cargo
 
-$CARGO install --locked bat
-$CARGO install git-delta
-$CARGO install du-dust
-$CARGO install exa
-$CARGO install fd-find
-$CARGO install mcfly
-$CARGO install procs
-$CARGO install --locked starship
-$CARGO install ripgrep
+if [ "$UPDATE" -eq 1 ]; then
+    cargo install-update -a
+else
+    $CARGO install cargo-update
+    $CARGO install --locked bat
+    $CARGO install git-delta
+    $CARGO install du-dust
+    $CARGO install exa
+    $CARGO install fd-find
+    $CARGO install mcfly
+    $CARGO install procs
+    $CARGO install --locked starship
+    $CARGO install ripgrep
+fi
 
 #### --------------- kitty ---------------- ####
 print_header "Install Kitty"
-if ! command -v kitty &> /dev/null; then
+if ! command -v kitty &> /dev/null || [ "$UPDATE" -eq 1 ]; then
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
     # Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
     # your system-wide PATH)
@@ -203,7 +225,7 @@ popd
 
 #### ---------------- zsh ----------------- ####
 print_header "Install and Configure ZSH"
-if ! command -v zsh &> /dev/null; then
+if ! command -v zsh &> /dev/null || [ "$UPDATE" -eq 1 ]; then
     pushd $HOME/source
     wget "https://gigenet.dl.sourceforge.net/project/zsh/zsh/$ZSH_VERSION/zsh-$ZSH_VERSION.tar.xz" -O "zsh-$ZSH_VERSION.tar.xz"
     tar xf zsh-$ZSH_VERSION.tar.xz
@@ -261,21 +283,6 @@ if ! command -v conda &> /dev/null; then
     popd
 fi
 
-#### --------------- zsh ------------------ ####
-if ! command -v zsh &> /dev/null; then
-    pushd $HOME/source
-    wget https://versaweb.dl.sourceforge.net/project/zsh/zsh/$ZSH_VERSION/zsh-$ZSH_VERSION.tar.xz
-    tar xf zsh-$ZSH_VERSION.tar.xz
-    cd zsh-$ZSH_VERSION
-    ./configure
-    make -j 4
-    make check && sudo make install
-
-    cd ..
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-    popd
-fi
-
 #### ------------- doom emacs ------------- ####
 if [ ! -f $HOME/.emacs.d/bin/doom ]; then
     if [ -d $HOME/.emacs.d ]; then
@@ -283,4 +290,6 @@ if [ ! -f $HOME/.emacs.d/bin/doom ]; then
     fi
     git clone --depth 1 https://github.com/doomemacs/doomemacs $HOME/.emacs.d
     $HOME/.emacs.d/bin/doom install
+else
+    $HOME/.emacs.d/bin/doom sync
 fi

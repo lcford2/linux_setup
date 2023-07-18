@@ -26,6 +26,8 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+(add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 79)))
+
 ;; update the font size depending on the screen resolution
 (defun fontify-frame (frame)
   (interactive)

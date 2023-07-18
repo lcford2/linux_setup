@@ -12,6 +12,9 @@ compinit
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XGD_CACHE_HOME/zsh/.zcompcache"
 zstyle ':completion:*' menu select
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
+fpath+=~/.zfunc
 
 autoload -U +X compinit
 compinit
@@ -82,7 +85,13 @@ export EDITOR="$(which nvim)"
 # command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 # eval "$(pyenv init -)"
 
+export MCFLY_KEY_SCHEME=vim
+export MCFLY_FUZZY=2
+export MCFLY_RESULTS=50
+export MCFLY_RESULTS_SORT=LAST_RUN
+export MCFLY_HISTORY_LIMIT=10000
 eval "$(mcfly init zsh)"
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -126,4 +135,27 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# cuda setup
+if [ -d /usr/local/cuda ]; then
+  export PATH=/usr/loca/cuda/bin:$PATH
+fi
+
+# gurobi setup
+export GUROBI_HOME="/opt/gurobi1000/linux64"
+export PATH="${PATH}:${GUROBI_HOME}/bin"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
+
+# tesseract setup
+export TESSDATA_PREFIX="${HOME}/.tesseract-data"
+
+# math function
+math() {
+  python -c "from math import *; print($1)"
+}
+
+# flutter setup
+export PATH="$PATH:$HOME/source/flutter/bin"
+
 source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source /home/lucas/.config/broot/launcher/bash/br

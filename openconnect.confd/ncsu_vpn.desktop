@@ -1,8 +1,9 @@
 [Desktop Entry]
 Type=Application
-Exec=konsole --hold -e "fish /home/lford/admin/openconnect.confd/vpn-run.fish"
+# Exec=konsole --hold -e "fish /home/lford/admin/openconnect.confd/vpn-run.fish"
+Exec=gnome-terminal -e "bash /home/lucas/linux_setup/openconnect.confd/vpn-utils.sh"
 #Icon=utilities-terminal
-Icon=/home/lford/admin/openconnect.confd/block_s_ncsu_transparent.png
+Icon=/home/lucas/linux_setup/openconnect.confd/block_s_ncsu_transparent.png
 Terminal=false
 Categories=System;
 # Actions=NewWindow;NewTab;
