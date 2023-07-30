@@ -24,3 +24,6 @@ rofi/config.rasi
 
 # don't track the computer specific fish config
 fish/config.fish
+
+# dont track helix runtime
+helix/runtime
