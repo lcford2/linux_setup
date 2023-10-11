@@ -49,7 +49,7 @@ alias lt="exa -aT --color=always --group-directories-first --icons"       # tree
 alias l.="exa -a | egrep '^\.'"                                           # show only dot files
 alias lg="exa -al --color=always --group-directories-first --icons --git" # git status
 
-# use bat instead of cat 
+# use bat instead of cat
 alias cat="bat --style='header,rule,changes,numbers'"
 alias grep="rg"
 alias find="fd"
@@ -63,7 +63,8 @@ if [[ $TERM == "xterm-kitty" ]]; then
 fi
 
 # alias vim
-alias vim="lvim"
+alias vim="nvim"
+export EDITOR="$(which nvim)"
 
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv
@@ -80,13 +81,11 @@ fi
 export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"
 
-export EDITOR="$(which nvim)"
 
 # export PYENV_ROOT="$HOME/.pyenv"
 # command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 # eval "$(pyenv init -)"
 
-eval "$(mcfly init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -100,7 +99,6 @@ function config-bb-direnv () {
     direnv deny $HOME/dev/wall_panels
     pushd $HOME/dev/wall_panels
     source bb_ws/install/setup.zsh
-    export ROS_DOMAIN_ID=14
     export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     direnv dump > .envrc.cache
     direnv allow .
@@ -108,11 +106,26 @@ function config-bb-direnv () {
 }
 
 function botbuild () {
-    colcon build --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_CXX_FLAGS=-w --symlink-install && \
-      config-bb-direnv
+    direnv deny $HOME/dev/wall_panels
+    pushd $HOME/dev/base_ws
+    source $HOME/dev/base_ws/install/setup.zsh
+    cd ../wall_panels/bb_ws
+    colcon build --cmake-args \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
+        -DCMAKE_CXX_FLAGS=-w \
+        --symlink-install \
+        "$@"
+    source install/setup.zsh
+    export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    cd ..
+    direnv dump > .envrc.cache
+    direnv allow $HOME/dev/wall_panels
+    popd
 }
 
 alias cdw="cd $HOME/dev/wall_panels/bb_ws"
+export ROS_DOMAIN_ID=44
 
 # Isaac Sim Python
 alias omni-python="$HOME/.local/share/ov/pkg/isaac_sim-2022.2.0/python.sh"
@@ -130,11 +143,16 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
+#r <<< conda initialize <<<
+# nicer git commands
+alias pglog="git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
 
 # docker stuff
 export PATH=/usr/bin:$PATH
 # Some applications may require the following environment variable too:
-export DOCKER_HOST=unix:///run/user/1000/docker.sock
+# export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# eval "$(mcfly init zsh)"

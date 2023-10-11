@@ -6,10 +6,7 @@
 
 from libqtile.config import Key, Group, ScratchPad, DropDown
 from libqtile.command import lazy
-# from libqtile.command.client import InteractiveCommandCliecnt
 from .keys import mod, keys
-import subprocess
-import re
 
 
 # Get the icons at https://www.nerdfonts.com/cheat-sheet (you need a Nerd Font)
@@ -31,8 +28,9 @@ names = ["Browser", "Python", "Terminal", "VPN",
 spawns = ["", "", "", "",
           "", "", "", ""]
 
-display_names = ["   ", "   ", "   ", " 嬨  ",
-                 "   ", "   ", "   ", "   "]
+# display_names = ["   ", "   ", "   ", " 嬨  ",
+#                  "   ", "   ", "   ", "   "]
+display_names = [f" {i} " for i in range(1, len(names) + 1)]
 
 groups = [Group(
     name=n,

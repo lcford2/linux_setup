@@ -28,7 +28,7 @@
 [diff]
 	colorMoved = default
 [pull]
-	rebase = false
+	rebase = true
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

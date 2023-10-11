@@ -225,6 +225,17 @@
 (yas-global-mode 1)
 (setq yas-snippet-dirs
       '("~/.doom.d/snippets"))
+;; (use-package yasnippet-radical-snippets
+;;   :ensure t
+;;   :after yasnippet
+;;   :config
+;;   (yasnippet-radical-snippets-initialize))
+;; (require 'package)
+;; (add-to-list 'package-archive'
+;;              '("xaldew" . "https://gustafwaldemarson.com/elpa/"))
+;; (add-to-list 'package-unsigned-archives "xaldew")
+;; (package-initialize)
+
 #+end_src
 ** Python
 #+begin_src emacs-lisp

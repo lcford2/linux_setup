@@ -85,3 +85,6 @@
 (package! dashboard)
 (package! org-jira)
 (package! flymake-ruff)
+(package! yasnippet-radical-snippets
+  :recipe (:host github :repo "Xaldew/yasnippet-radical-snippets"
+           :files (:defaults "snippets" "yasnippet-radical-snippets.el")))

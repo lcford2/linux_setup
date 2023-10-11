@@ -6,7 +6,7 @@
  '(conda-anaconda-home "/home/lucas/miniconda3")
  '(explicit-shell-file-name "/usr/local/bin/zsh")
  '(package-selected-packages
-   '(company-tabnine ggtags color-identifiers-mode rainbow-identifiers tree-sitter-langs tree-sitter writeroom-mode pdf-tools org-tree-slide epresent dashboard))
+   '(fzf company-tabnine ggtags color-identifiers-mode rainbow-identifiers tree-sitter-langs tree-sitter writeroom-mode pdf-tools org-tree-slide epresent dashboard))
  '(safe-local-variable-values
    '((conda-project-env-path . "coregs")
      (conda-project-env-path . "sry-env")

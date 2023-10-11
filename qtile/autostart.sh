@@ -3,8 +3,10 @@
 ndisplays=$(xrandr | grep " connected" | wc -l)
 
 if [ $ndisplays -eq 2 ]; then
-    xrandr --output DP-3 --mode 1920x1080 \
-           --output DP-5 --pos 1920x0 --panning 1920x1080+1920+0
+    xrandr --output DP-5 --mode 1920x1080 \
+           --output DP-1 --pos 1920x0 --panning 1920x1080+1920+0
+    # xrandr --output DP-5 --mode 1920x1080 --rotate left \
+    #        --output DP-1 --pos 1080x0 --panning 1920x1080+1080+0
     sed -i 's/font: "DejaVuSansMono Nerd Font [0-9][0-9]"/font: "DejaVuSansMono Nerd Font 16"/' $HOME/.config/rofi/config.rasi
     sed -i 's/Xft\.dpi:.*/Xft.dpi: 96/' $HOME/.Xresources
 elif [ $ndisplays -eq 3 ]; then
