@@ -100,8 +100,10 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export FAST_DOWNWARD_PATH="/home/lucas/dev/wall_panels/downward"
-export ROS_DOMAIN_ID=14
+export ROS_DOMAIN_ID=44
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+alias cdw="cd $HOME/volume_dev/wall_panels/bb_ws"
+alias bbstart="sudo docker exec botbuilt-amd64-desktop-devel /home/developer/.local/bin/kitty"
 
 function config-bb-direnv () {
     pushd $HOME/dev/wall_panels
@@ -116,6 +118,8 @@ function botbuild () {
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_CXX_FLAGS=-w --symlink-install && \
       config-bb-direnv
 }
+
+
 
 # Isaac Sim Python
 alias omni-python="$HOME/.local/share/ov/pkg/isaac_sim-2022.1.1/python.sh"
@@ -153,8 +157,16 @@ math() {
   python -c "from math import *; print($1)"
 }
 
+f2i() {
+  ~/.local/bin/float_2_inch.py $1
+}
+
 # flutter setup
 export PATH="$PATH:$HOME/source/flutter/bin"
+
+if [ -d "$HOME/balena-cli" ]; then
+  export PATH="$PATH:$HOME/balena-cli"
+fi
 
 source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
