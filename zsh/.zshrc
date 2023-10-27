@@ -52,7 +52,7 @@ alias lt="exa -aT --color=always --group-directories-first --icons"       # tree
 alias l.="exa -a | egrep '^\.'"                                           # show only dot files
 alias lg="exa -al --color=always --group-directories-first --icons --git" # git status
 
-# use bat instead of cat 
+# use bat instead of cat
 alias cat="bat --style='header,rule,changes,numbers'"
 alias grep="rg"
 alias find="fd"
@@ -66,7 +66,9 @@ if [[ $TERM == "xterm-kitty" ]]; then
 fi
 
 # alias vim
-alias vim="lvim"
+export EDITOR="/usr/bin/nvim"
+alias vim="$EDITOR"
+alias vi="$EDITOR"
 
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv
