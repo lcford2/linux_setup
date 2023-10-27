@@ -1,0 +1,10 @@
+layout vertical
+
+launch --title "Robot Control" bash -c "echo 'ros2 launch bb_control team_launch.py'; sudo docker exec -it botbuilt-amd64-desktop-devel bash"
+launch --title "Team Move Group" bash -c "echo 'ros2 launch bb_commander team_move_group.launch.py'; sudo docker exec -it botbuilt-amd64-desktop-devel bash"
+launch --title "Commander" bash -c "echo 'ros2 launch bb_commander commander.launch.py'; sudo docker exec -it botbuilt-amd64-desktop-devel bash"
+launch --title "Scheduler" bash -c "echo 'ros2 run panel_scheduler run_schedule <schedule_name> [-s <start_setup>]'; sudo docker exec -it botbuilt-amd64-desktop-devel bash"
+launch --title "Service Caller" bash -c "echo 'ros2 run rqt_service_caller rqt_service_caller'; sudo docker exec -it botbuilt-amd64-desktop-devel bash"
+
+new_tab
+cd ~
