@@ -85,7 +85,7 @@ lazy.setup({
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 
     -- Indent line
-    { 'lukas-reineke/indent-blankline.nvim' },
+    { 'lukas-reineke/indent-blankline.nvim', main = "ibl", opts = {} },
 
     -- Tag viewer
     { 'preservim/tagbar' },
@@ -120,7 +120,7 @@ lazy.setup({
 
     -- Telescope
     {
-      'nvim-telescope/telescope.nvim', tag = '0.1.1',
+      'nvim-telescope/telescope.nvim', tag = '0.1.3',
       dependencies = { 'nvim-lua/plenary.nvim' }
     },
 
