@@ -91,32 +91,32 @@ lazy.setup({
     { 'preservim/tagbar' },
 
     -- Autopair
-    {
-      'windwp/nvim-autopairs',
-      event = 'InsertEnter',
-      config = function()
-        require('nvim-autopairs').setup{}
-      end
-    },
+    -- {
+    --   'windwp/nvim-autopairs',
+    --   event = 'InsertEnter',
+    --   config = function()
+    --     require('nvim-autopairs').setup{}
+    --   end
+    -- },
 
     -- LSP
-    { 'neovim/nvim-lspconfig' },
+    -- { 'neovim/nvim-lspconfig' },
 
     -- Autocomplete
-    {
-      'hrsh7th/nvim-cmp',
-      -- load cmp on InsertEnter
-      event = 'InsertEnter',
-      -- these dependencies will only be loaded when cmp loads
-      -- dependencies are always lazy-loaded unless specified otherwise
-      dependencies = {
-        'L3MON4D3/LuaSnip',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-buffer',
-        'saadparwaiz1/cmp_luasnip',
-      },
-    },
+   -- {
+   --   'hrsh7th/nvim-cmp',
+   --   -- load cmp on InsertEnter
+   --   event = 'InsertEnter',
+   --   -- these dependencies will only be loaded when cmp loads
+   --   -- dependencies are always lazy-loaded unless specified otherwise
+   --   dependencies = {
+   --     'L3MON4D3/LuaSnip',
+   --     'hrsh7th/cmp-nvim-lsp',
+   --     'hrsh7th/cmp-path',
+   --     'hrsh7th/cmp-buffer',
+   --     'saadparwaiz1/cmp_luasnip',
+   --   },
+   -- },
 
     -- Telescope
     {
@@ -136,9 +136,9 @@ lazy.setup({
     -- { 'kkoomen/vim-doge' },
 
     --lazygit
-    { 'kdheepak/lazygit.nvim' },
+    -- { 'kdheepak/lazygit.nvim' },
 
     -- git gutter
-    { 'airblade/vim-gitgutter' }
+    --{ 'airblade/vim-gitgutter' }
   },
 })

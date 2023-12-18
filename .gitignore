@@ -27,3 +27,6 @@ fish/config.fish
 
 # dont track helix runtime
 helix/runtime
+
+# dont track any undo dir for vim
+vimrc/.vim/undodir
