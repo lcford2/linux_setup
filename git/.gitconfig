@@ -29,6 +29,9 @@
 	colorMoved = default
 [pull]
 	rebase = false
+[push]
+	autoSetupRemote = true
+
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
