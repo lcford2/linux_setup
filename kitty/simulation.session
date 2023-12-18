@@ -1,0 +1,8 @@
+layout vertical
+
+launch --title "Team Move Group" bash -c "echo 'ros2 launch bb_commander fake_team_move_group.launch.py'; $SHELL"
+launch --title "Commander" bash -c "echo 'ros2 launch bb_commander commander.launch.py debug_motion:=false'; $SHELL"
+launch --title "Imagery Clients" bash -c "echo 'ros2 launch imagery_clients simulate.launch.py'; $SHELL"
+launch --title "Simulation Imagery Server" bash -c "echo 'ros2 launch simulation_imagery_server simulation_imagery_server.launch.py'; $SHELL"
+launch --title "Isaac Communicator" bash -c "echo 'ros2 launch isaac_communicator isaac_communicator.launch.py'; $SHELL"
+launch --title "Service Caller" bash -c "echo 'ros2 run rqt_service_caller rqt_service_caller'; $SHELL"
