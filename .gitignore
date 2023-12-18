@@ -3,6 +3,7 @@
 # vim stuff
 vimrc/.vim/bundle/**/*
 vimrc/.vim/.netrwhist
+vimrc/.vim/undodir
 
 # backup file
 **/*.bkp
@@ -25,8 +26,13 @@ rofi/config.rasi
 # don't track the computer specific fish config
 fish/config.fish
 
-# dont track helix runtime
-helix/runtime
+# node modeuls
+node_modules/**
+node_modules
+package*.json
 
-# dont track any undo dir for vim
-vimrc/.vim/undodir
+# ignore lazylock
+nvim/lazy-lock.json
+
+# helix runtime
+helix/runtime

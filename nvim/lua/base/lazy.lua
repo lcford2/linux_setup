@@ -75,7 +75,6 @@ lazy.setup({
           dependencies = { 'kyazdani42/nvim-web-devicons' },
         },
 
-
         -- Editor tools
         { 'mbbill/undotree' },
         { 'terrortylor/nvim-comment' },
@@ -100,8 +99,12 @@ lazy.setup({
                 'lewis6991/gitsigns.nvim',
             },
         },
-        --pydoctstring
+        -- pydoctstring
         { 'heavenshell/vim-pydocstring' },
+        -- vim context
+        { 'wellle/context.vim' },
+        -- indent blankline
+        { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {}},
 
         -- Git Tools
         { 'tpope/vim-fugitive' },
@@ -116,9 +119,6 @@ lazy.setup({
         {'hrsh7th/cmp-nvim-lsp'},
         {'hrsh7th/nvim-cmp'},
         {'L3MON4D3/LuaSnip'},
-
-        -- Indent line
-        -- { 'lukas-reineke/indent-blankline.nvim', main = "ibl", opts = {} },
 
         -- Tag viewer
         -- { 'preservim/tagbar' },
