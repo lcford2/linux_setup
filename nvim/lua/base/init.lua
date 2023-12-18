@@ -1,0 +1,5 @@
+require("base.set")
+require("base.remap")
+require("base.lazy")
+require("base.colors")
+require("base.statusline")
