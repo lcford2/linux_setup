@@ -3,6 +3,7 @@
 # vim stuff
 vimrc/.vim/bundle/**/*
 vimrc/.vim/.netrwhist
+vimrc/.vim/undodir
 
 # backup file
 **/*.bkp
@@ -32,3 +33,6 @@ package*.json
 
 # ignore lazylock
 nvim/lazy-lock.json
+
+# helix runtime
+helix/runtime

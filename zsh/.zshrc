@@ -20,7 +20,9 @@ autoload -U +X bashcompinit && bashcompinit
 eval "$(register-python-argcomplete3 ros2)"
 eval "$(register-python-argcomplete3 colcon)"
 
-source ~/source/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/source/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/source/ohmyzsh/plugins/sudo/sudo.plugin.zsh
 
 # key style
 # bindkey -e
@@ -69,10 +71,6 @@ export EDITOR="$(which nvim)"
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
-
-if [ -f $HOME/.autojump/share/autojump/autojump.zsh ]; then
-    source $HOME/.autojump/share/autojump/autojump.zsh
-fi
 
 if [ -f /usr/share/autojump/autojump.sh ]; then
     source /usr/share/autojump/autojump.sh
@@ -124,6 +122,12 @@ function botbuild () {
     popd
 }
 
+function isaac_env_setup () {
+  export LD_LIBRARY_PATH=
+  export RMW_IMPLEMENTATION=
+  export FASTRTPS_DEFAULT_PROFILES_FILE="/home/lucas/.local/share/ov/pkg/isaac_sim-2022.2.1/ros2_workspace/fastdds.xml"
+}
+
 alias cdw="cd $HOME/dev/wall_panels/bb_ws"
 export ROS_DOMAIN_ID=44
 
@@ -152,7 +156,12 @@ export PATH=/usr/bin:$PATH
 # Some applications may require the following environment variable too:
 # export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
-source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# eval "$(mcfly init zsh)"
+
+export PATH=$PATH:/home/lucas/source/remora-2.0/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/lucas/source/remora-2.0/lib
+export REMORA_BIN=/home/lucas/source/remora-2.0/bin
+
+source /home/lucas/.config/broot/launcher/bash/br
+alias brw="br $HOME/dev/wall_panels/bb_ws/src"
