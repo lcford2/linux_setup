@@ -100,7 +100,9 @@ lazy.setup({
             },
         },
         -- pydoctstring
-        { 'heavenshell/vim-pydocstring' },
+        -- { 'heavenshell/vim-pydocstring' },
+        -- doge documentation generator
+        { 'kkoomen/vim-doge', build = ':call doge#install()' },
         -- vim context
         { 'wellle/context.vim' },
         -- indent blankline
@@ -119,21 +121,5 @@ lazy.setup({
         {'hrsh7th/cmp-nvim-lsp'},
         {'hrsh7th/nvim-cmp'},
         {'L3MON4D3/LuaSnip'},
-
-        -- Tag viewer
-        -- { 'preservim/tagbar' },
-
-        -- Autopair
-        -- {
-        --   'windwp/nvim-autopairs',
-        --   event = 'InsertEnter',
-        --   config = function()
-        --     require('nvim-autopairs').setup{}
-        --   end
-        -- },
-
-        -- --lazygit
-        -- { 'kdheepak/lazygit.nvim' },
-
       },
     })
