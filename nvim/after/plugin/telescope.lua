@@ -14,6 +14,6 @@ vim.keymap.set('n', '<leader>sc', builtin.spell_suggest, {})
 -- git
 vim.keymap.set('n', '<leader>gc', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})
-vim.keymap.set('n', '<leader>gs', builtin.git_status, {})
+-- vim.keymap.set('n', '<leader>gs', builtin.git_status, {})
 -- telescope projects
 vim.keymap.set('n', '<leader>fp', require('telescope').extensions.project.project, {})
