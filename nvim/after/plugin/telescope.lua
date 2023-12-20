@@ -14,8 +14,8 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "[F]ind [B]uffers" }
 -- spelling
 vim.keymap.set('n', '<leader>sc', builtin.spell_suggest, { desc = "[S]pell [C]heck" })
 -- git
-vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = "Show [G]it [C]ommits" })
-vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = "Show [G]it [B]ranches" })
+vim.keymap.set('n', '<leader>fgc', builtin.git_commits, { desc = "[F]ind [G]it [C]ommits" })
+vim.keymap.set('n', '<leader>fgb', builtin.git_branches, { desc = "[F]ind [G]it [B]ranches" })
 -- vim.keymap.set('n', '<leader>gs', builtin.git_status, {})
 -- telescope projects
 vim.keymap.set('n', '<leader>fp', require('telescope').extensions.project.project,
