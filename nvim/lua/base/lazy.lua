@@ -107,6 +107,8 @@ lazy.setup({
         { 'wellle/context.vim' },
         -- indent blankline
         { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {}},
+        -- detect tab stops automatically
+        -- { 'tpope/vim-sleuth' },
 
         -- Git Tools
         { 'tpope/vim-fugitive' },

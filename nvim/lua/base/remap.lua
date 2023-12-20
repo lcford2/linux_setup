@@ -17,5 +17,13 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- half page down but stay in middle of screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+-- search but stay in middle of screen
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<leader>F", vim.lsp.buf.format)
+-- paste without overwriting register
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- yank to system clipboard
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
