@@ -1,4 +1,3 @@
-
 local status_ok, nvim_tree = pcall(require, 'nvim_comment')
 if not status_ok then
   return

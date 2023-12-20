@@ -5,10 +5,10 @@ vim.keymap.set("n", "<leader>od", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>u", ":UndotreeShow<CR>")
 
 -- Terminal mappings
-vim.keymap.set("n", "<leader>ot", ':Term<CR>', { noremap = true })  -- open
+vim.keymap.set("n", "<leader>ot", ':Term<CR>', { noremap = true }) -- open
 
 -- window rebinds to leader
-vim.keymap.set("n", "<leader>w", "<C-w>", { noremap = true})
+vim.keymap.set("n", "<leader>w", "<C-w>", { noremap = true })
 
 -- use move command to move highlighted code around
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -25,5 +25,5 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- yank to system clipboard
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
