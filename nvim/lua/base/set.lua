@@ -76,3 +76,8 @@ autocmd('BufLeave', {
   pattern = 'term://*',
   command = 'stopinsert'
 })
+autocmd("TermClose", {
+    callback = function()
+       vim.cmd("close")
+    end
+})
