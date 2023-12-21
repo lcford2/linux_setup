@@ -27,3 +27,13 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- yank to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
+
+-- open a terminal below
+function OpenTerminal()
+  local shell = os.getenv("SHELL")
+  local term_open_cmd = "botright split term://" .. shell
+  vim.cmd(term_open_cmd)
+  vim.cmd("resize 20")
+end
+
+vim.keymap.set("n", "<leader>ot", OpenTerminal)
