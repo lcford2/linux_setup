@@ -17,7 +17,7 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",     -- latest stable release
+    "--branch=stable", -- latest stable release
     lazypath,
   })
 end
@@ -36,23 +36,17 @@ lazy.setup({
     -- panda color scheme
     {
       'markvincze/panda-vim',
-      lazy = false,          -- make sure we load this during startup if it is your main colorscheme
-      priority = 1000,       -- make sure to load this before all the other start plugins
     },
     {
       'rafi/awesome-vim-colorschemes',
-      lazy = false,          -- make sure we load this during startup if it is your main colorscheme
-      priority = 1000,       -- make sure to load this before all the other start plugins
     },
     {
       'sainnhe/everforest',
-      lazy = false,          -- make sure we load this during startup if it is your main colorscheme
-      priority = 1000,       -- make sure to load this before all the other start plugins
+      lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+      priority = 1000, -- make sure to load this before all the other start plugins
     },
     {
       'navarasu/onedark.nvim',
-      lazy = false,        -- make sure we load this during startup if it is your main colorscheme
-      priority = 1000,     -- make sure to load this before all the other start plugins
     },
     -- Icons
     { 'kyazdani42/nvim-web-devicons', lazy = true },
@@ -108,13 +102,12 @@ lazy.setup({
     { 'wellle/context.vim' },
     -- indent blankline
     { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',                  opts = {} },
-    -- detect tab stops automatically
-    -- { 'tpope/vim-sleuth' },
 
     -- Git Tools
     { 'tpope/vim-fugitive' },
     -- git gutter
     { 'airblade/vim-gitgutter' },
+    { 'f-person/git-blame.nvim' },
 
     -- LSP Zero Setup
     { 'VonHeikemen/lsp-zero.nvim',           branch = 'v3.x' },
