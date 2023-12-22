@@ -74,6 +74,7 @@ lazy.setup({
     { 'mbbill/undotree' },
     { 'terrortylor/nvim-comment' },
     { 'nvim-treesitter/nvim-treesitter',      build = ':TSUpdate' },
+    { 'nvim-treesitter/nvim-treesitter-context' },
     -- Git labels
     {
       'lewis6991/gitsigns.nvim',
@@ -99,7 +100,7 @@ lazy.setup({
     -- doge documentation generator
     { 'kkoomen/vim-doge',                    build = ':call doge#install()' },
     -- vim context
-    { 'wellle/context.vim' },
+    -- { 'wellle/context.vim' },
     -- indent blankline
     { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',                  opts = {} },
 

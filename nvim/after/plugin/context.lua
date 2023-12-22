@@ -1,1 +1,1 @@
-vim.g.context_enabled = 1
+vim.g.context_enabled = 0
