@@ -44,7 +44,7 @@ augroup('setIndent', { clear = true })
 autocmd('Filetype', {
   group = 'setIndent',
   pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript',
-    'yaml', 'lua', 'sh', 'bash', 'zsh'
+    'yaml', 'lua', 'sh', 'bash', 'zsh', 'cpp', 'hpp', 'c', 'h'
   },
   command = 'setlocal shiftwidth=2 tabstop=2 softtabstop=2'
 })
