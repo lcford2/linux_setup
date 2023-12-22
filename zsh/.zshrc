@@ -86,12 +86,12 @@ if [ -f $HOME/.autojump/share/autojump/autojump.zsh ]; then
     source $HOME/.autojump/share/autojump/autojump.zsh
 fi
 
-export MCFLY_KEY_SCHEME=vim
-export MCFLY_FUZZY=2
-export MCFLY_RESULTS=50
-export MCFLY_RESULTS_SORT=LAST_RUN
-export MCFLY_HISTORY_LIMIT=10000
-eval "$(mcfly init zsh)"
+# export MCFLY_KEY_SCHEME=vim
+# export MCFLY_FUZZY=2
+# export MCFLY_RESULTS=50
+# export MCFLY_RESULTS_SORT=LAST_RUN
+# export MCFLY_HISTORY_LIMIT=10000
+# eval "$(mcfly init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -125,3 +125,4 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 export PIPENV_PYTHON="$PYENV_ROOT/shims/python"
 
 eval "$(pyenv init -)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
