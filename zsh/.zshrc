@@ -1,6 +1,11 @@
-# History
+# handle XDG_CONFIG_DIR not being set
+if [ -z "${XDG_CONFIG_HOME}" ]; then
+  export XDG_CONFIG_HOME="${HOME}/.config"
+fi
 
 export KITTY_CONFIG_DIRECTORY="~/.config/kitty"
+
+# History
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
 export HISTFILE=~/.zshhistory
