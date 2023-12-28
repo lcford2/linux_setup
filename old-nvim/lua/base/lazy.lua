@@ -109,6 +109,8 @@ lazy.setup({
     -- git gutter
     { 'airblade/vim-gitgutter' },
     { 'f-person/git-blame.nvim' },
+    -- neovim tmux integration
+    { 'christoomey/vim-tmux-navigator' },
 
     -- LSP Zero Setup
     { 'VonHeikemen/lsp-zero.nvim',           branch = 'v3.x' },
