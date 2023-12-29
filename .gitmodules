@@ -1,9 +1,9 @@
 [submodule "nvim"]
 	path = nvim
-	url = https://github.com/lcford2/nvim.git
+	url = git@github.com:/lcford2/nvim.git
 [submodule "tmux"]
 	path = tmux
-	url = https://github.com/lcford2/tmux.git
+	url = git@github.com:/lcford2/tmux.git
 [submodule "qtile-openweathermap"]
     path = qtile/qtile-openweathermap
     url = https://github.com/sffjunkie/qtile-openweathermap.git
