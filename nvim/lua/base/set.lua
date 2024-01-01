@@ -9,6 +9,11 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+vim.opt.completeopt = 'menuone,noselect'
+
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
@@ -32,8 +37,8 @@ vim.g.mapleader = " "
 
 
 -- autocommands
-local augroup = vim.api.nvim_create_augroup   -- Create/get autocommand group
-local autocmd = vim.api.nvim_create_autocmd   -- Create autocommand
+local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
+local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 -- Set indentation to 2 spaces
 augroup('setIndent', { clear = true })
 autocmd('Filetype', {
@@ -46,7 +51,7 @@ autocmd('Filetype', {
 
 autocmd('Filetype', {
   group = 'setIndent',
-  pattern = {'python'},
+  pattern = { 'python' },
   command = 'setlocal shiftwidth=4 tabstop=4 softtabstop=4'
 })
 
