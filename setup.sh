@@ -91,7 +91,6 @@ safe_link $HOME/linux_setup/nvim      $HOME/.config/nvim
 
 # link vim and doom directories (in $HOME)
 safe_link $HOME/linux_setup/.doom.d    $HOME/.doom.d
-safe_link $HOME/linux_setup/vimrc/.vim $HOME/.vim
 
 # link starship.toml file
 safe_link $HOME/linux_setup/misc_config/starship.toml $HOME/.config/starship.toml
