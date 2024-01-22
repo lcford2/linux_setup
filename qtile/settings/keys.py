@@ -21,7 +21,8 @@ def logout_session():
 
 mod = "mod4"
 launch_emacs = "emacsclient -c -a 'emacs'"
-term = "kitty"
+# term = "kitty"
+term = "alacritty"
 home = os.path.expanduser("~")
 
 keys = [Key(key[0], key[1], *key[2:]) for key in [
@@ -68,7 +69,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     # ------------ App Configs ------------
 
     # Menu
-    ([mod], "m", lazy.spawn("rofi -show drun")),
+    ([mod], "space", lazy.spawn("rofi -show drun")),
     # ([mod], "m", lazy.spawn("ulauncher-toggle")),
     ([mod], "s", lazy.spawn("rofi -show ssh")),
     ([mod], "p", lazy.spawn("rofi -show p -modi p:rofi-power-menu")),
@@ -89,7 +90,8 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod, "shift"], "z", lazy.spawn("filezilla")),
 
     # Terminal
-    ([mod], "Return", lazy.spawn(f"{term} --session={home}/.config/kitty/editor.startup")),
+    # ([mod], "Return", lazy.spawn(f"{term} --session={home}/.config/kitty/editor.startup")),
+    ([mod], "Return", lazy.spawn(f"{term} -e tmux")),
     ([mod, "shift"], "Return", lazy.spawn(f"{term} --session={home}/.config/kitty/bb.startup")),
 
     # Emacs
