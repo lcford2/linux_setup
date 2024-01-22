@@ -28,6 +28,8 @@ source $HOME/source/ohmyzsh/plugins/sudo/sudo.plugin.zsh
 # bindkey -e
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[4~' end-of-line
 bindkey '^[[1;5C' emacs-forward-word
 bindkey '^[[1;5D' emacs-backward-word
 bindkey "^[[3~" delete-char
@@ -165,3 +167,4 @@ export REMORA_BIN=/home/lucas/source/remora-2.0/bin
 
 source /home/lucas/.config/broot/launcher/bash/br
 alias brw="br $HOME/dev/wall_panels/bb_ws/src"
+fpath+=${ZDOTDIR:-~}/.zsh_functions
