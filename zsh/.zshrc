@@ -168,3 +168,6 @@ export REMORA_BIN=/home/lucas/source/remora-2.0/bin
 source /home/lucas/.config/broot/launcher/bash/br
 alias brw="br $HOME/dev/wall_panels/bb_ws/src"
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+eval "$(zoxide init zsh --cmd cd)"
+eval $(thefuck --alias)
