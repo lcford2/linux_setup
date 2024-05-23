@@ -5,24 +5,30 @@ export SAVEHIST=$HISTSIZE
 export HISTFILE=~/.zshhistory
 setopt EXTENDED_HISTORY
 
-# completion
-zstyle ':completion:*' completer _complete _ignored
-autoload -U compinit
+# source custom completions
+fpath=(~/.zsh/completion $fpath)
+
+autoload -Uz compinit
 compinit
+
+# completion
+zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XGD_CACHE_HOME/zsh/.zcompcache"
-zstyle ':completion:*' menu select
+# zstyle ':completion:*' menu select
 
-autoload -U +X compinit
-compinit
+# select first match of completion
+# bindkey '^I' menu-complete
 
-autoload -U +X bashcompinit && bashcompinit
-eval "$(register-python-argcomplete3 ros2)"
-eval "$(register-python-argcomplete3 colcon)"
+setopt AUTO_LIST
+
+# autoload -U +X bashcompinit && bashcompinit
+# eval "$(register-python-argcomplete3 ros2)"
+# eval "$(register-python-argcomplete3 colcon)"
 
 source $HOME/source/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/source/ohmyzsh/plugins/sudo/sudo.plugin.zsh
+# source $HOME/source/ohmyzsh/plugins/sudo/sudo.plugin.zsh
 
 # key style
 # bindkey -e
