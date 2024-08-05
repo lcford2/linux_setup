@@ -15,31 +15,13 @@ setopt EXTENDED_HISTORY
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 plug "zsh-users/zsh-autosuggestions"
 plug "zap-zsh/supercharge"
-# plug "zap-zsh/zap-prompt"
 plug "zsh-users/zsh-syntax-highlighting"
 plug "greymd/docker-zsh-completion"
 
 # Load and initialise completion system
-autoload -Uz compinit
-compinit
+setopt NO_BEEP NO_AUTOLIST BASH_AUTOLIST NO_MENUCOMPLETE
 
-# completion
-# zstyle ':completion:*' completer _complete _ignored
-# autoload -U compinit
-# compinit
-# zstyle ':completion:*' use-cache on
-# zstyle ':completion:*' cache-path "$XGD_CACHE_HOME/zsh/.zcompcache"
-# zstyle ':completion:*' menu select
-# zstyle ':completion:*:*:docker:*' option-stacking yes
-# zstyle ':completion:*:*:docker-*:*' option-stacking yes
 # fpath+=~/.zfunc
-
-# autoload -U +X compinit
-# compinit
-
-# autoload -U +X bashcompinit && bashcompinit
-
-# source ~/source/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # key style
 # bindkey -e
@@ -60,13 +42,13 @@ fi
 eval "$(starship init zsh)"
 
 ## Useful aliases
-# use exa instead of ls
-alias ls="exa -alg --color=always --group-directories-first --icons"      # preferred listing
-alias la="exa -a --color=always --group-directories-first --icons"        # all files and dirs
-alias ll="exa -lg --color=always --group-directories-first --icons"       # long format
-alias lt="exa -aT --color=always --group-directories-first --icons"       # tree listing
-alias l.="exa -a | egrep '^\.'"                                           # show only dot files
-alias lg="exa -al --color=always --group-directories-first --icons --git" # git status
+# use eza instead of ls
+alias ls="eza -alg --color=always --group-directories-first --icons"      # preferred listing
+alias la="eza -a --color=always --group-directories-first --icons"        # all files and dirs
+alias ll="eza -lg --color=always --group-directories-first --icons"       # long format
+alias lt="eza -aT --color=always --group-directories-first --icons"       # tree listing
+alias l.="eza -a | egrep '^\.'"                                           # show only dot files
+alias lg="eza -al --color=always --group-directories-first --icons --git" # git status
 
 # use bat instead of cat
 alias cat="bat --style='header,rule,changes,numbers'"
@@ -74,7 +56,9 @@ alias grep="rg"
 alias find="fd"
 alias df="duf"
 alias du="dust"
-alias fzfp="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+alias fzf="fzf \
+  --height 40% \
+  --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 
 
 if [[ $TERM == "xterm-kitty" ]]; then
@@ -91,13 +75,6 @@ if [ -f $HOME/.autojump/share/autojump/autojump.zsh ]; then
     source $HOME/.autojump/share/autojump/autojump.zsh
 fi
 
-# export MCFLY_KEY_SCHEME=vim
-# export MCFLY_FUZZY=2
-# export MCFLY_RESULTS=50
-# export MCFLY_RESULTS_SORT=LAST_RUN
-# export MCFLY_HISTORY_LIMIT=10000
-# eval "$(mcfly init zsh)"
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -105,7 +82,7 @@ export NVM_DIR="$HOME/.nvm"
 export FAST_DOWNWARD_PATH="/home/lucas/dev/wall_panels/downward"
 export ROS_DOMAIN_ID=44
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-alias cdw="cd $HOME/dev/wall_panels/bb_ws"
+alias cdw="cd $HOME/volume_dev/wall_panels/bb_ws"
 alias bbstart="sudo docker exec botbuilt-amd64-desktop-devel /home/developer/.local/bin/kitty"
 
 
@@ -119,7 +96,9 @@ f2i() {
 }
 
 # flutter setup
-export PATH="$PATH:$HOME/source/flutter/bin"
+if [ -d "${HOME}/source/flutter" ]; then
+  export PATH="$PATH:$HOME/source/flutter/bin"
+fi
 
 if [ -d "$HOME/balena-cli" ]; then
   export PATH="$PATH:$HOME/balena-cli"
@@ -130,4 +109,23 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 export PIPENV_PYTHON="$PYENV_ROOT/shims/python"
 
 eval "$(pyenv init -)"
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_DEFAULT_OPTS="--height 40% --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/dotfiles/fzf/fzf-git.sh ] && source ~/dotfiles/fzf/fzf-git.sh
+
+# register auto complete for commitizen
+eval "$(register-python-argcomplete cz)"
+eval "$(zoxide init --cmd cd zsh)"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+export SAMBA_USERNAME="botbuilt"
+export SAMBA_PASSWORD="botbuilt"
+
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+
+# docker path
+export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
