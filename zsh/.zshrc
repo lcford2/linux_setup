@@ -15,16 +15,12 @@ compinit
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XGD_CACHE_HOME/zsh/.zcompcache"
-# zstyle ':completion:*' menu select
-
-# select first match of completion
-# bindkey '^I' menu-complete
 
 setopt AUTO_LIST
 
-# autoload -U +X bashcompinit && bashcompinit
-# eval "$(register-python-argcomplete3 ros2)"
-# eval "$(register-python-argcomplete3 colcon)"
+autoload -U +X bashcompinit && bashcompinit
+eval "$(register-python-argcomplete3 ros2)"
+eval "$(register-python-argcomplete3 colcon)"
 
 source $HOME/source/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/source/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -112,7 +108,7 @@ function config-bb-direnv () {
 }
 
 function botbuild () {
-    direnv deny $HOME/dev/wall_panels
+    # direnv deny $HOME/dev/wall_panels
     pushd $HOME/dev/base_ws
     source $HOME/dev/base_ws/install/setup.zsh
     cd ../wall_panels/bb_ws
@@ -124,9 +120,9 @@ function botbuild () {
         "$@"
     source install/setup.zsh
     export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    cd ..
-    direnv dump > .envrc.cache
-    direnv allow $HOME/dev/wall_panels
+    # cd ..
+    # direnv dump > .envrc.cache
+    # direnv allow $HOME/dev/wall_panels
     popd
 }
 
@@ -171,9 +167,16 @@ export PATH=$PATH:/home/lucas/source/remora-2.0/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/lucas/source/remora-2.0/lib
 export REMORA_BIN=/home/lucas/source/remora-2.0/bin
 
-source /home/lucas/.config/broot/launcher/bash/br
+# source /home/lucas/.config/broot/launcher/bash/br
 alias brw="br $HOME/dev/wall_panels/bb_ws/src"
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-eval "$(zoxide init zsh --cmd cd)"
+# eval "$(zoxide init zsh --cmd cd)"
 eval $(thefuck --alias)
+
+# RMW
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+export ROS_DOMAIN_ID=44
+
+# balena 
+export PATH="${PATH}:${HOME}/balena-cli"
