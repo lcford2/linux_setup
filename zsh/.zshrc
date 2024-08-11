@@ -14,14 +14,23 @@ setopt EXTENDED_HISTORY
 # Configure ZAP
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 plug "zsh-users/zsh-autosuggestions"
-plug "zap-zsh/supercharge"
 plug "zsh-users/zsh-syntax-highlighting"
 plug "greymd/docker-zsh-completion"
 
 # Load and initialise completion system
-setopt NO_BEEP NO_AUTOLIST BASH_AUTOLIST NO_MENUCOMPLETE
+# Enable incremental completion
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 
-# fpath+=~/.zfunc
+# Use menu select to navigate through options
+zstyle ':completion:*' menu select=long-list
+
+# Avoid automatically completing the first match
+zstyle ':completion:*' accept-exact false
+# Only complete up to the first ambiguity
+setopt noautomenu
+setopt listambiguous
+
+
 
 # key style
 # bindkey -e
