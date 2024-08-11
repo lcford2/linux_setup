@@ -30,8 +30,6 @@ zstyle ':completion:*' accept-exact false
 setopt noautomenu
 setopt listambiguous
 
-
-
 # key style
 # bindkey -e
 bindkey '^[[H' beginning-of-line
@@ -113,11 +111,11 @@ if [ -d "$HOME/balena-cli" ]; then
   export PATH="$PATH:$HOME/balena-cli"
 fi
 
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PIPENV_PYTHON="$PYENV_ROOT/shims/python"
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# export PIPENV_PYTHON="$PYENV_ROOT/shims/python"
 
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS="--height 40% --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 
@@ -125,7 +123,6 @@ export FZF_DEFAULT_OPTS="--height 40% --preview 'bat --color=always --style=numb
 [ -f ~/dotfiles/fzf/fzf-git.sh ] && source ~/dotfiles/fzf/fzf-git.sh
 
 # register auto complete for commitizen
-eval "$(register-python-argcomplete cz)"
 eval "$(zoxide init --cmd cd zsh)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -138,3 +135,4 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
 # docker path
 export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+export OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3
