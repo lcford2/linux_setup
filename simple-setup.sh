@@ -54,3 +54,6 @@ git clone https://github.com/lcford2/tmux.git ${HOME}/.config/tmux
 # get TPM for tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tpm/plugins/tpm
 
+# change ps1
+print_header "Changing Prompt"
+echo 'export PS1="[\e[0;34m\u@\h \e[0m\e[0;32m\@\e[0m] \w\n$ "' >> ~/.bashrc
