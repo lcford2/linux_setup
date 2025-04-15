@@ -7,7 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Lucas Ford"
-      user-mail-address "lcford2@ncsu.edu")
+      user-mail-address "lucas@botbuilt.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -19,7 +19,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 18 :weight 'semi-light)
+ (setq doom-font (font-spec :family "DejaVuSansM Nerd Font" :size 18 :weight 'semi-light)
        doom-variable-pitch-font (font-spec :family "DejaVuSans Mono" :size 18))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and

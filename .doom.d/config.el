@@ -13,8 +13,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 16 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16))
+ (setq doom-font (font-spec :family "DejaVuSansM Nerd Font" :size 16 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "DejaVuSansM Nerd Font" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -34,8 +34,8 @@
   (if window-system
     (progn
       (if (> (nth 3 (assq 'geometry (frame-monitor-attributes))) 3000)
-        (set-frame-parameter frame 'font "DejaVuSansMono Nerd Font 32") ;; laptop screen
-      (set-frame-parameter frame 'font "DejaVuSansMono Nerd Font 18"))))) ;
+        (set-frame-parameter frame 'font "DejaVuSansM Nerd Font 32") ;; laptop screen
+      (set-frame-parameter frame 'font "DejaVuSansM Nerd Font 18"))))) ;
 
 ;; fontify current frame
 (fontify-frame nil)
@@ -96,7 +96,7 @@
 ;;                             ("lcford185@gmail.com" . "~/Documents/org/agenda/gcal/personal.org")
 ;;                             ("foreverford2020@gmail.com" . "~/Documents/org/agenda/gcal/joint.org")))
 
-(setq vterm-shell "/usr/local/bin/zsh")
+(setq vterm-shell "/bin/zsh")
 
 (use-package writeroom-mode
   :config

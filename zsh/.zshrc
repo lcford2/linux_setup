@@ -108,7 +108,7 @@ if [ -d "${HOME}/source/flutter" ]; then
 fi
 
 if [ -d "$HOME/balena-cli" ]; then
-  export PATH="$PATH:$HOME/balena-cli"
+  export PATH="$HOME/balena-cli:$PATH"
 fi
 
 # export PYENV_ROOT="$HOME/.pyenv"
@@ -136,3 +136,15 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 # docker path
 export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
 export OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3
+
+# add brew bin to path
+export PATH="/opt/homebrew/bin:${PATH}"
+export PATH=${PATH}:/Users/lucas/Library/Python/3.13/bin
+
+export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
+export ZEPHYR_BASE=~/zephyrproject/zephyr
+
+if [ -f "$HOME/.secrets/keys.sh" ]; then
+    source "$HOME/.secrets/keys.sh"
+fi
+

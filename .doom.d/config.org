@@ -20,8 +20,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 16 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16))
+ (setq doom-font (font-spec :family "DejaVuSansM Nerd Font" :size 16 :weight 'semi-light)
+       doom-variable-pitch-font (font-spec :family "DejaVuSansM Nerd Font" :size 16))
 #+end_src
 
 ** Doom theming
@@ -53,8 +53,8 @@
   (if window-system
     (progn
       (if (> (nth 3 (assq 'geometry (frame-monitor-attributes))) 3000)
-        (set-frame-parameter frame 'font "DejaVuSansMono Nerd Font 32") ;; laptop screen
-      (set-frame-parameter frame 'font "DejaVuSansMono Nerd Font 18"))))) ;
+        (set-frame-parameter frame 'font "DejaVuSansM Nerd Font 32") ;; laptop screen
+      (set-frame-parameter frame 'font "DejaVuSansM Nerd Font 18"))))) ;
 
 ;; fontify current frame
 (fontify-frame nil)
@@ -153,7 +153,7 @@
 
 * VTerm
 #+begin_src emacs-lisp
-(setq vterm-shell "/usr/local/bin/zsh")
+(setq vterm-shell "/bin/zsh")
 #+end_src
 
 * Whiteroom

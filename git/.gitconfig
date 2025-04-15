@@ -12,6 +12,8 @@
 	pager = delta
 	excludesFile = ~/.gitignore
     fsmonitor = true
+    untrackedcache = true
+	preloadindex = true
 
 [alias]
     blame = blame -w -C -C -C
@@ -62,7 +64,7 @@
 [diff]
 	colorMoved = default
 [pull]
-	rebase = false
+	rebase = true
 [push]
 	autoSetupRemote = true
 
@@ -73,5 +75,6 @@
 	process = git-lfs filter-process
 
 [maintenance]
-	repo = /Users/lucas/volume_dev/wall_panels/bb_ws/src/bb_commander
-	repo = /Users/lucas/linux_setup
+	repo = /Users/lucas/botbuilt
+[index]
+	version = 4
