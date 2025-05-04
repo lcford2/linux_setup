@@ -174,6 +174,7 @@ lazy.setup({
 
     -- Git Tools
     { 'tpope/vim-fugitive' },
+    { 'sindrets/diffview.nvim' },
     -- git gutter
     { 'airblade/vim-gitgutter' },
     { 'f-person/git-blame.nvim' },

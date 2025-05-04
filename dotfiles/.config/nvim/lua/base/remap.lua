@@ -56,20 +56,20 @@ function SetWindowHeightAsRatio(ratio)
 end
 
 function ZoomWindow()
-   local total_width = GetVimWidth()
-   local total_height = GetVimHeight()
+  local total_width = GetVimWidth()
+  local total_height = GetVimHeight()
 
-   -- Calculate new width and height for 80% of the available space
-   local new_width = math.floor(total_width * 0.8)
-   local new_height = math.floor(total_height * 0.8)
+  -- Calculate new width and height for 80% of the available space
+  local new_width = math.floor(total_width * 0.8)
+  local new_height = math.floor(total_height * 0.8)
 
-   if #vim.api.nvim_tabpage_list_wins(0) == 1 then
-     -- Only one window, make it full screen
-     vim.cmd("resize " .. total_height)
-     vim.cmd("vertical resize " .. total_width)
-   else
-     -- Resize to 80%
-     vim.cmd("resize " .. new_height)
-     vim.cmd("vertical resize " .. new_width)
-   end
+  if #vim.api.nvim_tabpage_list_wins(0) == 1 then
+    -- Only one window, make it full screen
+    vim.cmd("resize " .. total_height)
+    vim.cmd("vertical resize " .. total_width)
+  else
+    -- Resize to 80%
+    vim.cmd("resize " .. new_height)
+    vim.cmd("vertical resize " .. new_width)
+  end
 end

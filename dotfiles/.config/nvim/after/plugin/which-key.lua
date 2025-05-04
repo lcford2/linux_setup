@@ -32,95 +32,97 @@ local opts = {
 -- Using the format that matches the which-key suggested spec
 local mappings = {
   -- Find section
-  { " f", name = "Find" },
-  { " ff", "<cmd>Telescope find_files<cr>", desc = "Find File" },
-  { " ft", "<cmd>Telescope live_grep<cr>", desc = "Grep" },
-  { " fT", "<cmd>Telescope current_buffer_fuzze_find<cr>", desc = "Fuzzy Find in File" },
-  { " fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
-  { " fk", "<cmd>Telescope keymaps<cr>", desc = "Find Keymaps" },
-  { " fh", "<cmd>Telescope help_tags<cr>", desc = "Find Help Tags" },
-  { " fc", "<cmd>Telescope colorscheme<cr>", desc = "Find Colorscheme" },
-  { " fd", "<cmd>Telescope diagnostics<cr>", desc = "Find Diagnostics" },
+  { " f",   name = "Find" },
+  { " ff",  "<cmd>Telescope find_files<cr>",                                                       desc = "Find File" },
+  { " ft",  "<cmd>Telescope live_grep<cr>",                                                        desc = "Grep" },
+  { " fT",  "<cmd>Telescope current_buffer_fuzze_find<cr>",                                        desc = "Fuzzy Find in File" },
+  { " fr",  "<cmd>Telescope oldfiles<cr>",                                                         desc = "Recent Files" },
+  { " fk",  "<cmd>Telescope keymaps<cr>",                                                          desc = "Find Keymaps" },
+  { " fh",  "<cmd>Telescope help_tags<cr>",                                                        desc = "Find Help Tags" },
+  { " fc",  "<cmd>Telescope colorscheme<cr>",                                                      desc = "Find Colorscheme" },
+  { " fd",  "<cmd>Telescope diagnostics<cr>",                                                      desc = "Find Diagnostics" },
   -- Find Git section
-  { " fg", name = "Git" },
-  { " fgf", "<cmd>Telescope git_files<cr>", desc = "Files" },
-  { " fgc", "<cmd>Telescope git_commits<cr>", desc = "Commits" },
-  { " fgb", "<cmd>Telescope git_branches<cr>", desc = "Branches" },
-  
+  { " fg",  name = "Git" },
+  { " fgf", "<cmd>Telescope git_files<cr>",                                                        desc = "Files" },
+  { " fgc", "<cmd>Telescope git_commits<cr>",                                                      desc = "Commits" },
+  { " fgb", "<cmd>Telescope git_branches<cr>",                                                     desc = "Branches" },
+
   -- Buffers section
-  { " b", name = "Buffers" },
-  { " bl", "<cmd>bprev<cr>", desc = "Last Buffer" },
-  { " bn", "<cmd>bnext<cr>", desc = "Next Buffer" },
-  { " bb", "<cmd>Telescope buffers<cr>", desc = "Find Buffers" },
-  
+  { " b",   name = "Buffers" },
+  { " bl",  "<cmd>bprev<cr>",                                                                      desc = "Last Buffer" },
+  { " bn",  "<cmd>bnext<cr>",                                                                      desc = "Next Buffer" },
+  { " bb",  "<cmd>Telescope buffers<cr>",                                                          desc = "Find Buffers" },
+
   -- GoTo section
-  { " g", name = "GoTo" },
-  { " gd", function() require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" }) end, desc = "Definition" },
-  { " gD", vim.lsp.buf.declaration, desc = "Declaration" },
-  { " gi", vim.lsp.buf.implementation, desc = "Implementation" },
-  { " gt", vim.lsp.buf.type_definition, desc = "Type Definition" },
-  
+  { " g",   name = "GoTo" },
+  { " gd",  function() require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" }) end, desc = "Definition" },
+  { " gD",  vim.lsp.buf.declaration,                                                               desc = "Declaration" },
+  { " gi",  vim.lsp.buf.implementation,                                                            desc = "Implementation" },
+  { " gt",  vim.lsp.buf.type_definition,                                                           desc = "Type Definition" },
+
   -- LSP section
-  { " l", name = "LSP" },
+  { " l",   name = "LSP" },
   -- LSP Workspace section
-  { " lw", name = "Workspace" },
-  { " lwa", vim.lsp.buf.add_workspace_folder, desc = "Add Folder" },
-  { " lwr", vim.lsp.buf.remove_workspace_folder, desc = "Remove Folder" },
-  { " lwl", vim.lsp.buf.list_workspace_folders, desc = "List Folders" },
+  { " lw",  name = "Workspace" },
+  { " lwa", vim.lsp.buf.add_workspace_folder,                                                      desc = "Add Folder" },
+  { " lwr", vim.lsp.buf.remove_workspace_folder,                                                   desc = "Remove Folder" },
+  { " lwl", vim.lsp.buf.list_workspace_folders,                                                    desc = "List Folders" },
   -- Other LSP commands
-  { " lr", vim.lsp.buf.rename, desc = "Rename" },
-  { " la", vim.lsp.buf.code_action, desc = "Code Action" },
-  { " lf", vim.lsp.buf.format, desc = "Format Buffer" },
-  { " ln", function() vim.diagnostic.goto_next() end, desc = "Next Problem" },
-  { " lp", function() vim.diagnostic.goto_prev() end, desc = "Previous Problem" },
-  { " lh", vim.lsp.buf.hover, desc = "Function Help" },
-  { " ls", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
-  { " lR", "<cmd>Telescope lsp_references<cr>", desc = "References" },
-  
+  { " lr",  vim.lsp.buf.rename,                                                                    desc = "Rename" },
+  { " la",  vim.lsp.buf.code_action,                                                               desc = "Code Action" },
+  { " lf",  vim.lsp.buf.format,                                                                    desc = "Format Buffer" },
+  { " ln",  function() vim.diagnostic.goto_next() end,                                             desc = "Next Problem" },
+  { " lp",  function() vim.diagnostic.goto_prev() end,                                             desc = "Previous Problem" },
+  { " lh",  vim.lsp.buf.hover,                                                                     desc = "Function Help" },
+  { " ls",  "<cmd>Telescope lsp_document_symbols<cr>",                                             desc = "Document Symbols" },
+  { " lR",  "<cmd>Telescope lsp_references<cr>",                                                   desc = "References" },
+
   -- Git section
-  { " G", name = "Git" },
-  { " Gs", vim.cmd.Git, desc = "Status" },
-  { " Gp", "<cmd>Git push<cr>", desc = "Push" },
-  { " GP", "<cmd>Git pull<cr>", desc = "Pull" },
-  { " Gc", "<cmd>Git checkout<cr>", desc = "Checkout" },
-  
+  { " G",   name = "Git" },
+  { " Gs",  vim.cmd.Git,                                                                           desc = "Status" },
+  { " Gp",  "<cmd>Git push<cr>",                                                                   desc = "Push" },
+  { " GP",  "<cmd>Git pull<cr>",                                                                   desc = "Pull" },
+  { " Gc",  "<cmd>Git checkout<cr>",                                                               desc = "Checkout" },
+  { " Gd",  "<cmd>DiffviewOpen<cr>",                                                               desc = "Diff View" },
+  { " Gh",  function() require("gitsigns").stage_hunk() end,                                       desc = "Stage hunk under cursor." },
+  { " GH",  function() require("gitsigns").reset_hunk() end,                                       desc = "Restore hunk under cursor." },
   -- Harpoon
-  { " h", name = "Harpoon" },
-  { " ha", function() harpoon:list():append() end, desc = "Add File" },
-  { " hm", function() toggle_telescope(harpoon:list()) end, desc = "Menu" },
-  { " hJ", function() harpoon:list():next() end, desc = "Next File" },
-  { " hK", function() harpoon:list():prev() end, desc = "Previous File" },
-  { " hh", function() harpoon:list():select(1) end, desc = "File 1" },
-  { " hj", function() harpoon:list():select(2) end, desc = "File 2" },
-  { " hk", function() harpoon:list():select(3) end, desc = "File 3" },
-  { " hl", function() harpoon:list():select(4) end, desc = "File 4" },
-  { " he", function() harpoon:list():clear() end, desc = "Clear Marks" },
-  
+  { " h",   name = "Harpoon" },
+  { " ha",  function() harpoon:list():append() end,                                                desc = "Add File" },
+  { " hm",  function() toggle_telescope(harpoon:list()) end,                                       desc = "Menu" },
+  { " hJ",  function() harpoon:list():next() end,                                                  desc = "Next File" },
+  { " hK",  function() harpoon:list():prev() end,                                                  desc = "Previous File" },
+  { " hh",  function() harpoon:list():select(1) end,                                               desc = "File 1" },
+  { " hj",  function() harpoon:list():select(2) end,                                               desc = "File 2" },
+  { " hk",  function() harpoon:list():select(3) end,                                               desc = "File 3" },
+  { " hl",  function() harpoon:list():select(4) end,                                               desc = "File 4" },
+  { " he",  function() harpoon:list():clear() end,                                                 desc = "Clear Marks" },
+
   -- Open configs
-  { " o", name = "Open" },
-  { " ou", vim.cmd.UndotreeToggle, desc = "UndoTree" },
-  { " od", "<cmd>Oil<cr>", desc = "File Explorer" },
-  { " ot", function() tman.toggleLast({ insert = true }) end, desc = "Terminal" },
-  { " or", tman.toggleRight, desc = "Terminal Right" },
-  
+  { " o",   name = "Open" },
+  { " ou",  vim.cmd.UndotreeToggle,                                                                desc = "UndoTree" },
+  { " od",  "<cmd>Oil<cr>",                                                                        desc = "File Explorer" },
+  { " ot",  function() tman.toggleLast({ insert = true }) end,                                     desc = "Terminal" },
+  { " or",  tman.toggleRight,                                                                      desc = "Terminal Right" },
+
   -- Sidebar
-  { " s", name = "Sidebar" },
-  { " sl", "<cmd>NvimTreeToggle<cr>", desc = "Left (nvim-tree)" },
-  { " sr", "<cmd>Outline<cr>", desc = "Right (outline)" },
-  
+  { " s",   name = "Sidebar" },
+  { " sl",  "<cmd>NvimTreeToggle<cr>",                                                             desc = "Left (nvim-tree)" },
+  { " sr",  "<cmd>Outline<cr>",                                                                    desc = "Right (outline)" },
+
   -- Terminal
-  { " t", name = "Terminal" },
-  { " tt", function() tman.toggleLast({ insert = true }) end, desc = "Terminal" },
-  { " tr", tman.toggleRight, desc = "Terminal Right" },
-  { " tc", ":TmanCmd<CR>", desc = "Send Terminal Command" },
-  { " tl", ":TmanCmdLast<CR>", desc = "Send Last Terminal Command" },
-  
+  { " t",   name = "Terminal" },
+  { " tt",  function() tman.toggleLast({ insert = true }) end,                                     desc = "Terminal" },
+  { " tr",  tman.toggleRight,                                                                      desc = "Terminal Right" },
+  { " tc",  ":TmanCmd<CR>",                                                                        desc = "Send Terminal Command" },
+  { " tl",  ":TmanCmdLast<CR>",                                                                    desc = "Send Last Terminal Command" },
+
   -- Window configs
-  { " w", name = "Window" },
-  { " wW", function() SetWindowWidthAsRatio(0.8) end, desc = "Set window to 80% of total width" },
-  { " wV", function() SetWindowHeightAsRatio(0.8) end, desc = "Set window to 80% of total height" },
-  { " wz", function() ZoomWindow() end, desc = "Zoom Window" },
-  
+  { " w",   name = "Window" },
+  { " wW",  function() SetWindowWidthAsRatio(0.8) end,                                             desc = "Set window to 80% of total width" },
+  { " wV",  function() SetWindowHeightAsRatio(0.8) end,                                            desc = "Set window to 80% of total height" },
+  { " wz",  function() ZoomWindow() end,                                                           desc = "Zoom Window" },
+
   -- Notes (commented out)
   -- { " n", name = "Notes" },
   -- { " nn", "<cmd>Telekasten new_note<cr>", desc = "New Note" },

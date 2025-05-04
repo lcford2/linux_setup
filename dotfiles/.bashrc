@@ -40,3 +40,4 @@ export PS1="[\e[0;34m\u@\h\e[0m \e[0;32m\@\e[0m] \w\n$ "
 
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
+export ZEPHYR_BASE=~/zephyrproject/zephyr

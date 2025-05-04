@@ -1,8 +1,8 @@
 [submodule "nvim"]
-	path = nvim
+	path = dotfiles/.config/nvim
 	url = git@github.com:/lcford2/nvim.git
 [submodule "tmux"]
-	path = tmux
+	path = dotfiles/.config/tmux
 	url = git@github.com:/lcford2/tmux.git
 [submodule "qtile-openweathermap"]
     path = qtile/qtile-openweathermap
