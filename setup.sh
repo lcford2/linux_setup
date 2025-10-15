@@ -65,7 +65,13 @@ sudo apt install -y \
 	gnome-tweaks \
 	gdb \
 	zsh \
+	git \
 	unzip
+
+#### ------------ Repo Hygiene ------------ ####
+print_header "Repo Hygiene"
+git submodule update --init --recursive
+git config submodule.recurse true
 
 #### ---------- Install Homebrew ---------- ####
 print_header "Install Homebrew"
