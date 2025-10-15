@@ -66,7 +66,10 @@ sudo apt install -y \
 	gdb \
 	zsh \
 	git \
-	unzip
+	unzip \
+	python3 \
+	python3-pip \
+	python3-venv
 
 #### ------------ Repo Hygiene ------------ ####
 print_header "Repo Hygiene"
