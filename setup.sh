@@ -73,23 +73,6 @@ print_header "Repo Hygiene"
 git submodule update --init --recursive
 git config submodule.recurse true
 
-#### ---------- Install Homebrew ---------- ####
-print_header "Install Homebrew"
-if ! command -v brew &>/dev/null; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-print_header "Install Packages with brew"
-brew install neovim htop jq tmux
-
-#### ------- program configurations ------- ####
-print_header "Create Computer Specific Program Configurations"
-# create computer specific config files
-pushd dotfiles/.config || exit
-cp fish/config.fish.base fish/config.fish
-cp rofi/config.rasi.base rofi/config.rasi
-popd || exit
-
 #### ---------- directory setup ----------- ####
 print_header "Setup Directories"
 if ! [[ -d "$HOME/source" ]]; then
@@ -112,6 +95,23 @@ if ! [[ -d "$HOME/.fonts" ]]; then
   mkdir -v "$HOME/.fonts"
 fi
 
+#### ---------- Install Homebrew ---------- ####
+print_header "Install Homebrew"
+if ! command -v brew &>/dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+print_header "Install Packages with brew"
+brew install neovim htop jq tmux
+
+#### ------- program configurations ------- ####
+print_header "Create Computer Specific Program Configurations"
+# create computer specific config files
+pushd dotfiles/.config || exit
+cp fish/config.fish.base fish/config.fish
+cp rofi/config.rasi.base rofi/config.rasi
+popd || exit
+
 #### ------ link config directories ------- ####
 print_header "Link Configuration Directores"
 if [ -f "$HOME/.bashrc" ]; then
@@ -126,6 +126,19 @@ stow -R -t ../. dotfiles -v 3
 for file in $(/bin/ls "$HOME"/linux_setup/scripts/); do
   ln -sf "$HOME/linux_setup/scripts/$file" "$HOME/.local/bin/$file"
 done
+
+#### ---------------- node ---------------- ####
+# install nvm for neovim plugins
+print_header "Installing Node for neovim LSPs"
+nvm_install_output=$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash)
+nvm_dir_cmd=$(echo "$nvm_install_output" | grep -oP "export NVM_DIR=\H*")
+eval "$nvm_dir_cmd"
+if [ -n "$NVM_DIR" ]; then
+	source "$NVM_DIR/nvm.sh"
+	nvm install node >/dev/null 2>&1
+else
+	echo "Could not install node with nvm."
+fi
 
 #### --------------- rustup --------------- ####
 print_header "Install Rustup"
@@ -166,13 +179,16 @@ pushd "/tmp/font_install" || exit
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Hack.zip" -O "Hack.Zip"
-unzip -u DejaVuSansMono.zip
-unzip -u UbuntuMono.zip
-unzip -u Ubuntu.zip
-unzip -u Hack.zip
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Hack.zip" -O "Hack.zip"
 
-mv "*.ttf" "$HOME/.fonts"
+popd || exit
+pushd "$HOME/.fonts"
+
+unzip -u /tmp/font_install/DejaVuSansMono.zip
+unzip -u /tmp/font_install/UbuntuMono.zip
+unzip -u /tmp/font_install/Ubuntu.zip
+unzip -u /tmp/font_install/Hack.zip
+
 fc-cache -f -v
 popd || exit
 

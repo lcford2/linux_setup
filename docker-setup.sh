@@ -52,5 +52,5 @@ print_header "Installing tmux and TPM"
 git clone https://github.com/lcford2/tmux.git ${HOME}/.config/tmux
 
 # get TPM for tmux
-git clone https://github.com/tmux-plugins/tpm ~/.tpm/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
