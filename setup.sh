@@ -64,7 +64,8 @@ sudo apt install -y \
 	stow \
 	gnome-tweaks \
 	gdb \
-	zsh
+	zsh \
+	unzip
 
 #### ---------- Install Homebrew ---------- ####
 print_header "Install Homebrew"
@@ -128,6 +129,7 @@ fi
 
 #### ---------------- zsh setup ---------------- ####
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+chsh -s $(which zsh) $(whoami)
 
 
 #### ---------- modern utilities ---------- ####
@@ -148,6 +150,7 @@ else
   $CARGO install ripgrep
   $CARGO install starship --locked
   $CARGO install zoxide --locked
+  $CARGO install tealdear
 fi
 
 #### --------------- fonts ---------------- ####
@@ -164,7 +167,7 @@ unzip -u Ubuntu.zip
 unzip -u Hack.zip
 
 mv "*.ttf" "$HOME/.fonts"
-sudo fc-cache -f -v
+fc-cache -f -v
 popd || exit
 
 
@@ -172,4 +175,3 @@ popd || exit
 # tmux package manager
 print_header "Installing TPM"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
