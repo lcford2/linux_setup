@@ -172,6 +172,7 @@ else
   $CARGO install ripgrep
   $CARGO install starship --locked
   $CARGO install zoxide --locked
+  $CARGO install tealdeer
 fi
 
 #### --------------- fonts ---------------- ####
@@ -199,3 +200,9 @@ popd || exit
 # tmux package manager
 print_header "Installing TPM"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+#### ------------- Tailscale --------------- ####
+# Tailscale
+print_header "Installing Tailscale"
+curl -fsSL https://tailscale.com/install.sh | sh
+
