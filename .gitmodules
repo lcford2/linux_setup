@@ -10,3 +10,9 @@
 [submodule "rofi-power-menu"]
     path = rofi/rofi-power-menu
     url = https://github.com/jluttine/rofi-power-menu.git
+[submodule "dotfiles/.config/nvim"]
+	path = dotfiles/.config/nvim
+	url = https://github.com/lcford2/nvim.git
+[submodule "dotfiles/.config/tmux"]
+	path = dotfiles/.config/tmux
+	url = https://github.com/lcford2/tmux.git
