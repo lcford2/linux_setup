@@ -63,7 +63,7 @@ sudo apt install -y \
 	tk-dev \
 	stow \
 	gnome-tweaks \
-	gbd \
+	gdb \
 	zsh
 
 #### ---------- Install Homebrew ---------- ####
@@ -78,8 +78,10 @@ brew install neovim htop jq tmux
 #### ------- program configurations ------- ####
 print_header "Create Computer Specific Program Configurations"
 # create computer specific config files
+pushd dotfiles/.config || exit
 cp fish/config.fish.base fish/config.fish
 cp rofi/config.rasi.base rofi/config.rasi
+popd || exit
 
 #### ---------- directory setup ----------- ####
 print_header "Setup Directories"
@@ -105,11 +107,17 @@ fi
 
 #### ------ link config directories ------- ####
 print_header "Link Configuration Directores"
+if [ -f "$HOME/.bashrc" ]; then
+  mv "$HOME/.bashrc" "$HOME/.bashrc.bkp"
+fi
+if [ -f "$HOME/.zshrc" ]; then
+  mv "$HOME/.zshrc" "$HOME/.bashrc.bkp"
+fi
 stow -R -t ../. dotfiles -v 3
 
 # link script to .local/bin
 for file in $(/bin/ls "$HOME"/linux_setup/scripts/); do
-  ln -sf "$HOME/linux_setup/scripts/$file" "$home/.local/bin/$file"
+  ln -sf "$HOME/linux_setup/scripts/$file" "$HOME/.local/bin/$file"
 done
 
 #### --------------- rustup --------------- ####
@@ -144,7 +152,8 @@ fi
 
 #### --------------- fonts ---------------- ####
 print_header "Install NerdFonts"
-pushd "$HOME/Downloads" || exit
+mkdir -p /tmp/font_install
+pushd "/tmp/font_install" || exit
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
@@ -161,5 +170,6 @@ popd || exit
 
 #### --------------- tmux ------------------ ####
 # tmux package manager
+print_header "Installing TPM"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
