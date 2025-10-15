@@ -150,7 +150,7 @@ if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
 fi
 
 #### ---------------- zsh setup ---------------- ####
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep
 chsh -s $(which zsh) $(whoami)
 
 
