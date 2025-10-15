@@ -102,7 +102,7 @@ if ! command -v brew &>/dev/null; then
 fi
 
 print_header "Install Packages with brew"
-brew install neovim htop jq tmux
+/home/linuxbrew/.linuxbrew/bin/brew install neovim htop jq tmux
 
 #### ------- program configurations ------- ####
 print_header "Create Computer Specific Program Configurations"
@@ -169,7 +169,6 @@ else
   $CARGO install ripgrep
   $CARGO install starship --locked
   $CARGO install zoxide --locked
-  $CARGO install tealdear
 fi
 
 #### --------------- fonts ---------------- ####
