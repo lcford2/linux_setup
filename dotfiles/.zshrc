@@ -72,6 +72,10 @@ if [[ $TERM == "xterm-kitty" ]]; then
     alias ssh="kitty +kitten ssh"
 fi
 
+if [ -d /home/linuxbrew/.linuxbrew ]; then
+    export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+fi
+
 # alias vim
 export EDITOR="$(which nvim)"
 alias vim="$EDITOR"

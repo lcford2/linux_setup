@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NERDFONT_VERSION="2.2.2"
+NERDFONT_VERSION="3.4.0"
 
 GREEN="\e[0;32m"
 RED="\e[0;31m"
@@ -42,6 +42,30 @@ function parse_args() {
 
 parse_args "$@"
 
+#### ---------- System Update and Base Pkg Install ---------- ####
+print_header "System Update"
+sudo apt update && sudo apt upgrade
+sudo apt install -y \
+	curl \
+	cmake \
+	build-essential \
+	gcp \
+	pbzip2 \
+	htop \
+	libssl-dev \
+	libsqlite3-dev \
+	openssl \
+	cifs-utils \
+	smbclient \
+	libreadline8 \
+	libreadline-dev \
+	tk \
+	tk-dev \
+	stow \
+	gnome-tweaks \
+	gbd \
+	zsh
+
 #### ---------- Install Homebrew ---------- ####
 print_header "Install Homebrew"
 if ! command -v brew &>/dev/null; then
@@ -49,7 +73,7 @@ if ! command -v brew &>/dev/null; then
 fi
 
 print_header "Install Packages with brew"
-brew install google-chrome visual-studio-code neovim htop rectangle
+brew install neovim htop jq tmux
 
 #### ------- program configurations ------- ####
 print_header "Create Computer Specific Program Configurations"
@@ -90,9 +114,13 @@ done
 
 #### --------------- rustup --------------- ####
 print_header "Install Rustup"
-# if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-# fi
+if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
+
+#### ---------------- zsh setup ---------------- ####
+curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+
 
 #### ---------- modern utilities ---------- ####
 print_header "Install Modern Linux Utilities"
@@ -110,6 +138,8 @@ else
   $CARGO install mcfly
   $CARGO install procs
   $CARGO install ripgrep
+  $CARGO install starship --locked
+  $CARGO install zoxide --locked
 fi
 
 #### --------------- fonts ---------------- ####
@@ -118,10 +148,18 @@ pushd "$HOME/Downloads" || exit
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
+wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Hack.zip" -O "Hack.Zip"
 unzip -u DejaVuSansMono.zip
 unzip -u UbuntuMono.zip
 unzip -u Ubuntu.zip
+unzip -u Hack.zip
 
 mv "*.ttf" "$HOME/.fonts"
 sudo fc-cache -f -v
 popd || exit
+
+
+#### --------------- tmux ------------------ ####
+# tmux package manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
