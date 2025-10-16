@@ -1,6 +1,7 @@
 #!/bin/bash
 
 NERDFONT_VERSION="3.4.0"
+NVM_VERSION="v0.39.7"
 
 GREEN="\e[0;32m"
 RED="\e[0;31m"
@@ -27,13 +28,82 @@ function popd() {
   command popd >/dev/null || exit
 }
 
+function show_help() {
+  cat << EOF
+Usage: $0 [OPTIONS]
+
+Options:
+  -h, --help               Show this help message
+  -U, --update             Update existing packages
+  -v, --verbose            Show detailed output
+  --skip-brew              Skip Homebrew installation
+  --skip-node              Skip Node/NVM installation
+  --skip-rust              Skip Rustup installation
+  --skip-fonts             Skip NerdFonts installation
+  --skip-tmux              Skip TPM installation
+  --skip-tailscale         Skip Tailscale installation
+  --skip-modern-utils      Skip modern utilities installation
+  --nvm-version=VERSION    NVM version to install (default: $NVM_VERSION)
+
+Examples:
+  $0 --skip-tailscale --skip-fonts
+  $0 --update --nvm-version=v0.40.0
+  $0 --skip-brew --skip-node
+EOF
+}
+
 function parse_args() {
   export UPDATE=0
+  export SKIP_BREW=0
+  export SKIP_NODE=0
+  export SKIP_RUST=0
+  export SKIP_FONTS=0
+  export SKIP_TMUX=0
+  export SKIP_TAILSCALE=0
+  export SKIP_MODERN_UTILS=0
+  export VERBOSE=0
+
   while test $# -gt 0; do
     case "$1" in
+    -h|--help)
+      show_help
+      exit 0
+      ;;
     -U | --update)
       echo "Updating packages if existing"
       export UPDATE=1
+      ;;
+    -v|--verbose)
+      export VERBOSE=1
+      ;;
+    --skip-brew)
+      export SKIP_BREW=1
+      ;;
+    --skip-node)
+      export SKIP_NODE=1
+      ;;
+    --skip-rust)
+      export SKIP_RUST=1
+      ;;
+    --skip-fonts)
+      export SKIP_FONTS=1
+      ;;
+    --skip-tmux)
+      export SKIP_TMUX=1
+      ;;
+    --skip-tailscale)
+      export SKIP_TAILSCALE=1
+      ;;
+    --skip-modern-utils)
+      export SKIP_MODERN_UTILS=1
+      ;;
+    --nvm-version=*)
+      export NVM_VERSION="${1#*=}"
+      ;;
+    *)
+      echo "Unknown option: $1"
+      show_help
+      exit 1
       ;;
     esac
     shift
@@ -99,13 +169,15 @@ if ! [[ -d "$HOME/.fonts" ]]; then
 fi
 
 #### ---------- Install Homebrew ---------- ####
-print_header "Install Homebrew"
-if ! command -v brew &>/dev/null; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+if [ "$SKIP_BREW" -eq 0 ]; then
+  print_header "Install Homebrew"
+  if ! command -v brew &>/dev/null; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
 
-print_header "Install Packages with brew"
-/home/linuxbrew/.linuxbrew/bin/brew install neovim htop jq tmux
+  print_header "Install Packages with brew"
+  /home/linuxbrew/.linuxbrew/bin/brew install neovim htop jq tmux
+fi
 
 #### ------- program configurations ------- ####
 print_header "Create Computer Specific Program Configurations"
@@ -131,22 +203,26 @@ for file in $(/bin/ls "$HOME"/linux_setup/scripts/); do
 done
 
 #### ---------------- node ---------------- ####
-# install nvm for neovim plugins
-print_header "Installing Node for neovim LSPs"
-nvm_install_output=$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash)
-nvm_dir_cmd=$(echo "$nvm_install_output" | grep -oP "export NVM_DIR=\H*")
-eval "$nvm_dir_cmd"
-if [ -n "$NVM_DIR" ]; then
-	source "$NVM_DIR/nvm.sh"
-	nvm install node >/dev/null 2>&1
-else
-	echo "Could not install node with nvm."
+if [ "$SKIP_NODE" -eq 0 ]; then
+  # install nvm for neovim plugins
+  print_header "Installing Node for neovim LSPs"
+  nvm_install_output=$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash)
+  nvm_dir_cmd=$(echo "$nvm_install_output" | grep -oP "export NVM_DIR=\H*")
+  eval "$nvm_dir_cmd"
+  if [ -n "$NVM_DIR" ]; then
+    source "$NVM_DIR/nvm.sh"
+    nvm install node >/dev/null 2>&1
+  else
+    echo "Could not install node with nvm."
+  fi
 fi
 
 #### --------------- rustup --------------- ####
-print_header "Install Rustup"
-if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+if [ "$SKIP_RUST" -eq 0 ]; then
+  print_header "Install Rustup"
+  if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  fi
 fi
 
 #### ---------------- zsh setup ---------------- ####
@@ -155,54 +231,61 @@ chsh -s $(which zsh) $(whoami)
 
 
 #### ---------- modern utilities ---------- ####
-print_header "Install Modern Linux Utilities"
-CARGO=$HOME/.cargo/bin/cargo
+if [ "$SKIP_MODERN_UTILS" -eq 0 ]; then
+  print_header "Install Modern Linux Utilities"
+  CARGO=$HOME/.cargo/bin/cargo
 
-if [ "$UPDATE" -eq 1 ]; then
-  cargo install-update -a
-else
-  $CARGO install cargo-update
-  $CARGO install --locked bat
-  $CARGO install git-delta
-  $CARGO install du-dust
-  $CARGO install eza
-  $CARGO install fd-find
-  $CARGO install mcfly
-  $CARGO install procs
-  $CARGO install ripgrep
-  $CARGO install starship --locked
-  $CARGO install zoxide --locked
-  $CARGO install tealdeer
+  if [ "$UPDATE" -eq 1 ]; then
+    cargo install-update -a
+  else
+    $CARGO install cargo-update
+    $CARGO install --locked bat
+    $CARGO install git-delta
+    $CARGO install du-dust
+    $CARGO install eza
+    $CARGO install fd-find
+    $CARGO install mcfly
+    $CARGO install procs
+    $CARGO install ripgrep
+    $CARGO install starship --locked
+    $CARGO install zoxide --locked
+    $CARGO install tealdeer
+  fi
 fi
 
 #### --------------- fonts ---------------- ####
-print_header "Install NerdFonts"
-mkdir -p /tmp/font_install
-pushd "/tmp/font_install" || exit
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Hack.zip" -O "Hack.zip"
+if [ "$SKIP_FONTS" -eq 0 ]; then
+  print_header "Install NerdFonts"
+  mkdir -p /tmp/font_install
+  pushd "/tmp/font_install" || exit
+  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
+  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
+  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
+  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Hack.zip" -O "Hack.zip"
 
-popd || exit
-pushd "$HOME/.fonts"
+  popd || exit
+  pushd "$HOME/.fonts"
 
-unzip -u /tmp/font_install/DejaVuSansMono.zip
-unzip -u /tmp/font_install/UbuntuMono.zip
-unzip -u /tmp/font_install/Ubuntu.zip
-unzip -u /tmp/font_install/Hack.zip
+  unzip -u /tmp/font_install/DejaVuSansMono.zip
+  unzip -u /tmp/font_install/UbuntuMono.zip
+  unzip -u /tmp/font_install/Ubuntu.zip
+  unzip -u /tmp/font_install/Hack.zip
 
-fc-cache -f -v
-popd || exit
+  fc-cache -f -v
+  popd || exit
+fi
 
 
 #### --------------- tmux ------------------ ####
-# tmux package manager
-print_header "Installing TPM"
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [ "$SKIP_TMUX" -eq 0 ]; then
+  # tmux package manager
+  print_header "Installing TPM"
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
 
 #### ------------- Tailscale --------------- ####
-# Tailscale
-print_header "Installing Tailscale"
-curl -fsSL https://tailscale.com/install.sh | sh
-
+if [ "$SKIP_TAILSCALE" -eq 0 ]; then
+  # Tailscale
+  print_header "Installing Tailscale"
+  curl -fsSL https://tailscale.com/install.sh | sh
+fi
