@@ -233,6 +233,11 @@ chsh -s $(which zsh) $(whoami)
 #### ---------- modern utilities ---------- ####
 if [ "$SKIP_MODERN_UTILS" -eq 0 ]; then
   print_header "Install Modern Linux Utilities"
+  # fzf install
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install
+
+  # cargo utils install
   CARGO=$HOME/.cargo/bin/cargo
 
   if [ "$UPDATE" -eq 1 ]; then
@@ -244,7 +249,6 @@ if [ "$SKIP_MODERN_UTILS" -eq 0 ]; then
     $CARGO install du-dust
     $CARGO install eza
     $CARGO install fd-find
-    $CARGO install mcfly
     $CARGO install procs
     $CARGO install ripgrep
     $CARGO install starship --locked
