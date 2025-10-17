@@ -36,6 +36,7 @@ Options:
   -h, --help               Show this help message
   -U, --update             Update existing packages
   -v, --verbose            Show detailed output
+  --skip-ssh-server        Do not enable the SSH server
   --skip-brew              Skip Homebrew installation
   --skip-node              Skip Node/NVM installation
   --skip-rust              Skip Rustup installation
@@ -54,6 +55,7 @@ EOF
 
 function parse_args() {
   export UPDATE=0
+  export SKIP_SSH_ENABLE=0
   export SKIP_BREW=0
   export SKIP_NODE=0
   export SKIP_RUST=0
@@ -75,6 +77,9 @@ function parse_args() {
       ;;
     -v|--verbose)
       export VERBOSE=1
+      ;;
+    --skip-ssh-server)
+      export SKIP_SSH_ENABLE=1
       ;;
     --skip-brew)
       export SKIP_BREW=1
