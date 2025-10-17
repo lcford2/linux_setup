@@ -116,9 +116,14 @@ parse_args "$@"
 print_header "System Update"
 sudo apt update && sudo apt upgrade
 sudo apt install -y \
+  software-properties-common \
 	curl \
 	cmake \
 	build-essential \
+  openssh-server \
+  bmon \
+  nethogs \
+  nmon \
 	gcp \
 	pbzip2 \
 	htop \
@@ -137,6 +142,7 @@ sudo apt install -y \
 	zsh \
 	git \
 	unzip \
+  htop \
 	python3 \
 	python3-pip \
 	python3-venv
@@ -166,6 +172,13 @@ fi
 
 if ! [[ -d "$HOME/.fonts" ]]; then
   mkdir -v "$HOME/.fonts"
+fi
+
+
+#### --------- Enable SSH Server ---------- ####
+if [ "$SKIP_SSH_ENABLE" -eq 0 ]; then
+  print_header "Enabling SSH Server"
+  sudo systemctl enable --now ssh
 fi
 
 #### ---------- Install Homebrew ---------- ####
