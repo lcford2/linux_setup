@@ -1,8 +1,15 @@
 #!/bin/bash
 
 source helpers/utils.sh
+DEFAULT_NERDFONT_VERSION="3.4.0"
 
 print_header "Install NerdFonts"
+
+if [ -n "$NERDFONT_VERSION" ]; then
+  echo "${RED}NERDFONT_VERSION not specified, using ${DEFAULT_NERDFONT_VERSION}${NC}"
+  export NERDFONT_VERSION="$DEFAULT_NERDFONT_VERSION"
+fi
+
 mkdir -p /tmp/font_install
 quiet_pushd "/tmp/font_install" || exit
 wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"

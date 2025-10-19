@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NERDFONT_VERSION="3.4.0"
-NVM_VERSION="v0.39.7"
+export NERDFONT_VERSION="3.4.0"
+export NVM_VERSION="v0.39.7"
 
 source helpers/utils.sh
 
