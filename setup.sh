@@ -209,7 +209,7 @@ popd || exit
 #### ------ link config directories ------- ####
 print_header "Link Configuration Directores"
 if [ -f "$HOME/.bashrc" ]; then
-  mv "$HOME/.bashrc" "$HOME/.bashrc.bkp"
+  cat ./helpers/bash_additions.sh >> "${HOME}/.bashrc"
 fi
 if [ -f "$HOME/.zshrc" ]; then
   mv "$HOME/.zshrc" "$HOME/.bashrc.bkp"
