@@ -1,0 +1,16 @@
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+shift+v=new_split:right
+keybind = ctrl+shift+s=new_split:down
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+z=toggle_split_zoom
+keybind = ctrl+shift++=equalize_splits
+keybind = ctrl+shift+q=quit
+keybind = ctrl+shift+r=reload_config
+
+theme = Monokai Pro Machine
+
+font-size = 16
+window-inherit-font-size = false

@@ -1,294 +1,221 @@
 #!/bin/bash
 
-EMACS_VERSION="28.2"
-ZSH_VERSION="5.9"
-NERDFONT_VERSION="2.2.2"
+export NERDFONT_VERSION="3.4.0"
+export NVM_VERSION="v0.39.7"
 
-GREEN="\e[0;32m"
-RED="\e[0;31m"
-NC="\e[0m"
+source helpers/utils.sh
 
-function print_header() {
-    name=$1
-    # width=70
-    width="$(tput cols)"
-    python_command="print('#'*${width})"
-    hashes="$(python3 -c "$python_command")"
+function show_help() {
+  cat << EOF
+Usage: $0 [OPTIONS]
 
-    echo -e "${GREEN}${hashes}"
-    echo "$name" | awk -v w="$width" '{ z = w - length; y = int(z / 2); x = z - y; printf "%*s%s%*s\n", x, "", $0, y, ""; }'
-    echo -e "${GREEN}${hashes}"
-    echo -e "${NC}"
+Options:
+  -h, --help               Show this help message
+  --skip-ssh-server        Do not enable the SSH server
+  --skip-brew              Skip Homebrew installation
+  --skip-node              Skip Node/NVM installation
+  --skip-rust              Skip Rustup installation
+  --skip-fonts             Skip NerdFonts installation
+  --skip-tmux              Skip TPM installation
+  --skip-tailscale         Skip Tailscale installation
+  --skip-modern-utils      Skip modern utilities installation
+  --nvm-version=VERSION    NVM version to install (default: $NVM_VERSION)
+
+Examples:
+  $0 --skip-tailscale --skip-fonts
+  $0 --nvm-version=v0.40.0
+  $0 --skip-brew --skip-node
+EOF
 }
 
-function pushd () {
-    command pushd "$@" > /dev/null || exit
-}
+function parse_args() {
+  export SKIP_SSH_ENABLE=0
+  export SKIP_BREW=0
+  export SKIP_NODE=0
+  export SKIP_RUST=0
+  export SKIP_FONTS=0
+  export SKIP_TMUX=0
+  export SKIP_TAILSCALE=0
+  export SKIP_MODERN_UTILS=0
 
-function popd () {
-    command popd > /dev/null || exit
-}
-
-function safe_link () {
-    target=$1
-    link_name=$2
-    
-    if [ -e "$link_name" ]; then
-        if [ -L "$link_name" ]; then
-            echo "Cannot create link from $target to $link_name. $link_name is already a link"
-        else
-            echo "Cannot create link from $target to $link_name. $link_name exists but is not a link"
-        fi
-    else
-        ln -sfv "$target" "$link_name"
-    fi
-}
-
-function parse_args () {
-    export UPDATE=0
-    while test $# -gt 0
-    do
-        case "$1" in
-        -U|--update)
-            echo "Updating packages if existing"
-            export UPDATE=1
-            ;;
-        esac
-        shift
-    done
+  while test $# -gt 0; do
+    case "$1" in
+    -h|--help)
+      show_help
+      exit 0
+      ;;
+    --skip-ssh-server)
+      export SKIP_SSH_ENABLE=1
+      ;;
+    --skip-brew)
+      export SKIP_BREW=1
+      ;;
+    --skip-node)
+      export SKIP_NODE=1
+      ;;
+    --skip-rust)
+      export SKIP_RUST=1
+      ;;
+    --skip-fonts)
+      export SKIP_FONTS=1
+      ;;
+    --skip-tmux)
+      export SKIP_TMUX=1
+      ;;
+    --skip-tailscale)
+      export SKIP_TAILSCALE=1
+      ;;
+    --skip-modern-utils)
+      export SKIP_MODERN_UTILS=1
+      ;;
+    --nvm-version=*)
+      export NVM_VERSION="${1#*=}"
+      ;;
+    *)
+      echo "Unknown option: $1"
+      show_help
+      exit 1
+      ;;
+    esac
+    shift
+  done
 }
 
 parse_args "$@"
 
-#### ----------- system update ------------ ####
-# update system and install curl
-# download and install various programs
+#### ---------- System Update and Base Pkg Install ---------- ####
 print_header "System Update"
 sudo apt update && sudo apt upgrade
-sudo apt install -y curl cmake build-essential gcp pbzip2 tk htop libssl-dev libsqlite3-dev openssl cifs-utils smbclient libreadline8 libreadline-dev tk tk-dev
+sudo apt install -y \
+  software-properties-common \
+	curl \
+	cmake \
+	build-essential \
+  openssh-server \
+  bmon \
+  nethogs \
+  nmon \
+	gcp \
+	pbzip2 \
+	htop \
+	libssl-dev \
+	libsqlite3-dev \
+	openssl \
+	cifs-utils \
+	smbclient \
+	libreadline8 \
+	libreadline-dev \
+	tk \
+	tk-dev \
+	stow \
+	gnome-tweaks \
+	gdb \
+	zsh \
+	git \
+	unzip \
+  htop \
+	python3 \
+	python3-pip \
+	python3-venv \
+  gnome-tweaks
 
-#### ------- program configurations ------- ####
-print_header "Create Computer Specific Program Configurations"
-# create computer specific config files
-cp fish/config.fish.base fish/config.fish
-cp rofi/config.rasi.base rofi/config.rasi
+#### ------------ Repo Hygiene ------------ ####
+print_header "Repo Hygiene"
+git submodule update --init --recursive
+git config submodule.recurse true
 
 #### ---------- directory setup ----------- ####
 print_header "Setup Directories"
 if ! [[ -d "$HOME/source" ]]; then
-    mkdir -v "$HOME/source"
+  mkdir -v "$HOME/source"
 fi
 
 if ! [[ -d "$HOME/.config" ]]; then
-    mkdir -v "$HOME/.config"
+  mkdir -v "$HOME/.config"
 fi
 
 if ! [[ -d "$HOME/projects" ]]; then
-    mkdir -v "$HOME/projects"
+  mkdir -v "$HOME/projects"
 fi
 
 if ! [[ -d "$HOME/.local/bin" ]]; then
-    mkdir -vp "$HOME/.local/bin"
+  mkdir -vp "$HOME/.local/bin"
 fi
 
 if ! [[ -d "$HOME/.fonts" ]]; then
-    mkdir -v "$HOME/.fonts"
+  mkdir -v "$HOME/.fonts"
 fi
+
+
+#### --------- Enable SSH Server ---------- ####
+if [ "$SKIP_SSH_ENABLE" -eq 0 ]; then
+  print_header "Enabling SSH Server"
+  sudo systemctl enable --now ssh
+fi
+
+#### ---------- Install Homebrew ---------- ####
+if [ "$SKIP_BREW" -eq 0 ]; then
+  ./helpers/install_brew.sh
+fi
+
+#### ------- program configurations ------- ####
+print_header "Create Computer Specific Program Configurations"
+# create computer specific config files
+pushd dotfiles/.config || exit
+cp fish/config.fish.base fish/config.fish
+cp rofi/config.rasi.base rofi/config.rasi
+popd || exit
 
 #### ------ link config directories ------- ####
 print_header "Link Configuration Directores"
-safe_link "$HOME/linux_setup/alacritty" "$HOME/.config/alacritty"
-safe_link "$HOME/linux_setup/helix"     "$HOME/.config/helix"
-safe_link "$HOME/linux_setup/kitty"     "$HOME/.config/kitty"
-safe_link "$HOME/linux_setup/qtile"     "$HOME/.config/qtile"
-safe_link "$HOME/linux_setup/rofi"      "$HOME/.config/rofi"
-safe_link "$HOME/linux_setup/htop"      "$HOME/.config/htop"
-safe_link "$HOME/linux_setup/nvim"      "$HOME/.config/nvim"
-
-# link vim and doom directories (in $HOME)
-safe_link "$HOME/linux_setup/.doom.d"    "$HOME/.doom.d"
-safe_link "$HOME/linux_setup/vimrc/.vim" "$HOME/.vim"
-
-# link starship.toml file
-safe_link "$HOME/linux_setup/misc_config/starship.toml" "$HOME/.config/starship.toml"
-
-# link git setup
-safe_link "$HOME/linux_setup/git/.gitconfig" "$HOME/.gitconfig"
-safe_link "$HOME/linux_setup/git/.gitignore" "$HOME/.gitignore"
-
-# link zshrc
-safe_link "$HOME/linux_setup/zsh/.zshrc" "$HOME/.zshrc"
+if [ -f "$HOME/.bashrc" ]; then
+  cat ./helpers/bash_additions.sh >> "${HOME}/.bashrc"
+fi
+if [ -f "$HOME/.zshrc" ]; then
+  mv "$HOME/.zshrc" "$HOME/.bashrc.bkp"
+fi
+stow -R -t ../. dotfiles -v 3
 
 # link script to .local/bin
 for file in $(/bin/ls "$HOME"/linux_setup/scripts/); do
-    ln -sf "$HOME/linux_setup/scripts/$file" "$HOME/.local/bin/$file"
+  ln -sf "$HOME/linux_setup/scripts/$file" "$HOME/.local/bin/$file"
 done
 
+#### ---------------- node ---------------- ####
+if [ "$SKIP_NODE" -eq 0 ]; then
+  NVM_VERSION="${NVM_VERSION}" ./helpers/install_node.sh
+fi
 
 #### --------------- rustup --------------- ####
-print_header "Install Rustup"
-# if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-# fi
-
-
-#### --------------- emacs ---------------- ####
-print_header "Build Emacs $EMACS_VERSION"
-# build deps
-sudo apt build-dep -y emacs
-sudo apt install -y libgccjit0 libgccjit-10-dev libjansson4 libjansson-dev gnutls-bin
-# get emacs
-if ! command -v emacs &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-    pushd "$HOME/source" || exit
-    curl -O "https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.xz"
-    tar xf "emacs-$EMACS_VERSION.tar.xz"
-    # build emacs
-    cd "emacs-$EMACS_VERSION" || exit
-    ./configure --with-x-toolkit=lucid
-    make -j 4
-    sudo make install
-    popd || exit
-fi
-
-# doom emacs
-print_header "Install Doom Emacs"
-if ! [ -d "$HOME/.emacs.d" ]; then
-    git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
-    ~/.emacs.d/bin/doom install
-fi
-
-#### ---------------- nvim ---------------- ####
-print_header "Install NeoVim"
-if ! command -v nvim &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-    pushd "$HOME/Downloads" || exit
-    wget "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb" -O "nvim-linux64.deb"
-    sudo apt install -y ./nvim-linux64.deb
-    popd || exit
-fi
-
-#### -------------- vundle ---------------- ####
-print_header "Install Vundle for NeoVim"
-if [ "$(ls -A1 "$HOME/.vim/bundle/Vundle.vim" | wc -l)" -eq 0 ]; then
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+if [ "$SKIP_RUST" -eq 0 ]; then
+  ./helpers/install_rust.sh
 fi
 
 #### ---------- modern utilities ---------- ####
-print_header "Install Modern Linux Utilities"
-CARGO=$HOME/.cargo/bin/cargo
-
-if [ "$UPDATE" -eq 1 ]; then
-    cargo install-update -a
-else
-    $CARGO install cargo-update
-    $CARGO install --locked bat
-    $CARGO install git-delta
-    $CARGO install du-dust
-    $CARGO install exa
-    $CARGO install fd-find
-    $CARGO install mcfly
-    $CARGO install procs
-    $CARGO install --locked starship
-    $CARGO install ripgrep
+if [ "$SKIP_MODERN_UTILS" -eq 0 ]; then
+  ./helpers/install_modern_utils.sh
 fi
 
-#### --------------- kitty ---------------- ####
-print_header "Install Kitty"
-if ! command -v kitty &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-    # Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
-    # your system-wide PATH)
-    ln -sf "$HOME/.local/kitty.app/bin/kitty" "$HOME/.local/bin/"
-    # Place the kitty.desktop file somewhere it can be found by the OS
-    cp "$HOME/.local/kitty.app/share/applications/kitty.desktop" "$HOME/.local/share/applications/"
-    # If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
-    cp "$HOME/.local/kitty.app/share/applications/kitty-open.desktop" "$HOME/.local/share/applications/"
-    # Update the paths to the kitty and its icon in the kitty.desktop file(s)
-    sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" "$HOME/.local/share/applications/kitty*.desktop"
-    sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" "$HOME/.local/share/applications/kitty*.desktop"
-fi
+#### ---------------- zsh setup ---------------- ####
+./helpers/setup_zsh.sh
+
 
 #### --------------- fonts ---------------- ####
-print_header "Install NerdFonts"
-pushd "$HOME/Downloads" || exit
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
-wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
-unzip -u DejaVuSansMono.zip
-unzip -u UbuntuMono.zip
-unzip -u Ubuntu.zip
-
-mv "*.ttf" "$HOME/.fonts"
-sudo fc-cache -f -v
-popd || exit
-
-
-#### ---------------- zsh ----------------- ####
-print_header "Install and Configure ZSH"
-if ! command -v zsh &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-    pushd "$HOME/source" || exit
-    wget "https://gigenet.dl.sourceforge.net/project/zsh/zsh/$ZSH_VERSION/zsh-$ZSH_VERSION.tar.xz" -O "zsh-$ZSH_VERSION.tar.xz"
-    tar xf "zsh-$ZSH_VERSION.tar.xz"
-    cd "zsh-$ZSH_VERSION" || exit
-    ./configure && make && sudo make install
-    popd || exit
-fi
-
-# zsh autosuggestions
-pushd ~/source || exit
-if ! [ -d zsh-syntax-highlighting ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-else
-    cd zsh-syntax-highlighting || exit
-    git pull
-    cd ..
-fi
-if ! [ -d zsh-autosuggestions ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions.git
-else
-    cd zsh-autosuggestions || exit
-    git pull
-    cd ..
-fi
-popd || exit
-
-# history file
-if ! [ -f "$HOME/.zshhistory" ]; then
-    touch "$HOME/.zshhistory"
-fi
-
-# add zsh to shells
-if [ "$(/bin/grep "/usr/local/bin/zsh" /etc/shells -c)" -eq 0 ]; then
-    echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
+if [ "$SKIP_FONTS" -eq 0 ]; then
+  NERDFONT_VERSION="${NERDFONT_VERSION}" ./helpers/install_fonts.sh
 fi
 
 
-#### --------------- pyenv ---------------- ####
-print_header "Install pyenv"
-if ! [[ -d $HOME/.pyenv ]]; then
-    git clone https://github.com/pyenv/pyenv.git "$HOME/.pyenv"
-    pushd "$HOME/.pyenv" || exit
-    src/configure && make -C src
-    popd || exit
+#### --------------- tmux ------------------ ####
+if [ "$SKIP_TMUX" -eq 0 ]; then
+  # tmux package manager
+  print_header "Installing TPM"
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-#### --------------- conda ---------------- ####
-print_header "Install Miniconda"
-if ! command -v conda &> /dev/null; then
-    cd "$HOME/Downloads" || exit
-    MINICONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
-    wget "https://repo.anaconda.com/miniconda/$MINICONDA_FILE" -O "$MINICONDA_FILE"
-    sh "$MINICONDA_FILE" -b -p "$HOME/miniconda3"
-    "$HOME"/miniconda3/condabin/conda init
-    popd || exit
-fi
-
-#### ------------- doom emacs ------------- ####
-if [ ! -f "$HOME/.emacs.d/bin/doom" ]; then
-    if [ -d "$HOME/.emacs.d" ]; then
-        mv "$HOME/.emacs.d" "$HOME/.emacs.d/bkp"
-    fi
-    git clone --depth 1 https://github.com/doomemacs/doomemacs "$HOME/.emacs.d"
-    "$HOME"/.emacs.d/bin/doom install
-else
-    "$HOME"/.emacs.d/bin/doom sync
+#### ------------- Tailscale --------------- ####
+if [ "$SKIP_TAILSCALE" -eq 0 ]; then
+  # Tailscale
+  print_header "Installing Tailscale"
+  curl -fsSL https://tailscale.com/install.sh | sh
 fi

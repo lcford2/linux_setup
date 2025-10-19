@@ -1,0 +1,80 @@
+[user]
+	name = Lucas Ford
+    email = lucas@botbuilt.com
+
+[includeIf "gitdir:~/linux_setup/"]
+    email = lcford185@gmail.com
+
+[init]
+	defaultBranch = main
+
+[core]
+	pager = delta
+	excludesFile = ~/.gitignore
+    fsmonitor = true
+    untrackedcache = true
+	preloadindex = true
+
+[alias]
+    blame = blame -w -C -C -C
+    fpush = push --force-with-lease
+    graph = log --oneline --graph --decorate
+    ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+    conflicts = diff --name-only --diff-filter=U
+    local-branches = !git branch -vv | cut -c 3- | awk '$3 !~/\\[/ { print $1 }'
+    recent-branches = !git branch --sort=-committerdate | head
+    authors = !git log --format='%aN <%aE>' | grep -v 'users.noreply.github.com' | sort -u --ignore-case
+    search = "!f() { git rev-list --all | xargs git grep -F \"$1\"; }; f"
+    dl = "!git ll -1" # Show modified files in last commit:latest commit
+    dlc = diff --cached HEAD^ # Show modified files in last commit:latest commit
+    dr  = "!f() { git diff "$1"^.."$1"; }; f" # git dr <commit-id> 
+    lc  = "!f() { git ll "$1"^.."$1"; }; f" # git lc <commit-id> # show modified files in <commit-id>
+    f = "!git ls-files | grep -i" # git f <filename> # search <filename> in all files
+    # bb = !/Users/davidlee/.dotfiles/scripts/better-branch.sh
+    fza = "!git ls-files -m -o --exclude-standard | fzf -m --print0 | xargs -0 git add"
+
+[rerere]
+    enabled = true
+    autoUpdate = true
+
+[branch]
+    sort = -committerdate
+
+[column]
+    ui = auto
+
+[color]
+	status = auto
+	branch = auto
+	interactive = auto
+	diff = auto
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	light = false
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[maintenance]
+	repo = /Users/lucas/botbuilt
+[index]
+	version = 4
