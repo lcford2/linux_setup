@@ -11,8 +11,6 @@ Usage: $0 [OPTIONS]
 
 Options:
   -h, --help               Show this help message
-  -U, --update             Update existing packages
-  -v, --verbose            Show detailed output
   --skip-ssh-server        Do not enable the SSH server
   --skip-brew              Skip Homebrew installation
   --skip-node              Skip Node/NVM installation
@@ -25,13 +23,12 @@ Options:
 
 Examples:
   $0 --skip-tailscale --skip-fonts
-  $0 --update --nvm-version=v0.40.0
+  $0 --nvm-version=v0.40.0
   $0 --skip-brew --skip-node
 EOF
 }
 
 function parse_args() {
-  export UPDATE=0
   export SKIP_SSH_ENABLE=0
   export SKIP_BREW=0
   export SKIP_NODE=0
@@ -40,20 +37,12 @@ function parse_args() {
   export SKIP_TMUX=0
   export SKIP_TAILSCALE=0
   export SKIP_MODERN_UTILS=0
-  export VERBOSE=0
 
   while test $# -gt 0; do
     case "$1" in
     -h|--help)
       show_help
       exit 0
-      ;;
-    -U | --update)
-      echo "Updating packages if existing"
-      export UPDATE=1
-      ;;
-    -v|--verbose)
-      export VERBOSE=1
       ;;
     --skip-ssh-server)
       export SKIP_SSH_ENABLE=1
