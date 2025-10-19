@@ -5,8 +5,8 @@ DEFAULT_NERDFONT_VERSION="3.4.0"
 
 print_header "Install NerdFonts"
 
-if [ -n "$NERDFONT_VERSION" ]; then
-  echo "${RED}NERDFONT_VERSION not specified, using ${DEFAULT_NERDFONT_VERSION}${NC}"
+if [ -z "$NERDFONT_VERSION" ]; then
+  echo -e "${RED}NERDFONT_VERSION not specified, using ${DEFAULT_NERDFONT_VERSION}${NC}"
   export NERDFONT_VERSION="$DEFAULT_NERDFONT_VERSION"
 fi
 

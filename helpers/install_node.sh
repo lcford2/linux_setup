@@ -4,8 +4,8 @@ source ./helpers/utils.sh
 
 DEFAULT_NVM_VERSION="v0.39.7"
 
-if [ -n "$NVM_VERSION" ]; then
-  echo "${RED}NVM_VERSION not specified, using ${DEFAULT_NVM_VERSION}${NC}"
+if [ -z "$NVM_VERSION" ]; then
+  echo -e "${RED}NVM_VERSION not specified, using ${DEFAULT_NVM_VERSION}${NC}"
   export NVM_VERSION="$DEFAULT_NVM_VERSION"
 fi
 

@@ -183,7 +183,7 @@ done
 
 #### ---------------- node ---------------- ####
 if [ "$SKIP_NODE" -eq 0 ]; then
-  ./helpers/install_node.sh
+  NVM_VERSION="${NVM_VERSION}" ./helpers/install_node.sh
 fi
 
 #### --------------- rustup --------------- ####
@@ -202,7 +202,7 @@ fi
 
 #### --------------- fonts ---------------- ####
 if [ "$SKIP_FONTS" -eq 0 ]; then
-  ./helpers/install_fonts.sh
+  NERDFONT_VERSION="${NERDFONT_VERSION}" ./helpers/install_fonts.sh
 fi
 
 
