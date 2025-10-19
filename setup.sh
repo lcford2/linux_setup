@@ -150,7 +150,8 @@ sudo apt install -y \
   htop \
 	python3 \
 	python3-pip \
-	python3-venv
+	python3-venv \
+  gnome-tweaks
 
 #### ------------ Repo Hygiene ------------ ####
 print_header "Repo Hygiene"
@@ -272,6 +273,7 @@ if [ "$SKIP_MODERN_UTILS" -eq 0 ]; then
     $CARGO install starship --locked
     $CARGO install zoxide --locked
     $CARGO install tealdeer
+    $CARGO install alacritty
   fi
 fi
 
