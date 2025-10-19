@@ -2,6 +2,10 @@
 
 Automated Linux development environment setup script for Ubuntu/Debian systems.
 
+> [!WARNING]
+> This is designed to run on a *CLEAN* system. Some parts may work on an existing
+> setup, some parts may not work, and some parts may break your existing setup.
+
 ## Quick Start
 
 ```bash
@@ -16,6 +20,13 @@ cd ~/linux_setup
 ./setup.sh --skip-tailscale --skip-fonts
 ```
 
+> [!NOTE]
+> If you use Neovim, on first launch it will install all of the plugins. One of these
+> `calc.nvim` requires some additional setup. View the [Github Page](https://github.com/lcford2/calc.nvim)
+> for detailed instructions, but essentially all that is required is
+> running `:UpdateRemotePlugins` in nvim and then exiting and re-opening nvim.
+
+
 ## What Gets Installed
 
 The script installs and configures:
@@ -24,7 +35,7 @@ The script installs and configures:
 - **Homebrew**: Linux package manager with neovim, htop, jq, and tmux
 - **Node.js**: via NVM for Neovim LSP support
 - **Rust**: via rustup for building modern CLI utilities
-- **Modern utilities**: bat, eza, ripgrep, fd-find, zoxide, starship, delta, dust, procs, mcfly, tealdeer
+- **Modern utilities**: fzf, bat, eza, ripgrep, fd-find, zoxide, starship, delta, dust, procs, tealdeer, alacritty
 - **NerdFonts**: DejaVuSansMono, UbuntuMono, Ubuntu, and Hack
 - **Tmux Plugin Manager (TPM)**: Plugin manager for tmux
 - **Tailscale**: VPN mesh network
@@ -42,8 +53,6 @@ The script installs and configures:
 | Option | Description |
 |--------|-------------|
 | `-h, --help` | Show help message and exit |
-| `-U, --update` | Update existing packages instead of fresh install |
-| `-v, --verbose` | Show detailed output (reserved for future use) |
 | `--skip-brew` | Skip Homebrew and its packages installation |
 | `--skip-node` | Skip Node.js/NVM installation |
 | `--skip-rust` | Skip Rust/rustup installation |
@@ -70,10 +79,6 @@ The script installs and configures:
 ./setup.sh --nvm-version=v0.40.0
 ```
 
-**Update existing packages:**
-```bash
-./setup.sh --update
-```
 
 **Quick workstation setup (skip rust utilities):**
 ```bash
