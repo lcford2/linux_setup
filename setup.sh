@@ -3,30 +3,7 @@
 NERDFONT_VERSION="3.4.0"
 NVM_VERSION="v0.39.7"
 
-GREEN="\e[0;32m"
-RED="\e[0;31m"
-NC="\e[0m"
-
-function print_header() {
-  name=$1
-  # width=70
-  width="$(tput cols)"
-  python_command="print('#'*${width})"
-  hashes="$(python3 -c "$python_command")"
-
-  echo -e "${GREEN}${hashes}"
-  echo "$name" | awk -v w="$width" '{ z = w - length; y = int(z / 2); x = z - y; printf "%*s%s%*s\n", x, "", $0, y, ""; }'
-  echo -e "${GREEN}${hashes}"
-  echo -e "${NC}"
-}
-
-function pushd() {
-  command pushd "$@" >/dev/null || exit
-}
-
-function popd() {
-  command popd >/dev/null || exit
-}
+source helpers/utils.sh
 
 function show_help() {
   cat << EOF
@@ -189,13 +166,7 @@ fi
 
 #### ---------- Install Homebrew ---------- ####
 if [ "$SKIP_BREW" -eq 0 ]; then
-  print_header "Install Homebrew"
-  if ! command -v brew &>/dev/null; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi
-
-  print_header "Install Packages with brew"
-  /home/linuxbrew/.linuxbrew/bin/brew install neovim htop jq tmux
+  ./helpers/install_brew.sh
 fi
 
 #### ------- program configurations ------- ####
@@ -223,80 +194,26 @@ done
 
 #### ---------------- node ---------------- ####
 if [ "$SKIP_NODE" -eq 0 ]; then
-  # install nvm for neovim plugins
-  print_header "Installing Node for neovim LSPs"
-  nvm_install_output=$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash)
-  nvm_dir_cmd=$(echo "$nvm_install_output" | grep -oP "export NVM_DIR=\H*")
-  eval "$nvm_dir_cmd"
-  if [ -n "$NVM_DIR" ]; then
-    source "$NVM_DIR/nvm.sh"
-    nvm install node >/dev/null 2>&1
-  else
-    echo "Could not install node with nvm."
-  fi
+  ./helpers/install_node.sh
 fi
 
 #### --------------- rustup --------------- ####
 if [ "$SKIP_RUST" -eq 0 ]; then
-  print_header "Install Rustup"
-  if ! command -v rustup &> /dev/null || [ "$UPDATE" -eq 1 ]; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  fi
+  ./helpers/install_rust.sh
 fi
-
-#### ---------------- zsh setup ---------------- ####
-zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep
-chsh -s $(which zsh) $(whoami)
-
 
 #### ---------- modern utilities ---------- ####
 if [ "$SKIP_MODERN_UTILS" -eq 0 ]; then
-  print_header "Install Modern Linux Utilities"
-  # fzf install
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install
-
-  # cargo utils install
-  CARGO=$HOME/.cargo/bin/cargo
-
-  if [ "$UPDATE" -eq 1 ]; then
-    cargo install-update -a
-  else
-    $CARGO install cargo-update
-    $CARGO install --locked bat
-    $CARGO install git-delta
-    $CARGO install du-dust
-    $CARGO install eza
-    $CARGO install fd-find
-    $CARGO install procs
-    $CARGO install ripgrep
-    $CARGO install starship --locked
-    $CARGO install zoxide --locked
-    $CARGO install tealdeer
-    $CARGO install alacritty
-  fi
+  ./helpers/install_modern_utils.sh
 fi
+
+#### ---------------- zsh setup ---------------- ####
+./helpers/setup_zsh.sh
+
 
 #### --------------- fonts ---------------- ####
 if [ "$SKIP_FONTS" -eq 0 ]; then
-  print_header "Install NerdFonts"
-  mkdir -p /tmp/font_install
-  pushd "/tmp/font_install" || exit
-  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/DejaVuSansMono.zip" -O "DejaVuSansMono.zip"
-  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/UbuntuMono.zip" -O "UbuntuMono.zip"
-  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Ubuntu.zip" -O "Ubuntu.zip"
-  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v$NERDFONT_VERSION/Hack.zip" -O "Hack.zip"
-
-  popd || exit
-  pushd "$HOME/.fonts"
-
-  unzip -u /tmp/font_install/DejaVuSansMono.zip
-  unzip -u /tmp/font_install/UbuntuMono.zip
-  unzip -u /tmp/font_install/Ubuntu.zip
-  unzip -u /tmp/font_install/Hack.zip
-
-  fc-cache -f -v
-  popd || exit
+  ./helpers/install_fonts.sh
 fi
 
 
