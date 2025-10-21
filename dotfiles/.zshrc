@@ -148,6 +148,6 @@ export NVM_DIR="$HOME/.nvm"
 export ZEPHYR_BASE=~/zephyrproject/zephyr
 
 if [[ "$TERM" == "xterm-ghostty" ]]; then
-  echo "Changing term to xterm-256color"
+  echo "Ghostty terminal detected, changing term to xterm-256color"
   export TERM="xterm-256color"
 fi
