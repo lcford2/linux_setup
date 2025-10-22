@@ -22,3 +22,6 @@ $CARGO install starship --locked
 $CARGO install zoxide --locked
 $CARGO install tealdeer
 $CARGO install alacritty
+$CARGO install bandwhich
+$CARGO install dysk
+$CARGO install diskonaut
