@@ -1,0 +1,106 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent": {
+    "single_file_review": false,
+    "profiles": {
+      "full-agent": {
+        "name": "Full Agent",
+        "tools": {
+          "copy_path": true,
+          "create_directory": true,
+          "diagnostics": true,
+          "edit_file": true,
+          "find_path": true,
+          "grep": true,
+          "list_directory": true,
+          "open": true,
+          "read_file": true,
+          "terminal": true,
+          "thinking": true
+        },
+        "enable_all_context_servers": false,
+        "context_servers": {}
+      }
+    },
+    "default_profile": "ask",
+    "inline_assistant_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
+    },
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-3-7-sonnet"
+    }
+  },
+  "ssh_connections": [
+    {
+      "host": "luna",
+      "projects": [
+        {
+          "paths": [
+            "/home/lucas/botbuilt_worktrees/wingman/wall_panels/bb_ws/src"
+          ]
+        }
+      ]
+    }
+  ],
+  "telemetry": {
+    "metrics": false,
+    "diagnostics": false
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "buffer_font_family": "Hack Nerd Font",
+  "terminal": {
+    "font_family": "Hack Nerd Font"
+  },
+  "agent_font_size": 18,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Catppuccin Macchiato"
+  },
+  "active_pane_modifiers": {
+    "border_size": 2,
+    "inactive_opacity": 1.0
+  },
+  "bottom_dock_layout": "contained",
+  "use_smartcase_search": true,
+  "wrap_guides": [89],
+  "languages": {
+    "Python": {
+      "language_servers": ["pyright"],
+      "formatter": [
+        {
+          "code_actions": {
+            "source.organizeImports.ruff": false,
+            "source.fixAll.ruff": true
+          }
+        },
+        {
+          "language_server": {
+            "name": "ruff"
+          }
+        }
+      ],
+      "tab_size": 4,
+      "hard_tabs": false
+    },
+    "C": {
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "C++": {
+      "tab_size": 2,
+      "hard_tabs": false
+    }
+  }
+}

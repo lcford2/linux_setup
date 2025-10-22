@@ -63,9 +63,9 @@ alias grep="rg"
 alias find="fd"
 alias df="duf"
 alias du="dust"
-alias fzf="fzf \
-  --height 40% \
-  --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+# alias fzf="fzf \
+#   --height 40% \
+#   --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 
 
 if [[ $TERM == "xterm-kitty" ]]; then
@@ -80,11 +80,6 @@ fi
 export EDITOR="$(which nvim)"
 alias vim="$EDITOR"
 alias vi="$EDITOR"
-
-
-if [ -f $HOME/.autojump/share/autojump/autojump.zsh ]; then
-    source $HOME/.autojump/share/autojump/autojump.zsh
-fi
 
 # math function
 math() {
@@ -113,23 +108,27 @@ export FZF_DEFAULT_OPTS="--height 40% --preview 'bat --color=always --style=numb
 # register auto complete for commitizen
 eval "$(zoxide init --cmd cd zsh)"
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 export SAMBA_USERNAME="botbuilt"
 export SAMBA_PASSWORD="botbuilt"
 
-alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+if [[ "$(uname)" == "Darwin" ]]; then
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+  export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
-# docker path
-export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
-export OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3
+  # docker path
+  export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+  export OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3
 
-# add brew bin to path
-export PATH="/opt/homebrew/bin:${PATH}"
-export PATH=${PATH}:/Users/lucas/Library/Python/3.13/bin
+  # add brew bin to path
+  export PATH="/opt/homebrew/bin:${PATH}"
+  export PATH=${PATH}:/Users/lucas/Library/Python/3.13/bin
 
-export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
+  export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
+fi
+
+
 export ZEPHYR_BASE=~/zephyrproject/zephyr
 
 if [ -f "$HOME/.secrets/keys.sh" ]; then
@@ -145,9 +144,17 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export ZEPHYR_BASE=~/zephyrproject/zephyr
 
 if [[ "$TERM" == "xterm-ghostty" ]]; then
   echo "Ghostty terminal detected, changing term to xterm-256color"
   export TERM="xterm-256color"
 fi
+
+export FAST_DOWNWARD_PATH="/home/lucas/botbuilt/wall_panels/downward"
+export ROS_DOMAIN_ID=44
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+eval "$(register-python-argcomplete3 ros2)"
+eval "$(register-python-argcomplete3 colcon)"
+export BB_WS_HOME="${HOME}/botbuilt/wall_panels/bb_ws"
+export BB_TEAM_NAME="$(pushd "${BB_WS_HOME}/../team_config" >/dev/null && git branch --show-current && popd >/dev/null)"
+alias cdw=". ~/.local/bin/cdw rofi"
