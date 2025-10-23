@@ -113,23 +113,25 @@ export FZF_DEFAULT_OPTS="--height 40% --preview 'bat --color=always --style=numb
 # register auto complete for commitizen
 eval "$(zoxide init --cmd cd zsh)"
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+if [[ "$(uname)" == "Darwin" ]]; then
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+  export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+
+  # docker path
+  export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+  export OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3
+
+  # add brew bin to path
+  export PATH="/opt/homebrew/bin:${PATH}"
+  export PATH=${PATH}:/Users/lucas/Library/Python/3.13/bin
+
+  export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
+fi
 
 export SAMBA_USERNAME="botbuilt"
 export SAMBA_PASSWORD="botbuilt"
 
-alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-
-# docker path
-export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
-export OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3
-
-# add brew bin to path
-export PATH="/opt/homebrew/bin:${PATH}"
-export PATH=${PATH}:/Users/lucas/Library/Python/3.13/bin
-
-export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
 export ZEPHYR_BASE=~/zephyrproject/zephyr
 
 if [ -f "$HOME/.secrets/keys.sh" ]; then
@@ -151,3 +153,5 @@ if [[ "$TERM" == "xterm-ghostty" ]]; then
   echo "Ghostty terminal detected, changing term to xterm-256color"
   export TERM="xterm-256color"
 fi
+
+export BARTIB_FILE="$HOME/Nextcloud/time-tracker/tracker_file"
