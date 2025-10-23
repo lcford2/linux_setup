@@ -4,6 +4,10 @@
 
 [includeIf "gitdir:~/linux_setup/"]
     email = lcford185@gmail.com
+[includeIf "gitdir:~/linux_setup/dotfiles/.config/nvim"]
+    email = lcford185@gmail.com
+[includeIf "gitdir:~/linux_setup/dotfiles/.config/tmux"]
+    email = lcford185@gmail.com
 
 [init]
 	defaultBranch = main
@@ -29,7 +33,7 @@
     search = "!f() { git rev-list --all | xargs git grep -F \"$1\"; }; f"
     dl = "!git ll -1" # Show modified files in last commit:latest commit
     dlc = diff --cached HEAD^ # Show modified files in last commit:latest commit
-    dr  = "!f() { git diff "$1"^.."$1"; }; f" # git dr <commit-id> 
+    dr  = "!f() { git diff "$1"^.."$1"; }; f" # git dr <commit-id>
     lc  = "!f() { git ll "$1"^.."$1"; }; f" # git lc <commit-id> # show modified files in <commit-id>
     f = "!git ls-files | grep -i" # git f <filename> # search <filename> in all files
     # bb = !/Users/davidlee/.dotfiles/scripts/better-branch.sh
