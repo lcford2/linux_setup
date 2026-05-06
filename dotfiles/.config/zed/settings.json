@@ -7,7 +7,26 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
+  "icon_theme": "Catppuccin Macchiato",
   "agent": {
+    "dock": "left",
     "single_file_review": false,
     "profiles": {
       "full-agent": {
@@ -23,21 +42,22 @@
           "open": true,
           "read_file": true,
           "terminal": true,
-          "thinking": true
+          "thinking": true,
         },
         "enable_all_context_servers": false,
-        "context_servers": {}
-      }
+        "context_servers": {},
+      },
     },
     "default_profile": "ask",
     "inline_assistant_model": {
       "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "model": "claude-sonnet-4",
     },
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-3-7-sonnet"
-    }
+      "enable_thinking": true,
+      "provider": "ollama",
+      "model": "qwen3.5:9b",
+    },
   },
   "ssh_connections": [
     {
@@ -45,62 +65,58 @@
       "projects": [
         {
           "paths": [
-            "/home/lucas/botbuilt_worktrees/wingman/wall_panels/bb_ws/src"
-          ]
-        }
-      ]
-    }
+            "/home/lucas/botbuilt_worktrees/wingman/wall_panels/bb_ws/src",
+          ],
+        },
+      ],
+    },
   ],
   "telemetry": {
     "metrics": false,
-    "diagnostics": false
+    "diagnostics": false,
   },
   "vim_mode": true,
   "ui_font_size": 16,
   "buffer_font_size": 15,
   "buffer_font_family": "Hack Nerd Font",
   "terminal": {
-    "font_family": "Hack Nerd Font"
+    "font_family": "Hack Nerd Font",
   },
-  "agent_font_size": 18,
+  "agent_ui_font_size": 18,
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Catppuccin Macchiato"
+    "dark": "Catppuccin Macchiato",
   },
   "active_pane_modifiers": {
     "border_size": 2,
-    "inactive_opacity": 1.0
+    "inactive_opacity": 1.0,
   },
   "bottom_dock_layout": "contained",
   "use_smartcase_search": true,
   "wrap_guides": [89],
   "languages": {
     "Python": {
-      "language_servers": ["pyright"],
       "formatter": [
         {
-          "code_actions": {
-            "source.organizeImports.ruff": false,
-            "source.fixAll.ruff": true
-          }
+          "code_action": "source.fixAll.ruff",
         },
         {
           "language_server": {
-            "name": "ruff"
-          }
-        }
+            "name": "ruff",
+          },
+        },
       ],
       "tab_size": 4,
-      "hard_tabs": false
+      "hard_tabs": false,
     },
     "C": {
       "tab_size": 2,
-      "hard_tabs": false
+      "hard_tabs": false,
     },
     "C++": {
       "tab_size": 2,
-      "hard_tabs": false
-    }
-  }
+      "hard_tabs": false,
+    },
+  },
 }

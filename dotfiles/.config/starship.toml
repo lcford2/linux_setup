@@ -44,7 +44,7 @@ diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
 modified = "!${count}"
 deleted = "x"
-disabled = true
+disabled = false
 
 # Last param in the first line/row
 [cmd_duration]

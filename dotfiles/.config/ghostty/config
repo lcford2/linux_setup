@@ -1,16 +1,29 @@
-keybind = ctrl+shift+t=new_tab
-keybind = ctrl+shift+v=new_split:right
-keybind = ctrl+shift+s=new_split:down
-keybind = ctrl+shift+l=goto_split:right
-keybind = ctrl+shift+k=goto_split:up
-keybind = ctrl+shift+j=goto_split:down
+# tmux-style bindings (prefix: ctrl+space)
+keybind = ctrl+shift>s=new_split:down
+keybind = ctrl+shift>v=new_split:right
+keybind = ctrl+shift>x=close_surface
+keybind = ctrl+shift>c=new_tab
+keybind = ctrl+shift>z=toggle_split_zoom
+keybind = ctrl+shift>equal=equalize_splits
+
+# resize pane (tmux: prefix + < > - +)
+keybind = ctrl+shift>shift+comma=resize_split:left,10
+keybind = ctrl+shift>shift+period=resize_split:right,10
+keybind = ctrl+shift>minus=resize_split:down,10
+keybind = ctrl+shift>shift+equal=resize_split:up,10
+
+# vim-tmux-navigator style pane navigation (ctrl+h/j/k/l)
 keybind = ctrl+shift+h=goto_split:left
-keybind = ctrl+shift+z=toggle_split_zoom
-keybind = ctrl+shift++=equalize_splits
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
+
 keybind = ctrl+shift+q=quit
 keybind = ctrl+shift+r=reload_config
+keybind = performable:ctrl+c=copy_to_clipboard
+keybind = performable:ctrl+v=paste_from_clipboard
 
-theme = Monokai Pro Machine
+theme = Catppuccin Macchiato
 
-font-size = 16
+font-size = 10
 window-inherit-font-size = false

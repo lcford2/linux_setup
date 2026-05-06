@@ -59,6 +59,7 @@ alias lg="eza -al --color=always --group-directories-first --icons --git" # git 
 
 # use bat instead of cat
 alias cat="bat --style='header,rule,changes,numbers'"
+alias pcat="bat --plain --no-pager"
 alias grep="rg"
 alias find="fd"
 alias df="duf"
@@ -72,9 +73,9 @@ if [[ $TERM == "xterm-kitty" ]]; then
     alias ssh="kitty +kitten ssh"
 fi
 
-if [ -d /home/linuxbrew/.linuxbrew ]; then
-    export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
-fi
+# if [ -d /home/linuxbrew/.linuxbrew ]; then
+#     export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+# fi
 
 # alias vim
 export EDITOR="$(which nvim)"
@@ -83,7 +84,7 @@ alias vi="$EDITOR"
 
 # math function
 math() {
-  python -c "from math import *; print($1)"
+  python3 -c "from math import *; print($1)"
 }
 
 f2i() {
@@ -95,10 +96,7 @@ if [ -d "${HOME}/source/flutter" ]; then
   export PATH="$PATH:$HOME/source/flutter/bin"
 fi
 
-if [ -d "$HOME/balena-cli" ]; then
-  export PATH="$HOME/balena-cli:$PATH"
-fi
-
+export FZF_CTRL_R_OPTS="--no-preview"
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS="--height 40% --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 
@@ -135,9 +133,9 @@ if [ -f "$HOME/.secrets/keys.sh" ]; then
     source "$HOME/.secrets/keys.sh"
 fi
 
-if [ -d $HOME/balena-cli ]; then
-    if [[ ! :$PATH: == *:"$HOME/balena-cli":* ]] ; then
-        export PATH=$HOME/balena-cli:$PATH
+if [ -d $HOME/balena/bin ]; then
+    if [[ ! :$PATH: == *:"$HOME/balena/bin":* ]] ; then
+        export PATH=$HOME/balena/bin:$PATH
     fi
 fi
 
@@ -153,8 +151,20 @@ fi
 export FAST_DOWNWARD_PATH="/home/lucas/botbuilt/wall_panels/downward"
 export ROS_DOMAIN_ID=44
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-eval "$(register-python-argcomplete3 ros2)"
-eval "$(register-python-argcomplete3 colcon)"
-export BB_WS_HOME="${HOME}/botbuilt/wall_panels/bb_ws"
-export BB_TEAM_NAME="$(pushd "${BB_WS_HOME}/../team_config" >/dev/null && git branch --show-current && popd >/dev/null)"
-alias cdw=". ~/.local/bin/cdw rofi"
+export ROS_DISTRO=humble
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/humble/lib
+
+# eval "$(register-python-argcomplete3 ros2)"
+# eval "$(register-python-argcomplete3 colcon)"
+alias cdw=". ~/.local/bin/cdw"
+
+export BARTIB_FILE="/home/lucas/Nextcloud/time-tracker/tracker_file"
+alias tt="bartib"
+
+export UV_PUBLISH_USERNAME="root"
+export UV_PUBLISH_PASSWORD="BMDm3MaZU7A1z2Sq8eMKfT5CzLn9aZX/"
+
+export ORS_API_KEY="eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImQ4YjFjNmUxMThhZjRlZmY4ZDdjZTgzNWFlMzc4Y2Q4IiwiaCI6Im11cm11cjY0In0="
+
+# opencode
+export PATH=/home/lucas/.opencode/bin:$PATH

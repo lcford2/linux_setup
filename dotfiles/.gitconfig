@@ -1,6 +1,6 @@
 [user]
 	name = Lucas Ford
-    email = lucas@botbuilt.com
+    email = lcford185@gmail.com
 
 [includeIf "gitdir:~/linux_setup/"]
     email = lcford185@gmail.com
@@ -71,12 +71,6 @@
 	rebase = true
 [push]
 	autoSetupRemote = true
-
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
 
 [maintenance]
 	repo = /Users/lucas/botbuilt
